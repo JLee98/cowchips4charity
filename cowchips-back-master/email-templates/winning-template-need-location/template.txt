@@ -1,0 +1,10 @@
+Congratulations you have won!
+Hello, {{userID.name}}
+
+You made a donation to {{organizationID.name}}, congratulations on winning. You need to update your location.
+
+Please go to https://www.cowchips4charity.com/account to update your mailing information.
+Thank you for supporting our cause!
+
+The Boo Radley Foundation 2701 Prosperity Avenue Suite 400 Fairfax, VA 22031
+Powered by http://www.booradleyfoundation.org.

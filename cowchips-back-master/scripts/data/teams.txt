@@ -1,0 +1,26 @@
+name	UC Davis			abbreviation	UCD
+name	Auburn University		abbreviation	AUB
+name	Colorado State University	abbreviation	CSU
+name	University of Florida		abbreviation	FLA
+name	University of Georgia		abbreviation	UGA
+name	University of Illinois		abbreviation	ILL
+name	Purdue University		abbreviation	PUR
+name	Iowa State University		abbreviation	ISU
+name	Kansas State University		abbreviation	KSU
+name	Louisiana State University	abbreviation	LSU
+name	Michigan State University	abbreviation	MSU
+name	University of Minnesota		abbreviation	MINN
+name	Mississippi State University	abbreviation	MSST
+name	University of Missouri		abbreviation	MIZZ
+name	Cornell University		abbreviation	COR
+name	NC State University		abbreviation	NCST
+name	Ohio State University		abbreviation	OSU
+name	Oklahoma State University	abbreviation	OKST
+name	Oregon State University		abbreviation	ORST
+name	University of Pennsylvania	abbreviation	PENN
+name	University of Tennessee		abbreviation	TENN
+name	Texas A&M University		abbreviation	TAMU
+name	Virginia Tech			abbreviation	VT
+name	University of Washington	abbreviation	WASH
+name	University of Wisconsin-Madison	abbreviation	WIS
+name	University of Virginia		abbreviation	UVA
