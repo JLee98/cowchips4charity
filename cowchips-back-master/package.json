@@ -9,20 +9,15 @@
     "serve": "nodemon --exec babel-node src/server.js",
     "serve:dist": "node dist/server.js test-prod-server",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-
     "lint": "eslint .",
-
     "build": "babel src -d dist",
     "heroku-postbuild": "npm run build",
-
     "initdb": "mongorestore db-dump",
     "popdb": "babel-node scripts/populate.script",
     "pop-teams": "babel-node scripts/pop-teams.script",
-
     "test-batch-email": "babel-node scripts/test-batch-email.script",
     "stop": "kill -9 $(ps aux | grep [s]erver.js | awk '{print $2}')",
     "test:prod": "npm run serve:dist & sleep 2s && npm run stop",
-
     "make-template": "babel-node scripts/templates/make-template.script",
     "delete-template": "babel-node scripts/templates/delete-template.script",
     "get-template": "babel-node scripts/templates/get-template.script",
