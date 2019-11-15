@@ -25,6 +25,7 @@
   import localStorageNames from '@/config/localStorageNames'
   import localStorage from '@/helpers/localStorage'
 
+
   let stripe = Stripe('pk_test_YCINwBsny5MG5yYQwzwMnD5i')
   let elements = stripe.elements()
   let card = undefined
