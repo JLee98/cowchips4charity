@@ -1,27 +1,25 @@
 <template>
   <div class="whole">
-    <v-img
-        :src="require('../assets/play-cow-patty.jpg')"
-        width="100%"
-    ></v-img>
-    <div class="button-container">
+    <div class="logo">
+      <v-img
+          :src="require('../assets/play-cow-patty.jpg')"
+          max-width=1000px
+      ></v-img>
+    </div>
+      <div class="button-container">
 
       <table v-if="isUserLoggedIn()" class="whole">
         <tr>
-          <td class="custom-button main-button" @click="routerChange('/play')">Play</td>
+          <td class="custom-button other-buttons" @click="routerChange('/play')">Play</td>
           <td class="custom-button other-buttons" @click="routerChange('/about')">About</td>
-        </tr>
-        <tr>
           <td class="custom-button other-buttons" @click="routerChange('/account')">Account</td>
           <td class="custom-button other-buttons" @click="logout()">Logout</td>
         </tr>
       </table>
       <table v-else class="whole">
         <tr>
-          <td class="custom-button main-button" @click="routerChange('/donation?full=true')">Donate</td>
+          <td class="custom-button other-buttons" @click="routerChange('/donation?full=true')">Donate</td>
           <td class="custom-button other-buttons" @click="routerChange('/about')">About</td>
-        </tr>
-        <tr>
           <td class="custom-button other-buttons" @click="routerChange('/login')">Login</td>
           <td class="custom-button other-buttons" @click="routerChange('/register')">Register</td>
         </tr>
@@ -55,31 +53,35 @@
 
 <style scoped>
   .whole {
-    height: 95%;
+    height: 25%;
     width: 100%;
   }
 
+  .logo {
+    display: block;
+    margin=left: auto;
+    margin=right: auto;
+  }
+
   .button-container {
-    height: 73%;
-    width: 100%;
+    margin: auto;
+    height: 100%;
+    width: 75%;
   }
 
   .custom-button {
     border-radius: 20px;
     text-align: center;
+    font-size: 25px;
+    color: white;
     border-style: solid;
-    border-width: 1px;
+    border-width: 2px;
     border-color: black;
-    width: 50%;
+    width: 25%;
     overflow-x: hidden;
   }
 
-  .main-button {
-    background-color: #555555;
-    color: white;
-  }
-
   .other-buttons {
-    background-color: #EFF9F0;
+    background-color: #4e3b25;
   }
 </style>
