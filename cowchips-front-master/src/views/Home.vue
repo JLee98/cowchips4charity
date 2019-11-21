@@ -1,30 +1,46 @@
 <template>
-  <div class="whole">
-    <div class="logo">
+  <div class="row">
+
+    <div class="background column left">
       <v-img
-          :src="require('../assets/play-cow-patty.jpg')"
-          max-width=1000px
+          :src="require('../assets/grass_background.jpg')"
       ></v-img>
     </div>
-      <div class="button-container">
 
-      <table v-if="isUserLoggedIn()" class="whole">
-        <tr>
-          <td class="custom-button other-buttons" @click="routerChange('/play')">Play</td>
-          <td class="custom-button other-buttons" @click="routerChange('/about')">About</td>
-          <td class="custom-button other-buttons" @click="routerChange('/account')">Account</td>
-          <td class="custom-button other-buttons" @click="logout()">Logout</td>
-        </tr>
-      </table>
-      <table v-else class="whole">
-        <tr>
-          <td class="custom-button other-buttons" @click="routerChange('/donation?full=true')">Donate</td>
-          <td class="custom-button other-buttons" @click="routerChange('/about')">About</td>
-          <td class="custom-button other-buttons" @click="routerChange('/login')">Login</td>
-          <td class="custom-button other-buttons" @click="routerChange('/register')">Register</td>
-        </tr>
-      </table>
+    <div class="column middle">
 
+      <div class="logo">
+        <v-img
+            :src="require('../assets/play-cow-patty.jpg')"
+        ></v-img>
+      </div>
+
+        <div class="button-container">
+
+          <table v-if="isUserLoggedIn()" class="whole">
+            <tr>
+              <td class="custom-button other-buttons" @click="routerChange('/play')">Play</td>
+              <td class="custom-button other-buttons" @click="routerChange('/about')">About</td>
+              <td class="custom-button other-buttons" @click="routerChange('/account')">Account</td>
+              <td class="custom-button other-buttons" @click="logout()">Logout</td>
+            </tr>
+          </table>
+
+          <table v-else class="whole">
+            <tr>
+              <td class="custom-button other-buttons" @click="routerChange('/donation?full=true')">Donate</td>
+              <td class="custom-button other-buttons" @click="routerChange('/about')">About</td>
+              <td class="custom-button other-buttons" @click="routerChange('/login')">Login</td>
+              <td class="custom-button other-buttons" @click="routerChange('/register')">Register</td>
+            </tr>
+          </table>
+
+        </div>
+    </div>
+    <div class="background column right">
+      <v-img
+          :src="require('../assets/grass_background.jpg')"
+      ></v-img>
     </div>
   </div>
 </template>
@@ -53,26 +69,44 @@
 
 <style scoped>
   .whole {
-    height: 25%;
+    height: 100%;
     width: 100%;
   }
 
+  .column {
+    float: left;
+  }
+
+  .left, .right {
+    width: 15%;
+  }
+
+  .middle {
+    width: 70%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
   .logo {
-    display: block;
-    margin=left: auto;
-    margin=right: auto;
+    margin: auto;
+  }
+  .background {
+    background-image: url("../assets/grass_background.jpg");
   }
 
   .button-container {
     margin: auto;
-    height: 100%;
-    width: 75%;
+    padding-top: 10px;
   }
 
   .custom-button {
     border-radius: 20px;
     text-align: center;
-    font-size: 25px;
+    font-size: 22px;
     color: white;
     border-style: solid;
     border-width: 2px;
