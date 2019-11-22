@@ -2,8 +2,12 @@
   <div class="test">
     <div :class="{ center: !full, 'not-center': full  }">
       <v-flex>
-      <v-btn class="backBtn" to="/" v-if="full" >
-         Back
+      <v-btn
+          icon
+          large
+          to="/"
+          slot="activator">
+        <v-icon large>arrow_back</v-icon>
       </v-btn>
        </v-flex>
       <fieldset class="donation-fieldset" v-if="full">
