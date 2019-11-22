@@ -1,12 +1,18 @@
 <template>
   <div class="test">
     <div :class="{ center: !full, 'not-center': full  }">
-      <v-btn to="/" v-if="full">Back</v-btn>
+      <v-flex>
+      <v-btn class="backBtn" to="/" v-if="full" >
+         Back
+      </v-btn>
+       </v-flex>
       <fieldset class="donation-fieldset" v-if="full">
         <div class="row">
           <label class="donation-label" for="name">Name</label>
           <input class="donation-input" id="name" type="text" placeholder="Jane Doe" autocomplete="off" v-model="name">
         </div>
+        </fieldset>
+     <fieldset class="donation-fieldset" v-if="full">
         <div class="row">
           <label class="donation-label" for="total">Amount</label>
           <input class="donation-input" id="total" type="text" placeholder="0" autocomplete="off" v-model="amount">
@@ -42,23 +48,23 @@
         iconStyle: 'solid',
         style: {
           base: {
-            iconColor: '#c4f0ff',
-            color: '#fff',
+            iconColor: '#4B7634',
+            color: ' #fff',
             fontWeight: 500,
             fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
             fontSize: '16px',
             fontSmoothing: 'antialiased',
 
             ':-webkit-autofill': {
-              color: '#fce883',
+              color: '#4B7634',
             },
             '::placeholder': {
-              color: '#87BBFD',
+              color: '#4B7634',
             },
           },
           invalid: {
-            iconColor: '#FFC7EE',
-            color: '#FFC7EE',
+            iconColor: '#4B7634',
+            color: '#4B7634',
           },
         },
       })
@@ -124,21 +130,27 @@
 <style>
 
   .test {
-    background-color: #6772e5;
-    width: 98%;
+    background-color: #4B7634;
+    width: 100%;
     height: 100%;
     text-align: center;
     position: relative;
   }
 
+  .backBtn
+  {
+      margin-left: 10px;
+  }
+
   .checkout {
     display: block;
-    width: calc(100% - 30px);
+    width: calc(100% - 60%);
     height: 40px;
-    margin: 40px 15px 0;
-    background-color: #f6a4eb;
+    margin: 0 auto;
+    margin-top: 20%;
+    background-color: #4e3b25;
     box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 #ffb9f6;
+    inset 0 1px 0 #4B7634;
     border-radius: 4px;
     color: #fff;
     font-weight: 600;
@@ -146,12 +158,13 @@
   }
 
   .donation-fieldset {
-    margin: 0 15px 20px;
+    width: calc(100% - 30%);
+    margin: 0 auto;
     padding-top: 1em;
     border-style: none;
-    background-color: #7795f8;
+    background-color: #385927;
     box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 #829fff;
+    inset 0 1px 0 #4B7634;
     border-radius: 4px;
   }
 
@@ -168,29 +181,35 @@
   }
 
   .donation-label {
-    width: 15%;
-    min-width: 70px;
+    width: 0%;
+    min-width: 10%;
     padding: 11px 0;
-    color: #c4f0ff;
+    color: #4B7634;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .donation-input {
+  .donation-input
+  {
     width: 100%;
     padding: 11px 15px 11px 0;
     color: #fff;
     background-color: transparent;
     -webkit-animation: 1ms void-animation-out;
   }
+  #name
+  {
+      color: #fff;
+      background-color: transparent;
+  }
 
   .row {
     display: -ms-flexbox;
     display: flex;
+    width: 80%;
     -ms-flex-align: center;
     align-items: center;
-    margin-left: 15px;
   }
 
 </style>
