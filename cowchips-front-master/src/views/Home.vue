@@ -39,7 +39,7 @@
         <p style="text-align:left;">
             <a href="https://www.facebook.com/Cow-Chips-4-Charity-107587673987973/?__tn__=%2Cd%2CP-R&eid=ARDgwL9hUxDdxBF-2durguaMnHFalhSnFCXUFQDY8IBkFG_JdSzhw_5O9m543j2JBsNDKFycFMBaPOil">Visit our Facebook Page</a>
             <span style="float:right;">
-              Powered by Iowa State© Engineers.
+              Powered by Iowa State™ Engineers.
             </span>
         </p>
     </div>
@@ -75,7 +75,7 @@
 
 <style scoped>
   .whole {
-    height: 99px;
+    height: 90px;
     width: 100%;
   }
 
