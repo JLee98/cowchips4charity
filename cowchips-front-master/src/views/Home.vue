@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="v-content">
 
     <div class="background column left">
       <v-img
@@ -36,6 +36,12 @@
           </table>
 
         </div>
+        <p style="text-align:left;">
+            <a href="https://www.facebook.com/Cow-Chips-4-Charity-107587673987973/?__tn__=%2Cd%2CP-R&eid=ARDgwL9hUxDdxBF-2durguaMnHFalhSnFCXUFQDY8IBkFG_JdSzhw_5O9m543j2JBsNDKFycFMBaPOil">Visit our Facebook Page</a>
+            <span style="float:right;">
+              Powered by Iowa State© Engineers.
+            </span>
+        </p>
     </div>
     <div class="background column right">
       <v-img
@@ -69,7 +75,7 @@
 
 <style scoped>
   .whole {
-    height: 100%;
+    height: 99px;
     width: 100%;
   }
 

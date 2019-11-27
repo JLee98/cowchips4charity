@@ -53,7 +53,7 @@
         style: {
           base: {
             iconColor: '#4B7634',
-            color: ' #fff',
+            color: ' #4B7634',
             fontWeight: 500,
             fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
             fontSize: '16px',
@@ -134,7 +134,7 @@
 <style>
 
   .test {
-    background-color: #4B7634;
+    background-image: url("../assets/grass_background.jpg");
     width: 100%;
     height: 100%;
     text-align: center;
@@ -151,7 +151,7 @@
     width: calc(100% - 60%);
     height: 40px;
     margin: 0 auto;
-    margin-top: 20%;
+    margin-top: 10%;
     background-color: #4e3b25;
     box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 #4B7634;
@@ -166,7 +166,7 @@
     margin: 0 auto;
     padding-top: 1em;
     border-style: none;
-    background-color: #385927;
+    background-color: #ffffff;
     box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 #4B7634;
     border-radius: 4px;
@@ -198,13 +198,13 @@
   {
     width: 100%;
     padding: 11px 15px 11px 0;
-    color: #fff;
+    color: #4B7634;
     background-color: transparent;
     -webkit-animation: 1ms void-animation-out;
   }
   #name
   {
-      color: #fff;
+      color: #4B7634;
       background-color: transparent;
   }
 
