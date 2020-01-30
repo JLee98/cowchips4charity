@@ -59,6 +59,8 @@
       <i class="fa fa-graduation-cap" @click="editOrganizations(slotProps.data.item._id)" title="Edit Organizations List"></i>
       <i class="fa fa-diamond" v-if="slotProps.data.item.winningTile == null" @click="selectWinningTile(slotProps.data.item._id)" title="Select Winning Tile"></i>
       <i class="fa fa-trophy" v-if="slotProps.data.item.winningTile != null" @click="winners(slotProps.data.item._id)" title="View Winners"></i>
+      <i class="fa fa-line-chart" @click="goToAnalytics(slotProps.data.item._id)" title="View Analytics"></i>
+
     </template>
 
 
@@ -196,6 +198,10 @@
       selectWinningTile(id) {
         console.log('selectWinningTile for game:' + id)
         this.$router.push('/games/winning-tile/' +id)
+      },
+      goToAnalytics(id) {
+        console.log('goToAnalytics for game:' + id)
+        this.$router.push('/games/analytics/' + id)
       },
       convertUtcToLocal(time) {
         // TODO figure out how to add timezone to date format
