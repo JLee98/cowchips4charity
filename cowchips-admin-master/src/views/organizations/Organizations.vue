@@ -1,11 +1,9 @@
 <template>
-  <crud-table
-    url="/admin/organizations"
-    name="Organizations"
-    :fields="fields"
-    :updateTransform="updateTransform"
-    :export-format="exportFormat"
-  >
+  <crud-table url="/admin/organizations"
+              name="Organizations"
+              :fields="fields"
+              :updateTransform="updateTransform"
+              :export-format="exportFormat">
 
     <template slot="update-form" slot-scope="slotProps">
       <b-form-group label="Name">
@@ -27,15 +25,20 @@
         <b-form-input id="create-name" v-model="slotProps.createRecord.name"></b-form-input>
       </b-form-group>
       <b-form-group label="Email">
-        <b-form-input  id="create-email" v-model="slotProps.createRecord.email"></b-form-input>
+        <b-form-input id="create-email" v-model="slotProps.createRecord.email"></b-form-input>
       </b-form-group>
       <b-form-group label="Abbreviation">
-        <b-form-input  id="create-abbreviation" v-model="slotProps.createRecord.abbreviation"></b-form-input>
+        <b-form-input id="create-abbreviation" v-model="slotProps.createRecord.abbreviation"></b-form-input>
       </b-form-group>
       <b-form-group label="Photo">
-        <b-form-input  id="create-photo" v-model="slotProps.createRecord.photo"></b-form-input>
+        <b-form-input id="create-photo" v-model="slotProps.createRecord.photo"></b-form-input>
       </b-form-group>
     </template>
+
+    <template slot="additional-actions" slot-scope="slotProps">
+      <i class="fa fa-line-chart" @click="goToAnalytics(slotProps.data.item._id)" title="View Analytics"></i>
+    </template>
+
   </crud-table>
 </template>
 
@@ -98,6 +101,10 @@
           photo: record.photo,
         }
         return transformedRecord
+      },
+      goToAnalytics(id) {
+        console.log('goToAnalytics for game:' + id)
+        this.$router.push('/organiations/analytics/' + id)
       },
 
     },

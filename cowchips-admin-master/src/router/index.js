@@ -17,6 +17,8 @@ const GameBoard = () => import('@/views/games/GameBoard')
 const GameOrganizations = () => import('@/views/games/GameOrganizations')
 const GameWinningTile = () => import('@/views/games/GameWinningTile')
 const GameAnalytics = () => import('@/views/games/GameAnalytics')
+const OrganizationAnalytics = () => import('@/views/organizations/OrganizationAnalytics')
+
 
 import GameWinners from "@/views/games/GameWinners";
 
@@ -101,6 +103,11 @@ export default new Router({
           path: '/games/analytics/:id',
           name: 'GameAnalytics',
           component: GameAnalytics
+        },
+        {
+          path: '/organizations/analytics/:id',
+          name: 'OrganizationAnalytics',
+          component: OrganizationAnalytics
         }
       ]
     },
