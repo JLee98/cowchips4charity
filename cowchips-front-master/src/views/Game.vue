@@ -2,11 +2,13 @@
   <div>
     <table class="whole">
       <tr :key="row" v-for="row in 6">
-        <td :key="col" v-for="col in 6"><tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" @selected="handleSelected"></tile></td>
+        <td :key="col" v-for="col in 6">
+          <tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" @selected="handleSelected" class="game_tile"></tile>
+        </td>
       </tr>
     </table>
-    <div>Price Per Tile: ${{this.price/100}}</div>
-    <div>Total Price: ${{this.amount/100}}</div>
+    <div class="words">Price Per Tile: ${{this.price/100}}</div>
+    <div class="words">Total Price: ${{this.amount/100}}</div>
   </div>
 </template>
 
@@ -68,18 +70,37 @@
 </script>
 
 <style scoped>
-  td {
-    text-align: center;
-    width: 5em;
-    padding-bottom: 5px;
-    padding-right: 5px;
-    padding-left: 5px;
-  }
-  table {
-    margin-top: 20px;
-  }
+
   .whole {
     height: 95%;
     width: 100%;
+    background-image: url("../assets/grass_background.jpg");
   }
+
+  table {
+    padding: 20px;
+  }
+
+  .game_tile {
+    text-align: center;
+    width: 5em;
+    padding: 5px;
+
+    border-radius: 15px;
+    font-size: 22px;
+    color: white;
+    background-color: #4e3b25;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    overflow-x: hidden;
+  }
+
+  .words {
+  text-align: center;
+  padding-top: 10px;
+  font-size: 22px;
+  color: green;
+  }
+
 </style>

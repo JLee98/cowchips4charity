@@ -30,4 +30,5 @@ export default {
   label {
     z-index: 7;
   }
+
 </style>

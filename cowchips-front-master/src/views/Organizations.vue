@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>Select an organization to support</h1>
+  <div class="background">
+    <h1>Select an Organization to Support</h1>
     <v-list>
       <template v-for="org in this.organizations">
         <v-list-tile
@@ -54,5 +54,30 @@
 </script>
 
 <style scoped>
+
+h1 {
+  padding-top: 15px;
+  padding-left: 10px;
+  text-align: center;
+  color: white;
+}
+
+.background {
+  background-image: url("../assets/grass_background.jpg");
+}
+
+.v-list__tile__content {
+width: 30%;
+border-radius: 15px;
+padding-left: 5px;
+text-align: center;
+font-size: 22px;
+color: white;
+background-color: #4e3b25;
+border-style: solid;
+border-width: 2px;
+border-color: black;
+overflow-x: hidden;
+}
 
 </style>
