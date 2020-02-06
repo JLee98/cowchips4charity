@@ -6,7 +6,7 @@
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-12 shadow">
-                <v-toolbar dark color="primary">
+                <v-toolbar dark color="#4B7634">
                   <v-toolbar-title>My Tiles</v-toolbar-title>
                   <v-spacer></v-spacer>
                   <v-tooltip bottom>

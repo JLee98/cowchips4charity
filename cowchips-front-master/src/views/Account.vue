@@ -6,7 +6,7 @@
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-12 shadow">
-                <v-toolbar dark color="primary">
+                <v-toolbar dark color="#4B7634">
                   <v-toolbar-title>Account</v-toolbar-title>
                   <v-spacer></v-spacer>
                   <v-tooltip bottom>
@@ -33,8 +33,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary" id="submit" @click.prevent="submit">Submit</v-btn>
-                  <v-btn color="success" id="my-tiles" to="/account/tiles">View My Tiles</v-btn>
+                  <v-btn color="#5d8348" id="submit" @click.prevent="submit">Submit</v-btn>
+                  <v-btn color="#5d8348" id="my-tiles" to="/account/tiles">View My Tiles</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
