@@ -19,35 +19,15 @@ const io = require('socket.io')(server)
 io.on('connection', (socket) => {
   console.log("we in bois")
 })
+const io2 = require('socket.io-client');
+var socket2 = io2.connect('http://localhost:5001');
+socket2.on("coolthings", (coolthings) => {
+  console.log(coolthings);
+})
 
 io.on("connection", socket => {
   setInterval(() => {
-    socket.broadcast.emit("newdata", "hi")
+    socket.broadcast.emit("newdata", "hi there")
   }, 5000)
+
 });
-
-//THIS IS TESTING WITH FRONT END BACK END SOCKET IMPLEMENTATION
-
-// const ioc = require('socket.io-client')
-// var socket = ioc.connect('http://localhost:4446')
-// socket.on("newdata", (cooldata) => {
-//   console.log(cooldata);
-// })
-
-// const server = app.listen(4445, () => {
-//   console.log("websocket connected front to back")
-// })
-// const io = require('socket.io')(server)
-//
-// io.on("newdata", socket => {
-//   console.log(socket);
-// });
-
-// var socket = io.connect('http://localhost:4444')
-// socket.on("newdata", (cooldata) => {
-//   console.log(cooldata);
-// })
-//
-
-// console.log('server started ' + port)
-
