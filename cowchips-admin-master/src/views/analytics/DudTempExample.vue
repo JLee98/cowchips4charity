@@ -31,8 +31,17 @@ export default {
               return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].backgroundColor }
             }
           }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0,
+              max: 250,
+              stepSize: 10
+            }
+          }]
         }
-      }
+      } 
     )
   }
 }
