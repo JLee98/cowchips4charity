@@ -1,9 +1,14 @@
 <script>
-import { Bar } from 'vue-chartjs'
+import { Bar, mixins } from 'vue-chartjs'
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
+const { reactiveProp } = mixins
+
 
 export default {
   extends: Bar,
+  mixins: [reactiveProp],
+  props: ['chartData','options'],
+
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart(
@@ -42,13 +47,7 @@ export default {
           }]
         }
       },
-      
     )
   },
 }
-
-  function incrementRequired() {
-
-  }
-
 </script>
