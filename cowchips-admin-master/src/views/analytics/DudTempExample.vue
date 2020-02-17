@@ -1,3 +1,5 @@
+<!--INCLUDED GRAPH VUES MUST BE NAMED USING PascalCase-->
+
 <script>
 import { Bar, mixins } from 'vue-chartjs'
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
