@@ -4,8 +4,10 @@
     <!-- test url to inject:
     http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
     -->
-    <button @click="dudTest()">dudTest</button>
-    <dud-temp-example :chart-data="datacollection" chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70" />
+    <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
+    <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+    <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+
   </div>
 </template>
 
@@ -19,18 +21,29 @@
     },
     data() {
       return {
-        datacollection: null
+        datacollection1: null,
+        datacollection2: null
       }
     },
     methods: {
-      dudTest() {
-        this.datacollection = {
+      dudsSuperUpdater() {
+        this.datacollection1 = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
             {
               label: 'Cakes',
               backgroundColor: '#f87979',
               data: [40, 300]
+            }
+          ]
+        }
+        this.datacollection2 = {
+          labels: ['Cake Present', 'Cake Required'],
+          datasets: [
+            {
+              label: 'Cakes',
+              backgroundColor: '#f87979',
+              data: [45, 350]
             }
           ]
         }
