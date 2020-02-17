@@ -24,7 +24,6 @@
     },
     methods: {
       dudTest() {
-        console.log('dudTest()d')
         this.datacollection = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
