@@ -1,6 +1,7 @@
 <template>
   <div>
     <p>GameAnalytics.vue yayy</p>
+    
     <!-- test url to inject:
     http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
     -->
@@ -50,4 +51,21 @@
       }
     }
   }
+
+  import io from 'socket.io-client'
+  var socket = io.connect('http://localhost:5000') //TODO: what port?
+  socket.on("updateAvailable", (updateData) => {
+    if (updateData.gameId.toString() == getId().toString) {
+      //TODO: accept update
+      console.log('Theres an update for this game')
+    }
+  })
+
+  // TODO: fix this absolute hack
+  function getId() {
+    var url = window.location.pathname
+    return url.replace("/games/analytics/", "") 
+  }
+
+  
 </script>
