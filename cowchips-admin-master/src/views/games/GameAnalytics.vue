@@ -67,9 +67,14 @@
         return url.replace("/games/analytics/", "")
       },
       getDonations() {
-        axios.get('/admin/donations', { params: { gameID: this.getId() } })
+        //TODO: sent filter parameter instead of doing it client side
+        axios.get('/admin/donations')
           .then(res => {
-            console.log(res.data)
+            var donations = res.data
+            donations = donations.filter(donation => {
+              return donation.gameID == this.getId()
+            })
+            console.log(donations)
           })
       }
     }
