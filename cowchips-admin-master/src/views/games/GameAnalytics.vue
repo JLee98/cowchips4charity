@@ -6,6 +6,7 @@
     http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
     -->
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
+    <button @click="getDonations()">getDonations</button>
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
@@ -14,6 +15,7 @@
 
 <script>
   import DudTempExample from '../analytics/DudTempExample'
+  import axios from "axios";
 
   import io from 'socket.io-client'
   var socket = io.connect('http://localhost:5000') //TODO: what port?
@@ -63,6 +65,12 @@
       getId() { // TODO: fix this absolute hack
         var url = window.location.pathname
         return url.replace("/games/analytics/", "")
+      },
+      getDonations() {
+        axios.get('/admin/donations', { params: { gameID: this.getId() } })
+          .then(res => {
+            console.log(res.data)
+          })
       }
     }
   }
