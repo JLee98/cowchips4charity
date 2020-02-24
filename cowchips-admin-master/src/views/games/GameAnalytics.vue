@@ -15,6 +15,9 @@
 <script>
   import DudTempExample from '../analytics/DudTempExample'
 
+  import io from 'socket.io-client'
+  var socket = io.connect('http://localhost:5000') //TODO: what port?
+
   export default {
     name: 'gameAnalytics',
     components: {
@@ -48,24 +51,20 @@
             }
           ]
         }
+      },
+      inspectUpdate() {
+        socket.on("updateAvailable", (updateData) => {
+          if (updateData.gameId.toString() == getId().toString) {
+            //TODO: accept update
+            console.log('Theres an update for this game')
+          }
+        })
+      },
+      getId() { // TODO: fix this absolute hack
+        var url = window.location.pathname
+        return url.replace("/games/analytics/", "")
       }
     }
   }
-
-  import io from 'socket.io-client'
-  var socket = io.connect('http://localhost:5000') //TODO: what port?
-  socket.on("updateAvailable", (updateData) => {
-    if (updateData.gameId.toString() == getId().toString) {
-      //TODO: accept update
-      console.log('Theres an update for this game')
-    }
-  })
-
-  // TODO: fix this absolute hack
-  function getId() {
-    var url = window.location.pathname
-    return url.replace("/games/analytics/", "") 
-  }
-
   
 </script>
