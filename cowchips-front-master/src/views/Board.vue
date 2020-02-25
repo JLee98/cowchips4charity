@@ -37,7 +37,7 @@
         if(!gameId)
           return
       },
-
+    },
   }
 </script>
 

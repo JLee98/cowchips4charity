@@ -34,7 +34,7 @@
   import Organizations from './Organizations'
   import Donation from './Donation'
   import Game from './Game'
-  import Game from './Board'
+  import Board from './Board'
   import StepperItem from '@/components/StepperItem'
 
   export default {
