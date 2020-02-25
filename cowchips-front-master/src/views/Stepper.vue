@@ -5,9 +5,7 @@
       <v-divider></v-divider>
       <v-stepper-step :complete="step > 2" step="2">Tile Selection</v-stepper-step>
       <v-divider></v-divider>
-      <v-stepper-step :complete="step > 3" step="2">Donation</v-stepper-step>
-      <v-divider></v-divider>
-      <v-stepper-step step="4">Game</v-stepper-step>
+      <v-stepper-step step="3">Donation</v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
@@ -19,12 +17,8 @@
         <game @next="upStep" :key="step"></game>
       </stepper-item>
 
-      <stepper-item step="3" @back="downStep" @next="upStep">
-        <donation @next="upStep" :key="step"></donation>
-      </stepper-item>
-
-      <stepper-item step="4"  @next="upStep" @back="downStep" disallowNext>
-        <board :key="step"></board>
+      <stepper-item step="3"  @next="upStep" @back="downStep" disallowNext>
+        <donation :key="step"></donation>
       </stepper-item>
     </v-stepper-items>
   </v-stepper>
@@ -34,7 +28,6 @@
   import Organizations from './Organizations'
   import Donation from './Donation'
   import Game from './Game'
-  import Game from './Board'
   import StepperItem from '@/components/StepperItem'
 
   export default {
