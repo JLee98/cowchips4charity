@@ -20,6 +20,10 @@
       <stepper-item step="3"  @next="upStep" @back="downStep" disallowNext>
         <donation :key="step"></donation>
       </stepper-item>
+
+      <stepper-item step="4"  @next="upStep" @back="downStep" disallowNext>
+        <board :key="step"></board>
+      </stepper-item>
     </v-stepper-items>
   </v-stepper>
 </template>
