@@ -17,17 +17,11 @@ const server = app.listen(`${port}`, function () {
 
 const io = require('socket.io')(server)
 io.on('connection', (socket) => {
-  console.log("we in bois")
-})
+  console.log("connected")
+});
+
 const io2 = require('socket.io-client');
-var socket2 = io2.connect('http://localhost:5001');
-socket2.on("coolthings", (coolthings) => {
-  console.log(coolthings);
-})
-
-io.on("connection", socket => {
-  setInterval(() => {
-    socket.broadcast.emit("newdata", "hi there")
-  }, 5000)
-
+var socket2 = io2.connect('http://localhost:6000');
+socket2.on("updateAvailable", (data) => {
+  console.log(data);
 });
