@@ -1,11 +1,7 @@
 <template>
   <div>
     <table class="whole">
-      <tr :key="row" v-for="row in 6">
-        <td :key="col" v-for="col in 6">
-          <tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" @selected="handleSelected" class="game_tile"></tile>
-        </td>
-      </tr>
+
     </table>
   </div>
 </template>
