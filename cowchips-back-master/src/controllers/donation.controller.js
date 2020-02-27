@@ -6,6 +6,8 @@ import { error } from '../response';
 import { numPagesHeaderName } from '../config';
 import { ResourceNotFoundError, StripeError, BadRequestError } from '../errors';
 import DonationValidator from '../validators/donation.validator';
+import express from 'express';
+import io from 'socket.io-client'
 
 export default class DonationController
 {
@@ -71,7 +73,7 @@ export default class DonationController
         };
 
         return stripe.charges.create(charge)
-          .then((completed) =>
+          .then((completed) => {
             DonationModel.createDonation({
               amount: req.body.amount,
               userID: res.locals.token.id,
@@ -80,10 +82,23 @@ export default class DonationController
               stripeID: completed.id,
               date: req.body.date,
               tiles: req.body.tiles,
-            }))
-          .catch((err) => { throw new StripeError(err); });
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+            throw new StripeError(err); });
+      })
+      .then(() => {
+        var donationData = {"gameId": req.body.gameID, "orgId": req.body.organizationID};
+        // donationUpdate(donationData);
+        var socket = io.connect('http://localhost:6000')
+        socket.emit('donationOccur', donationData, () => {
+          console.log("called the emit");
+        });
+
       })
       .then(() => res.json({ success: true }))
+
       .catch((err) => error(res, err));
   }
 }
