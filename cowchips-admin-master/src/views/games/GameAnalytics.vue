@@ -18,12 +18,15 @@
   import axios from "axios";
 
   import io from 'socket.io-client'
-  var socket = io.connect('http://localhost:5000') //TODO: what port?
+  var socket = io.connect('http://localhost:5555') //TODO: what port?
 
   export default {
     name: 'gameAnalytics',
     components: {
       DudTempExample,
+    },
+    created() {
+      this.inspectUpdate()
     },
     data() {
       return {
@@ -56,10 +59,11 @@
       },
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
-          if (updateData.gameId.toString() == getId().toString) {
+          if (updateData.gameId.toString() == this.getId().toString()) {
             //TODO: accept update
-            var donations = this.getDonations
-            console.log(donations)
+            this.getDonations().then((donations) => {
+              console.log(donations)
+            })
 
             //var analytics = this.analyzeDonations(donations)
             //this.fillData(analytics)
@@ -71,17 +75,17 @@
         return url.replace("/games/analytics/", "")
       },
       getDonations() {
-        //TODO: sent filter parameter instead of doing it client side
-        //TODO: this may need to return a promise since it uses a .then
-        axios.get('/admin/donations')
-          .then(res => {
-            var donations = res.data
-            donations = donations.filter(donation => {
-              return donation.gameID == this.getId()
+        return new Promise((resolve, reject) => {
+          //TODO: sent filter parameter instead of doing it client side
+          axios.get('/admin/donations')
+            .then(res => {
+              var donations = res.data
+              donations = donations.filter(donation => {
+                return donation.gameID == this.getId()
+              })
+              return resolve(donations)
             })
-            console.log(donations)
-            return donations
-          })
+        })
       },
       analyzeDonations(donations) {
         //TODO: have this preform analytics

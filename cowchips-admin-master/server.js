@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
 });
 
 const io2 = require('socket.io-client');
-var socket2 = io2.connect('http://localhost:6000');
+var socket2 = io2.connect('http://localhost:5555');
 socket2.on("updateAvailable", (data) => {
   console.log(data);
 });

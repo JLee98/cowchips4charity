@@ -59,8 +59,8 @@ app.use((req, res) => res.status(404).send({ url: req.originalUrl + ' not found'
 
 
 const appdonation = express();
-const donationServer = appdonation.listen(6000, function () {
-  console.log(`Server started on port 6000`);
+const donationServer = appdonation.listen(5555, function () {
+  console.log(`Server started on port 5555`);
 })
 const donationSocket = require('socket.io')(donationServer)
 donationSocket.on('connection', (socket) => {

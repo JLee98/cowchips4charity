@@ -91,7 +91,7 @@ export default class DonationController
       .then(() => {
         var donationData = {"gameId": req.body.gameID, "orgId": req.body.organizationID};
         // donationUpdate(donationData);
-        var socket = io.connect('http://localhost:6000')
+        var socket = io.connect('http://localhost:5555')
         socket.emit('donationOccur', donationData, () => {
           console.log("called the emit");
         });
