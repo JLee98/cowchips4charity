@@ -15,5 +15,7 @@ donationRoutes.route('/')
 
 donationRoutes.route('/:id')
   .get(DonationController.getDonation);
+donationRoutes.route('/game/:gameID')
+  .get(DonationController.getGameDonation)
 
 export default donationRoutes;
