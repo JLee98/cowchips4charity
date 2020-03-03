@@ -1,0 +1,46 @@
+body {
+  background-image: url(assets/grass_background.jpg);
+  display: flex;
+  height: 100vh;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+h1, p {
+  font-family: 'Roboto', sans-serif; font-size: 20pt;
+  font-weight: 600;
+  margin: 0 auto;
+  text-align: center;
+  padding: 30px;
+  color: white;
+}
+
+p a {
+  text-decoration: none;
+  color: #f1c40f;
+}
+
+img {
+  width: 400px;
+}
+
+#bingotable {
+  margin: 0 auto;
+  text-align: center;
+  width:400px;
+  height:400px;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  font-family: Helvetica;
+  font-weight: 600;
+  font-size: 20px;
+  color: green;
+  margin: 0 auto;
+  text-align: center;
+  border: 3px solid black;
+  width: 16.667%;
+}
