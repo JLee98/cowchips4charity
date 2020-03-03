@@ -7,20 +7,6 @@ body {
   align-items: center;
 }
 
-h1, p {
-  font-family: 'Roboto', sans-serif; font-size: 20pt;
-  font-weight: 600;
-  margin: 0 auto;
-  text-align: center;
-  padding: 30px;
-  color: white;
-}
-
-p a {
-  text-decoration: none;
-  color: #f1c40f;
-}
-
 img {
   width: 400px;
 }
@@ -34,13 +20,43 @@ img {
   background: white;
 }
 
-th, td {
-  font-family: Helvetica;
+#bingotable td {
+  font-family: serif;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 25px;
   color: green;
   margin: 0 auto;
   text-align: center;
   border: 3px solid black;
   width: 16.667%;
+}
+
+#scoreboard {
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+  width:300px;
+  height:100px;
+  border-collapse: collapse;
+  background: #333333;
+}
+
+#scoreboard td {
+  font-family: serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  border: 3px solid white;
+  width: 50%;
+}
+
+h1{
+  font-family: 'Play', sans-serif;
+  font-weight: 600;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+  color: red;
 }
