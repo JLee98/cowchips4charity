@@ -6,6 +6,7 @@ import { error } from '../response';
 import { numPagesHeaderName } from '../config';
 import { ResourceNotFoundError, StripeError, BadRequestError } from '../errors';
 import DonationValidator from '../validators/donation.validator';
+import io from 'socket.io-client'
 
 export default class DonationController
 {
@@ -17,7 +18,13 @@ export default class DonationController
       .then((donation) => res.json(donation))
       .catch((err) => error(res, err));
   }
-
+  static getGameDonation(req, res)
+  {
+    const populate = (req.query.populate !== undefined) ? req.query.populate : false;
+    DonationModel.findGameDonations({gameID: req.params.gameID}, { populate })
+    .then((donation) => res.json(donation))
+    .catch((err) => error(res, err));
+  }
   static getAllDonations(req, res)
   {
     const populate = (req.query.populate !== undefined) ? req.query.populate : false;
@@ -71,7 +78,7 @@ export default class DonationController
         };
 
         return stripe.charges.create(charge)
-          .then((completed) =>
+          .then((completed) => {
             DonationModel.createDonation({
               amount: req.body.amount,
               userID: res.locals.token.id,
@@ -80,10 +87,19 @@ export default class DonationController
               stripeID: completed.id,
               date: req.body.date,
               tiles: req.body.tiles,
-            }))
-          .catch((err) => { throw new StripeError(err); });
+            })
+          })
+          .catch((err) => {
+            console.log(err)
+            throw new StripeError(err); });
+      })
+      .then(() => {
+        var donationData = {"gameId": req.body.gameID, "orgId": req.body.organizationID};
+        var socket = io.connect('http://localhost:5555')
+        socket.emit('donationOccur', donationData);
       })
       .then(() => res.json({ success: true }))
+
       .catch((err) => error(res, err));
   }
 }
