@@ -8,6 +8,8 @@
     -->
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
+
+    <h1>{{ maxDonation }}</h1>
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
@@ -42,6 +44,7 @@
         orgDonations: null
       }
     },
+
     methods: {
       dudsSuperUpdater() {
         this.datacollection1 = {
@@ -54,6 +57,7 @@
             }
           ]
         }
+
         this.datacollection2 = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
@@ -65,6 +69,7 @@
           ]
         }
       },
+
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
@@ -79,10 +84,12 @@
           }
         })
       },
+
       getId() { // TODO: fix this absolute hack
         var url = window.location.pathname
         return url.replace("/games/analytics/", "")
       },
+
       getDonations(gameId) {
         return new Promise((resolve, reject) => {
           axios.get(`donation/game/${gameId}`)
@@ -92,12 +99,14 @@
             })
         })
       },
+
       getDonationAmount(donations) {
         this.totalMoney = 0;
         for(var i in donations) {
           this.totalMoney += donations[i].amount/100;
         }
       },
+
       analyzeDonations(donations) {
         for(var i in donations) {
           var curDonation = donations[i];
@@ -118,9 +127,11 @@
           }
         }
       },
+
       fillData(analytics) {
         //TODO: have this set all the charts based on the data from input analytics
       },
+
       onStart() {
         var tempId = this.getId();
         this.orgDonations = new Map();

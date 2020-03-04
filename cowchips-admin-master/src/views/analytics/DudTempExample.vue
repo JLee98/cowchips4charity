@@ -19,7 +19,7 @@ export default {
         datasets: [
           {
             label: 'Cakes',
-            backgroundColor: '#f87979',
+            backgroundColor: '#0000ff',
             data: [40, 200]
           }
         ]
