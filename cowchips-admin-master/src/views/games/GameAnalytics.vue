@@ -70,7 +70,6 @@
           if (updateData.gameId.toString() == this.getId().toString()) {
             //TODO: accept update
             this.getDonations(updateData.gameId).then((donations) => {
-              // console.log(donations)
               this.getDonationAmount(donations);
               this.analyzeDonations(donations);
             })
@@ -99,7 +98,6 @@
         for(var i in donations) {
           this.totalMoney += donations[i].amount/100;
         }
-        console.log(`TOTAL GAME MONEY $${this.totalMoney}`);
       },
       analyzeDonations(donations) {
         //TODO: have this preform analytics
@@ -124,8 +122,6 @@
             this.maxDonation = curDonation.amount/100;
           }
         }
-        console.log(this.maxDonation);
-        console.log(this.orgDonations);
       },
       fillData(analytics) {
         //TODO: have this set all the charts based on the data from input analytics
@@ -134,7 +130,6 @@
         var tempId = this.getId();
         this.orgDonations = new Map();
         this.getDonations(tempId).then((donations) => {
-          console.log(donations)
           this.getDonationAmount(donations);
           this.analyzeDonations(donations);
         })
