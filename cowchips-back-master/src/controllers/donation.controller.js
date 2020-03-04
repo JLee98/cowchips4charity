@@ -6,7 +6,6 @@ import { error } from '../response';
 import { numPagesHeaderName } from '../config';
 import { ResourceNotFoundError, StripeError, BadRequestError } from '../errors';
 import DonationValidator from '../validators/donation.validator';
-import express from 'express';
 import io from 'socket.io-client'
 
 export default class DonationController

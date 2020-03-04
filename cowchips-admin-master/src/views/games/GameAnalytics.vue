@@ -85,7 +85,6 @@
       },
       getDonations(gameId) {
         return new Promise((resolve, reject) => {
-          //TODO: sent filter parameter instead of doing it client side
           axios.get(`donation/game/${gameId}`)
             .then(res => {
               var donations = res.data
@@ -100,10 +99,6 @@
         }
       },
       analyzeDonations(donations) {
-        //TODO: have this preform analytics
-        // like count how many per donations per team, biggest donation, etc.
-        // then put it in an object to return
-        // ex {DonationsTeam1: 33, DonationsTeam2: 45, BiggestDonation: 8800, ...}
         for(var i in donations) {
           var curDonation = donations[i];
           var orgID = curDonation.organizationID;

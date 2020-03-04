@@ -14,12 +14,3 @@ const port = process.env.PORT || 5000
 const server = app.listen(`${port}`, function () {
   console.log(`Server started on port ${port}`)
 })
-
-const io = require('socket.io')(server)
-io.on('connection', (socket) => {
-  console.log("connected")
-});
-
-const io2 = require('socket.io-client');
-var socket2 = io2.connect('http://localhost:5555');
-socket2.on("updateAvailable");

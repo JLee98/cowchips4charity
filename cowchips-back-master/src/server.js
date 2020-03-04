@@ -14,23 +14,6 @@ require('dotenv').config();
 process.title = process.argv[2];
 
 const app = express();
-const app2 = express();
-
-// const server = app2.listen(5001, function() {
-//   console.log(`Server started on port 5001`);
-// });
-//
-// const io = require('socket.io')(server)
-// io.on('', (socket) => {
-//   console.log("we in bois")
-// })
-//
-// io.on("connection", socket => {
-//   setInterval(() => {
-//     socket.broadcast.emit("coolthings", "Hi from Backend Server")
-//   }, 5000)
-// });
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -69,7 +52,6 @@ donationSocket.on('connection', (socket) => {
 
 donationSocket.on('connection', (socket) => {
   socket.on('donationOccur', (data) => {
-    console.log(data);
     socket.broadcast.emit("updateAvailable", data);
   });
 });

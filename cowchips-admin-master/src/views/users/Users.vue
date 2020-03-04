@@ -68,11 +68,6 @@
 
 <script>
   import CrudTable from '@/views/crud/CRUDTable'
-  import io from 'socket.io-client'
-  var socket = io.connect('http://localhost:5000')
-  socket.on("newdata", (cooldata) => {
-    console.log(cooldata);
-  })
 
   export default {
     name: "Users",
