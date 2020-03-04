@@ -22,6 +22,7 @@
   import io from 'socket.io-client'
   var socket = io.connect('http://localhost:5555') //TODO: what port?
   var totalMoney = 0;
+  var totalDonations = 0;
   var maxDonation = 0;
   var orgDonations = new Map();
 
@@ -38,6 +39,7 @@
         datacollection1: null,
         datacollection2: null,
         totalMoney: 0,
+        totalDonation: 0,
         maxDonation: 0,
         orgDonations: null
       }
@@ -70,7 +72,6 @@
           if (updateData.gameId.toString() == this.getId().toString()) {
             //TODO: accept update
             this.getDonations(updateData.gameId).then((donations) => {
-              this.getDonationAmount(donations);
               this.analyzeDonations(donations);
             })
 
@@ -92,16 +93,15 @@
             })
         })
       },
-      getDonationAmount(donations) {
-        this.totalMoney = 0;
-        for(var i in donations) {
-          this.totalMoney += donations[i].amount/100;
-        }
-      },
       analyzeDonations(donations) {
+        this.totalMoney = 0;
+        this.totalDonations = donations.length;
         for(var i in donations) {
           var curDonation = donations[i];
           var orgID = curDonation.organizationID;
+
+          // get total donation money
+          this.totalMoney += curDonation.amount/100;
 
           // donation amount per team
           if(!this.orgDonations.has(orgID)) {
@@ -125,7 +125,6 @@
         var tempId = this.getId();
         this.orgDonations = new Map();
         this.getDonations(tempId).then((donations) => {
-          this.getDonationAmount(donations);
           this.analyzeDonations(donations);
         })
       }
