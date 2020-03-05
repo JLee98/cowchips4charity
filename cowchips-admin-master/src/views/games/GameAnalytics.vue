@@ -16,8 +16,7 @@
   </div>
 </template>
 
-<script>
-  import DudTempExample from '../analytics/DudTempExample'
+<script>import DudTempExample from '../analytics/DudTempExample'
   import axios from "axios";
   import Vue from 'vue';
 
@@ -47,7 +46,7 @@
 
     methods: {
       dudsSuperUpdater() {
-        this.datacollection1 = {
+         this.datacollection1 = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
             {
@@ -57,8 +56,18 @@
             }
           ]
         }
-
         this.datacollection2 = {
+          labels: ['Cake Present', 'Cake Required'],
+          datasets: [
+            {
+              label: 'Cakes',
+              backgroundColor: '#f87979',
+              data: [45, 350]
+            }
+          ]
+        }
+
+        this.datacollection3 = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
             {
@@ -146,6 +155,4 @@
     beforeMount() {
       this.onStart();
     }
-  }
-
-</script>
+  }</script>
