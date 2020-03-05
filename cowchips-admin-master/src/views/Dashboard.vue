@@ -589,7 +589,6 @@ export default {
         this.getDonations().then((donations) => {
             this.analyzeDonations(donations)
           })
-
       })
     },
     getDonations() {
@@ -620,7 +619,6 @@ export default {
       return total / 100
     },
     filterDonationsByDates(donations, startDate, endDate) {
-      console.log(donations.length)
       var filtered = donations.filter((donation) => {
         var date = new Date(donation.date)
         return (date > startDate) && (date < endDate)
