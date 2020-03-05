@@ -458,6 +458,12 @@ import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
 import CalloutChartExample from './dashboard/CalloutChartExample'
 import { Callout } from '@coreui/vue'
 
+import axios from "axios";
+import Vue from 'vue';
+
+import io from 'socket.io-client'
+var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
+
 export default {
   name: 'dashboard',
   components: {
@@ -469,6 +475,9 @@ export default {
     MainChartExample,
     SocialBoxChartExample,
     CalloutChartExample
+  },
+  created() {
+    this.inspectUpdate()
   },
   data: function () {
     return {
@@ -564,7 +573,35 @@ export default {
     },
     flag (value) {
       return 'flag-icon flag-icon-' + value
+    },
+    inspectUpdate() {
+      socket.on("updateAvailable", (updateData) => {
+        this.getDonations().then((donations) => {
+            console.log('new donations: ')
+            console.log(donations)
+          })
+
+      })
+    },
+    getDonations() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/donations`)
+          .then(res => {
+            var donations = res.data
+            return resolve(donations)
+          })
+      })
+    },
+    startHandler() {
+      this.orgDonations = new Map();
+      this.getDonations().then((donations) => {
+        console.log('starting donations: ')
+        console.log(donations)
+      })
     }
+  },
+  beforeMount() {
+    this.startHandler();
   }
 }
 </script>
