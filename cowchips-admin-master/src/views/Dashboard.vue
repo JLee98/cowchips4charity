@@ -31,8 +31,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ yearTotal }}</h4>
+            <p>This Year Total</p>
           </b-card-body>
           <card-line2-chart-example chartId="card-chart-02" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -465,6 +465,7 @@ import io from 'socket.io-client'
 var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
 
 var lifetimeTotal = 0
+var yearTotal = 0
 
 export default {
   name: 'dashboard',
@@ -557,7 +558,8 @@ export default {
           label: 'Activity'
         }
       },
-      lifetimeTotal: 0
+      lifetimeTotal: 0,
+      yearTotal: 0
     }
   },
   methods: {
@@ -601,13 +603,30 @@ export default {
     },
     analyzeDonations(donations) {
       this.lifetimeTotal = this.calculateTotal(donations)
+      this.yearTotal = this.calculateTotalForLastXDays(donations, 365)
     },
     calculateTotal(donations) {
       var total = 0
       for (var i = 0; i < donations.length; i++) {
         total += donations[i].amount
       }
-      return total
+      return total / 100
+    },
+    filterDonationsByDates(donations, startDate, endDate) {
+      console.log(donations.length)
+      var filtered = donations.filter((donation) => {
+        var date = new Date(donation.date)
+        return (date > startDate) && (date < endDate)
+      })
+      return filtered
+    },
+    calculateTotalForLastXDays(donations, days) {
+      var now = new Date()
+      var weekAgo = new Date()
+      weekAgo.setDate(now.getDate() - days)
+
+      var filtered = this.filterDonationsByDates(donations, weekAgo, now)
+      return this.calculateTotal(filtered)
     }
   },
   beforeMount() {
