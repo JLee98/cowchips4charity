@@ -8,10 +8,10 @@
     -->
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
-
     <h1>{{ maxDonation }}</h1>
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+    <bui-temp-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
 
   </div>
 </template>
@@ -68,6 +68,8 @@
             }
           ]
         }
+
+
       },
 
       inspectUpdate() {
