@@ -32,7 +32,7 @@
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ yearTotal }}</h4>
-            <p>This Year Total</p>
+            <p>Year's Donation Total</p>
           </b-card-body>
           <card-line2-chart-example chartId="card-chart-02" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -49,8 +49,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ monthTotal }}</h4>
+            <p>Month's Donation Total</p>
           </b-card-body>
           <card-line3-chart-example chartId="card-chart-03" class="chart-wrapper" style="height:70px;" height="70"/>
         </b-card>
@@ -67,8 +67,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ weekTotal }}</h4>
+            <p>Week's Donation Total</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
@@ -466,6 +466,9 @@ var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
 
 var lifetimeTotal = 0
 var yearTotal = 0
+var monthTotal = 0
+var weekTotal = 0
+
 
 export default {
   name: 'dashboard',
@@ -559,7 +562,9 @@ export default {
         }
       },
       lifetimeTotal: 0,
-      yearTotal: 0
+      yearTotal: 0,
+      monthTotal: 0,
+      weekTotal: 0,
     }
   },
   methods: {
@@ -604,6 +609,8 @@ export default {
     analyzeDonations(donations) {
       this.lifetimeTotal = this.calculateTotal(donations)
       this.yearTotal = this.calculateTotalForLastXDays(donations, 365)
+      this.monthTotal = this.calculateTotalForLastXDays(donations, 30)
+      this.weekTotal = this.calculateTotalForLastXDays(donations, 7)
     },
     calculateTotal(donations) {
       var total = 0
