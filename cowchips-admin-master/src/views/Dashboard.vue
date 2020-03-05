@@ -13,8 +13,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ lifetimeTotal }}</h4>
+            <p>All Donations Total</p>
           </b-card-body>
           <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -464,6 +464,8 @@ import Vue from 'vue';
 import io from 'socket.io-client'
 var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
 
+var lifetimeTotal = 0
+
 export default {
   name: 'dashboard',
   components: {
@@ -554,7 +556,8 @@ export default {
         activity: {
           label: 'Activity'
         }
-      }
+      },
+      lifetimeTotal: 0
     }
   },
   methods: {
@@ -577,8 +580,7 @@ export default {
     inspectUpdate() {
       socket.on("updateAvailable", (updateData) => {
         this.getDonations().then((donations) => {
-            console.log('new donations: ')
-            console.log(donations)
+            this.analyzeDonations(donations)
           })
 
       })
@@ -593,11 +595,19 @@ export default {
       })
     },
     startHandler() {
-      this.orgDonations = new Map();
       this.getDonations().then((donations) => {
-        console.log('starting donations: ')
-        console.log(donations)
+        this.analyzeDonations(donations)
       })
+    },
+    analyzeDonations(donations) {
+      this.lifetimeTotal = this.calculateTotal(donations)
+    },
+    calculateTotal(donations) {
+      var total = 0
+      for (var i = 0; i < donations.length; i++) {
+        total += donations[i].amount
+      }
+      return total
     }
   },
   beforeMount() {
