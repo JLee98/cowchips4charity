@@ -1,55 +1,91 @@
 <!--INCLUDED GRAPH VUES MUST BE NAMED USING PascalCase-->
 
 <script>
-import { Bar, mixins } from 'vue-chartjs'
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips'
-const { reactiveProp } = mixins
+// STEP 1: to include the dependencies
+import Vue from 'vue';
+import VueFusionCharts from 'vue-fusioncharts';
+import FusionCharts from 'fusioncharts';
+import Column2D from 'fusioncharts/fusioncharts.charts';
+import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 
+Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+
+// STEP 2: Prepare the data
+const chartData = [
+    {
+      label: "Venezuela",
+      value: "290"
+    },
+    {
+      label: "Saudi",
+      value: "260"
+    },
+    {
+      label: "Canada",
+      value: "180"
+    },
+    {
+      label: "Iran",
+      value: "140"
+    },
+    {
+      label: "Russia",
+      value: "115"
+    },
+    {
+      label: "UAE",
+      value: "100"
+    },
+    {
+      label: "US",
+      value: "30"
+    },
+    {
+      label: "China",
+      value: "30"
+    }
+  ];
+
+// STEP 3: Configure your chart
+const dataSource = {
+  chart: {
+    caption: "Countries With Most Oil Reserves [2017-18]",
+    subcaption: "In MMbbl = One Million barrels",
+    xaxisname: "Country",
+    yaxisname: "Reserves (MMbbl)",
+    numbersuffix: "K",
+    theme: "fusion"
+  },
+  data: chartData
+  };
 
 export default {
-  extends: Bar,
-  mixins: [reactiveProp],
-  props: ['chartData','options'],
-
-  mounted () {
-    // Overwriting base render method with actual data.
-    this.renderChart(
-      {
-        labels: ['Cake Present', 'Cake Required'],
-        datasets: [
-          {
-            label: 'Cakes',
-            backgroundColor: '#f87979',
-            data: [40, 200]
-          }
-        ]
-      },
-      {
-        responsive: true,
-        maintainAspectRatio: true,
-        tooltips: {
-          enabled: false,
-          custom: CustomTooltips,
-          intersect: true,
-          mode: 'index',
-          position: 'nearest',
-          callbacks: {
-            labelColor: function (tooltipItem, chart) {
-              return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].backgroundColor }
-            }
-          }
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              min: 0,
-              max: 250,
-              stepSize: 10
-            }
-          }]
-        }
-      },
-    )
-  },
+  name: 'app',
+  data() {
+    return {
+      "type": "column2d",
+      "renderAt": "chart-container",
+      "width": "550",
+      "height": "350",
+      "dataFormat": "json",
+      dataSource
+    }
+  }
 }
 </script>
+
+
+//STEP 4: Render the chart
+<template>
+  <div id="app">
+    <div id="chart-container">
+      <fusioncharts :type="type"
+                    :width="width"
+                    :height="height"
+                    :dataformat="dataFormat"
+                    :dataSource="dataSource">
+      </fusioncharts>
+    </div>
+  </div>
+</template>
+
