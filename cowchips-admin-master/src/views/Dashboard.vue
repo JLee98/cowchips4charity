@@ -5,7 +5,7 @@
         <b-card no-body class="bg-primary">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <b-dropdown-item v-for="game in this.liveGames" :value="game">{{ game.name }}</b-dropdown-item>
+              <b-dropdown-item v-for="game in this.liveGames" @click="goToGameAnalytics(game._id)">{{ game.name }}</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ liveGameCount }}</h4>
             <p>Current Live Games</p>
@@ -652,7 +652,11 @@ export default {
       })
       this.liveGameCount = filtered.length
       this.liveGames = filtered
-    }
+    },
+    goToGameAnalytics(id) {
+      console.log('goToAnalytics for game:' + id)
+      this.$router.push('/games/analytics/' + id)
+    },
   },
   beforeMount() {
     this.startHandler();
