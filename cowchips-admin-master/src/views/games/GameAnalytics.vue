@@ -4,13 +4,15 @@
     <span>{{ totalMoney }}</span>
 
     <!-- test url to inject:
-    http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
-    -->
+  http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
+  -->
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
     <h1>{{ maxDonation }}</h1>
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <bud-temp-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+    <bui-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+
 
   </div>
 </template>
@@ -18,6 +20,7 @@
 <script>
   import DudTempExample from '../analytics/DudTempExample'
   import BudTempExample from '../analytics/BudTempExample'
+  import BuiTempExample from '../analytics/BuiTempExample'
   import axios from "axios";
   import Vue from 'vue';
 
@@ -31,7 +34,8 @@
     name: 'gameAnalytics',
     components: {
       DudTempExample,
-      BudTempExample
+      BudTempExample,
+      BuiTempExample
     },
     created() {
       this.inspectUpdate()
@@ -70,6 +74,12 @@
             }
           ]
         }
+
+        this.datacollection4 = {
+              //fill
+        }
+
+
 
 
       },
