@@ -13,35 +13,35 @@ Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
 // STEP 2: Prepare the data
 const chartData = [
     {
-      label: "Venezuela",
+      label: "Iowa State",
       value: "290"
     },
     {
-      label: "Saudi",
+      label: "Iowa",
       value: "260"
     },
     {
-      label: "Canada",
+      label: "Kansas",
       value: "180"
     },
     {
-      label: "Iran",
+      label: "Kansas State",
       value: "140"
     },
     {
-      label: "Russia",
+      label: "Michigan",
       value: "115"
     },
     {
-      label: "UAE",
+      label: "UCLA",
       value: "100"
     },
     {
-      label: "US",
+      label: "Standford",
       value: "30"
     },
     {
-      label: "China",
+      label: "Hogwarts",
       value: "30"
     }
   ];
@@ -49,11 +49,11 @@ const chartData = [
 // STEP 3: Configure your chart
 const dataSource = {
   chart: {
-    caption: "Countries With Most Oil Reserves [2017-18]",
-    subcaption: "In MMbbl = One Million barrels",
-    xaxisname: "Country",
-    yaxisname: "Reserves (MMbbl)",
-    numbersuffix: "K",
+    caption: "Highest Total Donations",
+    subcaption: "In Dollars",
+    xaxisname: "School",
+    yaxisname: "Dollars",
+    numbersuffix: ".00",
     theme: "fusion"
   },
   data: chartData
@@ -65,8 +65,8 @@ export default {
     return {
       "type": "column2d",
       "renderAt": "chart-container",
-      "width": "550",
-      "height": "350",
+      "width": "750",
+      "height": "550",
       "dataFormat": "json",
       dataSource
     }

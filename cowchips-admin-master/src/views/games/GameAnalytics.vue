@@ -87,37 +87,37 @@
         this.datacollection4 = {
           datasets: [
             {
-              label: "Venezuela",
-              value: "290"
-            },
-            {
-              label: "Saudi",
-              value: "260"
-            },
-            {
-              label: "Canada",
-              value: "180"
-            },
-            {
-              label: "Iran",
-              value: "140"
-            },
-            {
-              label: "Russia",
-              value: "115"
-            },
-            {
-              label: "UAE",
-              value: "100"
-            },
-            {
-              label: "US",
-              value: "30"
-            },
-            {
-              label: "China",
-              value: "30"
-            }
+                label: "Iowa State",
+                value: "290"
+              },
+              {
+                label: "Iowa",
+                value: "260"
+              },
+              {
+                label: "Kansas",
+                value: "180"
+              },
+              {
+                label: "Kansas State",
+                value: "140"
+              },
+              {
+                label: "Michigan",
+                value: "115"
+              },
+              {
+                label: "UCLA",
+                value: "100"
+              },
+              {
+                label: "Standford",
+                value: "30"
+              },
+              {
+                label: "Hogwarts",
+                value: "30"
+              }
           ],
         }
 
