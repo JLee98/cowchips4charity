@@ -15,10 +15,10 @@ export default {
     // Overwriting base render method with actual data.
     this.renderChart(
       {
-        labels: ['Cake Present', 'Cake Required'],
+        labels: ['Bui Present', 'Bui Required'],
         datasets: [
           {
-            label: 'Cakes',
+            label: 'Bui',
             backgroundColor: '#0000ff',
             data: [40, 200]
           }
