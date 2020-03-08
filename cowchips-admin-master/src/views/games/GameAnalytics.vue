@@ -11,9 +11,16 @@
     <h1>{{ maxDonation }}</h1>
     
     <doughnut-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
-
-    <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
-    <bud-temp-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+    <br> </br>
+    <br> </br>
+    <br> </br>
+    <br> </br>
+     <br> </br>
+     <br> </br>
+     <br> </br>
+     <br> </br>
+     <br> </br>
+     <br> </br>
     <bui-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
     
   </div>

@@ -29,21 +29,13 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
         theme: "fusion"
       },
       data: [{
-          label: "Food",
+          label: "Iowa State",
           value: "28504"
         },
         {
-          label: "Apparels",
+          label: "Iowa",
           value: "14633"
-        },
-        {
-          label: "Electronics",
-          value: "10507"
-        },
-        {
-          label: "Household",
-          value: "4910"
-        }
+        }, 
       ]
     }
 
