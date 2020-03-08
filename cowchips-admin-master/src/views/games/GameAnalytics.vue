@@ -9,8 +9,8 @@
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
     <h1>{{ maxDonation }}</h1>
-    <div id="chart-container">FusionCharts will render here</div>
-    <doughnut-2d-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+    
+    <doughnut-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
 
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <bud-temp-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
@@ -23,7 +23,7 @@
   import DudTempExample from '../analytics/DudTempExample';
   import BudTempExample from '../analytics/BudTempExample';
   import BuiTempExample from '../analytics/BuiTempExample';
-  import Doughnut2DTempExample from '../analytics/Doughnut2DTempExample';
+  import DoughnutTempExample from '../analytics/DoughnutTempExample';
 
   import axios from "axios";
   import Vue from 'vue';
@@ -52,7 +52,7 @@
       DudTempExample,
       BudTempExample,
       BuiTempExample,
-      Doughnut2DTempExample
+      DoughnutTempExample
     },
     created() {
       this.inspectUpdate()

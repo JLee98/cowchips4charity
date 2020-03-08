@@ -5,65 +5,53 @@
 import Vue from 'vue';
 import VueFusionCharts from 'vue-fusioncharts';
 import FusionCharts from 'fusioncharts';
-import Column2D from 'fusioncharts/fusioncharts.charts';
+import Doughnut2D from 'fusioncharts/fusioncharts.charts';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 
-Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
 
-// STEP 2: Prepare the data
-const chartData = [
-    {
-      label: "Iowa State",
-      value: "290"
-    },
-    {
-      label: "Iowa",
-      value: "260"
-    },
-    {
-      label: "Kansas",
-      value: "180"
-    },
-    {
-      label: "Kansas State",
-      value: "140"
-    },
-    {
-      label: "Michigan",
-      value: "115"
-    },
-    {
-      label: "UCLA",
-      value: "100"
-    },
-    {
-      label: "Standford",
-      value: "30"
-    },
-    {
-      label: "Hogwarts",
-      value: "30"
-    }
-  ];
 
 // STEP 3: Configure your chart
-const dataSource = {
-  chart: {
-    caption: "Highest Total Donations",
-    subcaption: "In Dollars",
-    xaxisname: "School",
-    yaxisname: "Dollars",
-    numbersuffix: ".00",
-    theme: "fusion"
-  },
-  data: chartData
-  };
+
+  const dataSource = {
+      chart: {
+        caption: "Split of Revenue by Product Categories",
+        subCaption: "Last year",
+        numberPrefix: "$",
+        bgColor: "#ffffff",
+        startingAngle: "310",
+        showLegend: "1",
+        defaultCenterLabel: "Total revenue: $64.08K",
+        centerLabel: "Revenue from $label: $value",
+        centerLabelBold: "1",
+        showTooltip: "0",
+        decimals: "0",
+        theme: "fusion"
+      },
+      data: [{
+          label: "Food",
+          value: "28504"
+        },
+        {
+          label: "Apparels",
+          value: "14633"
+        },
+        {
+          label: "Electronics",
+          value: "10507"
+        },
+        {
+          label: "Household",
+          value: "4910"
+        }
+      ]
+    }
 
 export default {
   name: 'app',
   data() {
     return {
-      "type": "column2d",
+      "type": "doughnut2d",
       "renderAt": "chart-container",
       "width": "750",
       "height": "550",
