@@ -8,7 +8,7 @@ import FusionCharts from 'fusioncharts';
 import Doughnut2D from 'fusioncharts/fusioncharts.charts';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 
-Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
 
 // STEP 2: Prepare the data
 const chartData = [
