@@ -18,21 +18,25 @@
 </template>
 
 <script>
-  import DudTempExample from '../analytics/DudTempExample'
-  import BudTempExample from '../analytics/BudTempExample'
-  import BuiTempExample from '../analytics/BuiTempExample'
-  import 2dDoughnutTempExample from '../analytics/2dDoughnutTempExample'
+  import DudTempExample from '../analytics/DudTempExample';
+  import BudTempExample from '../analytics/BudTempExample';
+  import BuiTempExample from '../analytics/BuiTempExample';
+  import Doughnut2DTempExample from '../analytics/Doughnut2DTempExample';
 
   import axios from "axios";
   import Vue from 'vue';
 
-  //imorts for BuiTempExample
+  //imports for BuiTempExample
   import VueFusionCharts from 'vue-fusioncharts';
   import FusionCharts from 'fusioncharts';
   import Column2D from 'fusioncharts/fusioncharts.charts';
   import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 
+  //imoprt for Doughnut2D chart
+  import Doughnut2D from 'fusioncharts/fusioncharts.charts';
+
   Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+  Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
 
   import io from 'socket.io-client'
   var socket = io.connect('http://localhost:5555') //TODO: what port?
@@ -45,7 +49,8 @@
     components: {
       DudTempExample,
       BudTempExample,
-      BuiTempExample
+      BuiTempExample,
+      Doughnut2DTempExample
     },
     created() {
       this.inspectUpdate()
@@ -53,7 +58,9 @@
     data() {
       return {
         datacollection1: null,
-        datacollection2: null,
+        datacollection3: null,
+        datacollection4: null,
+        datacollection5: null,
         totalMoney: 0,
         maxDonation: 0,
         orgDonations: null
@@ -123,6 +130,7 @@
           ],
         }
 
+        //2dDoughnutTempExmaple
         this.datacollection5 = {
           datasets: [
             {
