@@ -12,7 +12,7 @@
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <bud-temp-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
     <bui-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
-    <2ddoughnut-temp-example :chart-data="datacollection5" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+    <doughnut2d-temp-example :chart-data="datacollection5" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
 
   </div>
 </template>
@@ -132,40 +132,15 @@
 
         //2dDoughnutTempExmaple
         this.datacollection5 = {
-          datasets: [
-            {
-                label: "Iowa State",
-                value: "290"
-              },
-              {
-                label: "Iowa",
-                value: "260"
-              },
-              {
-                label: "Kansas",
-                value: "180"
-              },
-              {
-                label: "Kansas State",
-                value: "140"
-              },
-              {
-                label: "Michigan",
-                value: "115"
-              },
-              {
-                label: "UCLA",
-                value: "100"
-              },
-              {
-                label: "Standford",
-                value: "30"
-              },
-              {
-                label: "Hogwarts",
-                value: "30"
-              }
-          ],
+          chart: {
+          caption: "Highest Total Donations",
+          subcaption: "In Dollars",
+          xaxisname: "School",
+          yaxisname: "Dollars",
+          numbersuffix: ".00",
+          theme: "fusion"
+          },
+          data: chartData
         }
 
 
