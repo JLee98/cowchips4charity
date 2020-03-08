@@ -10,7 +10,6 @@
     <button @click="getDonations()">getDonations</button>
     <h1>{{ maxDonation }}</h1>
     <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
-    <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <bud-temp-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
 
   </div>
@@ -59,16 +58,7 @@
             }
           ]
         }
-        this.datacollection2 = {
-          labels: ['Cake Present', 'Cake Required'],
-          datasets: [
-            {
-              label: 'Cakes',
-              backgroundColor: '#f87979',
-              data: [45, 350]
-            }
-          ]
-        }
+
 
         this.datacollection3 = {
           labels: ['Cake Present', 'Cake Required'],
