@@ -648,7 +648,13 @@ export default {
       })
     },
     countLiveGames(games) {
-      console.log(games)
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var start = Date.parse(game.startTime)
+        var end = Date.parse(game.endTime)
+        return (start <= today) && (end >= today)
+      })
+      this.liveGames = filtered.length
     }
   },
   beforeMount() {
