@@ -24,6 +24,14 @@
   import axios from "axios";
   import Vue from 'vue';
 
+  //imorts for BuiTempExample
+  import VueFusionCharts from 'vue-fusioncharts';
+  import FusionCharts from 'fusioncharts';
+  import Column2D from 'fusioncharts/fusioncharts.charts';
+  import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+
+  Vue.use(VueFusionCharts, FusionCharts, Column2D, FusionTheme);
+
   import io from 'socket.io-client'
   var socket = io.connect('http://localhost:5555') //TODO: what port?
   var totalMoney = 0;
@@ -75,8 +83,42 @@
           ]
         }
 
+        //BuiTempExample Data
         this.datacollection4 = {
-              //fill
+          datasets: [
+            {
+              label: "Venezuela",
+              value: "290"
+            },
+            {
+              label: "Saudi",
+              value: "260"
+            },
+            {
+              label: "Canada",
+              value: "180"
+            },
+            {
+              label: "Iran",
+              value: "140"
+            },
+            {
+              label: "Russia",
+              value: "115"
+            },
+            {
+              label: "UAE",
+              value: "100"
+            },
+            {
+              label: "US",
+              value: "30"
+            },
+            {
+              label: "China",
+              value: "30"
+            }
+          ],
         }
 
 
