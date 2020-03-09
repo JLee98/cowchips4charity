@@ -9,8 +9,9 @@
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
     <h1>{{ maxDonation }}</h1>
-    
-    <doughnut-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+    <dud-temp-example :chart-data="datacollection5" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
+    <doughnut-temp-example :dataSource="datacollection5"/>
+ 
     <br> </br>
     <br> </br>
     <br> </br>
@@ -21,8 +22,10 @@
      <br> </br>
      <br> </br>
      <br> </br>
+
     <bui-temp-example :chart-data="datacollection4" chartId="card-chart-01" class="chart-wrapper px-3" style="height: 200px;" :height="70" />
     
+
   </div>
 </template>
 
@@ -63,6 +66,7 @@
     },
     created() {
       this.inspectUpdate()
+      //this.getRealTimeData()
     },
     data() {
       return {
@@ -71,13 +75,14 @@
         datacollection4: null,
         datacollection5: null,
         totalMoney: 0,
-        maxDonation: 0,
+        maxDonation: 5,
         orgDonations: null
       }
     },
 
     methods: {
       dudsSuperUpdater() {
+       
          this.datacollection1 = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
@@ -139,20 +144,35 @@
           ],
         }
 
-        //2dDoughnutTempExmaple
+        //DoughnutTempExmaple
         this.datacollection5 = {
           chart: {
-          caption: "Highest Total Donations",
-          subcaption: "In Dollars",
-          xaxisname: "School",
-          yaxisname: "Dollars",
-          numbersuffix: ".00",
+          caption: "Ioba State vs Iowa: 10/11/2020",
+          subCaption: "Total in Dollars",
+          numberPrefix: "$",
+          bgColor: "#ffffff",
+          startingAngle: "310",
+          showLegend: "1",
+          defaultCenterLabel: "ISU v IOWA Total: $64.08K",
+          centerLabel: "Revenue from $label: $value",
+          centerLabelBold: "1",
+          showTooltip: "0",
+          decimals: "0",
           theme: "fusion"
           },
-          data: chartData
+          data: [
+            {
+            label: "ISb",
+            value: "28504"
+            },
+            {
+            label: "Iowa",
+            value: "14633"
+            }, 
+          ]
         }
-
-
+       
+      this.maxDonation = this.maxDonation + 1;
       },
 
       inspectUpdate() {
@@ -164,8 +184,9 @@
               this.analyzeDonations(donations);
             })
 
-            // var analytics = this.analyzeDonations(donations)
-            //this.fillData(analytics)
+            //undid comment for live data doughnut
+           // var analytics = this.analyzeDonations(donations)
+           // this.fillData(analytics)
           }
         })
       },
@@ -198,6 +219,7 @@
           var orgID = curDonation.organizationID;
 
           // donation amount per team
+
           if(!this.orgDonations.has(orgID)) {
             this.orgDonations.set(orgID, curDonation.amount/100);
           }
@@ -215,6 +237,9 @@
 
       fillData(analytics) {
         //TODO: have this set all the charts based on the data from input analytics
+        
+
+
       },
 
       onStart() {

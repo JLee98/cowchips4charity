@@ -3,6 +3,7 @@
 <script>
 // STEP 1: to include the dependencies
 import Vue from 'vue';
+import axios from "axios";
 import VueFusionCharts from 'vue-fusioncharts';
 import FusionCharts from 'fusioncharts';
 import Doughnut2D from 'fusioncharts/fusioncharts.charts';
@@ -13,7 +14,8 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
 
 // STEP 3: Configure your chart
 
-  const dataSource = {
+  
+    const dataSource = {
       chart: {
         caption: "Iowa State vs Iowa: 10/11/2020",
         subCaption: "Total in Dollars",
@@ -29,27 +31,30 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
         theme: "fusion"
       },
       data: [{
-          label: "ISU",
-          value: "28504"
-        },
-        {
-          label: "Iowa",
-          value: "14633"
-        }, 
+        label: "ISU",
+        value: "28504"
+      },
+      {
+        label: "Iowa",
+        value: "14633"
+      },
       ]
     }
+   
+  
 
 export default {
-  name: 'app',
+  name: 'doughnut',
+
   data() {
     return {
       "type": "doughnut2d",
       "renderAt": "chart-container",
-      "width": "750",
+      "width": "550",
       "height": "550",
       "dataFormat": "json",
       dataSource
-    }
+    };
   }
 }
 </script>
@@ -57,7 +62,7 @@ export default {
 
 //STEP 4: Render the chart
 <template>
-  <div id="app">
+  <div id="doughnut">
     <div id="chart-container">
       <fusioncharts :type="type"
                     :width="width"
