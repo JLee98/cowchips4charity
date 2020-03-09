@@ -14,7 +14,7 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
 
 // STEP 3: Configure your chart
 
-  
+
     const dataSource = {
       chart: {
         caption: "Iowa State vs Iowa: 10/11/2020",
@@ -40,8 +40,8 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
       },
       ]
     }
-   
-  
+
+
 
 export default {
   name: 'doughnut',
@@ -73,4 +73,3 @@ export default {
     </div>
   </div>
 </template>
-
