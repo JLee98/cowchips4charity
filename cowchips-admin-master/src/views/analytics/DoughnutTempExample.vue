@@ -15,13 +15,13 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
 
   const dataSource = {
       chart: {
-        caption: "Split of Revenue by Product Categories",
-        subCaption: "Last year",
+        caption: "Iowa State vs Iowa: 10/11/2020",
+        subCaption: "Total in Dollars",
         numberPrefix: "$",
         bgColor: "#ffffff",
         startingAngle: "310",
         showLegend: "1",
-        defaultCenterLabel: "Total revenue: $64.08K",
+        defaultCenterLabel: "ISU v IOWA Total: $64.08K",
         centerLabel: "Revenue from $label: $value",
         centerLabelBold: "1",
         showTooltip: "0",
@@ -29,7 +29,7 @@ Vue.use(VueFusionCharts, FusionCharts, Doughnut2D, FusionTheme);
         theme: "fusion"
       },
       data: [{
-          label: "Iowa State",
+          label: "ISU",
           value: "28504"
         },
         {
