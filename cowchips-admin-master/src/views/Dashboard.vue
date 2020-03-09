@@ -5,16 +5,10 @@
         <b-card no-body class="bg-primary">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-for="game in this.liveGames" @click="goToGameAnalytics(game._id)">{{ game.name }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">{{ lifetimeTotal }}</h4>
-            <p>All Donations Total</p>
+            <h4 class="mb-0">{{ liveGameCount }}</h4>
+            <p>Current Live Games</p>
           </b-card-body>
           <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -468,6 +462,8 @@ var lifetimeTotal = 0
 var yearTotal = 0
 var monthTotal = 0
 var weekTotal = 0
+var liveGameCount = 0
+var liveGames = []
 
 
 export default {
@@ -565,6 +561,8 @@ export default {
       yearTotal: 0,
       monthTotal: 0,
       weekTotal: 0,
+      liveGameCount: 0,
+      liveGames: liveGames
     }
   },
   methods: {
@@ -604,6 +602,9 @@ export default {
       this.getDonations().then((donations) => {
         this.analyzeDonations(donations)
       })
+      this.getGames().then((games) => {
+        this.getLiveGames(games)
+      })
     },
     analyzeDonations(donations) {
       this.lifetimeTotal = this.calculateTotal(donations)
@@ -632,7 +633,30 @@ export default {
 
       var filtered = this.filterDonationsByDates(donations, weekAgo, now)
       return this.calculateTotal(filtered)
-    }
+    },
+    getGames() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/games`)
+          .then(res => {
+            var games = res.data
+            return resolve(games)
+          })
+      })
+    },
+    getLiveGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var start = Date.parse(game.startTime)
+        var end = Date.parse(game.endTime)
+        return (start <= today) && (end >= today)
+      })
+      this.liveGameCount = filtered.length
+      this.liveGames = filtered
+    },
+    goToGameAnalytics(id) {
+      console.log('goToAnalytics for game:' + id)
+      this.$router.push('/games/analytics/' + id)
+    },
   },
   beforeMount() {
     this.startHandler();
