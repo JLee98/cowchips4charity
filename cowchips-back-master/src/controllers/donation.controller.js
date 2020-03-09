@@ -21,10 +21,18 @@ export default class DonationController
   static getGameDonation(req, res)
   {
     const populate = (req.query.populate !== undefined) ? req.query.populate : false;
-    DonationModel.findGameDonations({gameID: req.params.gameID}, { populate })
+    DonationModel.findFilterDonations({ gameID: req.params.gameID }, { populate })
     .then((donation) => res.json(donation))
     .catch((err) => error(res, err));
   }
+  static getOrganizationDonation(req, res)
+  {
+    const populate = (req.query.populate !== undefined) ? req.query.populate : false;
+    DonationModel.findFilterDonations({ organizationID: req.params.organizationID }, { populate })
+    .then((donation) => res.json(donation))
+    .catch((err) => error(res, err));
+  }
+
   static getAllDonations(req, res)
   {
     const populate = (req.query.populate !== undefined) ? req.query.populate : false;
