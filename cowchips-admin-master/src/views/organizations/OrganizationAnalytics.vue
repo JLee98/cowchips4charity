@@ -37,7 +37,6 @@ export default {
       socket.on("updateAvailable", (updateData) => {
 
         if (updateData.orgId.toString() == this.getId().toString()) {
-          //TODO: accept update
           this.getDonations(updateData.orgId).then((donations) => {
             this.analyzeDonations(donations);
           })
