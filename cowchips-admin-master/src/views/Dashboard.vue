@@ -5,16 +5,10 @@
         <b-card no-body class="bg-primary">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-for="game in this.liveGames" @click="goToGameAnalytics(game._id)">{{ game.name }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ liveGameCount }}</h4>
+            <p>Current Live Games</p>
           </b-card-body>
           <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -31,8 +25,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ yearTotal }}</h4>
+            <p>Year's Donation Total</p>
           </b-card-body>
           <card-line2-chart-example chartId="card-chart-02" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -49,8 +43,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ monthTotal }}</h4>
+            <p>Month's Donation Total</p>
           </b-card-body>
           <card-line3-chart-example chartId="card-chart-03" class="chart-wrapper" style="height:70px;" height="70"/>
         </b-card>
@@ -67,8 +61,8 @@
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ weekTotal }}</h4>
+            <p>Week's Donation Total</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
@@ -458,6 +452,20 @@ import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
 import CalloutChartExample from './dashboard/CalloutChartExample'
 import { Callout } from '@coreui/vue'
 
+import axios from "axios";
+import Vue from 'vue';
+
+import io from 'socket.io-client'
+var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
+
+var lifetimeTotal = 0
+var yearTotal = 0
+var monthTotal = 0
+var weekTotal = 0
+var liveGameCount = 0
+var liveGames = []
+
+
 export default {
   name: 'dashboard',
   components: {
@@ -469,6 +477,9 @@ export default {
     MainChartExample,
     SocialBoxChartExample,
     CalloutChartExample
+  },
+  created() {
+    this.inspectUpdate()
   },
   data: function () {
     return {
@@ -545,7 +556,13 @@ export default {
         activity: {
           label: 'Activity'
         }
-      }
+      },
+      lifetimeTotal: 0,
+      yearTotal: 0,
+      monthTotal: 0,
+      weekTotal: 0,
+      liveGameCount: 0,
+      liveGames: liveGames
     }
   },
   methods: {
@@ -564,7 +581,85 @@ export default {
     },
     flag (value) {
       return 'flag-icon flag-icon-' + value
-    }
+    },
+    inspectUpdate() {
+      socket.on("updateAvailable", (updateData) => {
+        this.getDonations().then((donations) => {
+            this.analyzeDonations(donations)
+          })
+      })
+    },
+    getDonations() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/donations`)
+          .then(res => {
+            var donations = res.data
+            return resolve(donations)
+          })
+      })
+    },
+    startHandler() {
+      this.getDonations().then((donations) => {
+        this.analyzeDonations(donations)
+      })
+      this.getGames().then((games) => {
+        this.getLiveGames(games)
+      })
+    },
+    analyzeDonations(donations) {
+      this.lifetimeTotal = this.calculateTotal(donations)
+      this.yearTotal = this.calculateTotalForLastXDays(donations, 365)
+      this.monthTotal = this.calculateTotalForLastXDays(donations, 30)
+      this.weekTotal = this.calculateTotalForLastXDays(donations, 7)
+    },
+    calculateTotal(donations) {
+      var total = 0
+      for (var i = 0; i < donations.length; i++) {
+        total += donations[i].amount
+      }
+      return total / 100
+    },
+    filterDonationsByDates(donations, startDate, endDate) {
+      var filtered = donations.filter((donation) => {
+        var date = new Date(donation.date)
+        return (date > startDate) && (date < endDate)
+      })
+      return filtered
+    },
+    calculateTotalForLastXDays(donations, days) {
+      var now = new Date()
+      var weekAgo = new Date()
+      weekAgo.setDate(now.getDate() - days)
+
+      var filtered = this.filterDonationsByDates(donations, weekAgo, now)
+      return this.calculateTotal(filtered)
+    },
+    getGames() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/games`)
+          .then(res => {
+            var games = res.data
+            return resolve(games)
+          })
+      })
+    },
+    getLiveGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var start = Date.parse(game.startTime)
+        var end = Date.parse(game.endTime)
+        return (start <= today) && (end >= today)
+      })
+      this.liveGameCount = filtered.length
+      this.liveGames = filtered
+    },
+    goToGameAnalytics(id) {
+      console.log('goToAnalytics for game:' + id)
+      this.$router.push('/games/analytics/' + id)
+    },
+  },
+  beforeMount() {
+    this.startHandler();
   }
 }
 </script>

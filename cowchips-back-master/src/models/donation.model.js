@@ -26,7 +26,7 @@ export default class DonationModel
 
     return DonationModel.populate(donations);
   }
-  static findGameDonations(filter, options = {})
+  static findFilterDonations(filter, options = {})
   {
     if (options.projection === undefined)
       options.projection = defaults.projection;
