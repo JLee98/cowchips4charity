@@ -49,7 +49,7 @@
         datacollection2: null,
         datacollection3: null,
         totalMoney: 0,
-        totalDonation: 0,
+        totalDonations: 0,
         maxDonation: 0,
         orgDonations: null,
         keys: null,
