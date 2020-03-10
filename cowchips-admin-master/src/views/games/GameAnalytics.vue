@@ -51,9 +51,7 @@
     methods: {
 
       updateChart() {
-
         this.datacollection3 = {
-        //fill with live data
           labels: this.keys,
           datasets: [
             {
@@ -61,31 +59,26 @@
               data: this.values
             }
           ]
-
-
         }
-
       },
+
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
-            //TODO: accept update
 
             this.getDonations(updateData.gameId).then((donations) => {
               this.analyzeDonations(donations);
               this.updateChart();
             })
-
-            // var analytics = this.analyzeDonations(donations)
-            //this.fillData(analytics)
           }
         })
       },
 
-      getId() { // TODO: fix this absolute hack
+      getId() {
         var url = window.location.pathname
         return url.replace("/games/analytics/", "")
       },
+
       getDonations(gameId) {
         return new Promise((resolve, reject) => {
           axios.get(`donation/game/${gameId}`)
@@ -124,16 +117,15 @@
         this.getKeys();
         this.getValues();
       },
+
       getKeys() {
         this.keys = Array.from(this.orgDonations.keys());
       },
+
       getValues() {
         this.values = Array.from(this.orgDonations.values());
       },
 
-      fillData(analytics) {
-        //TODO: have this set all the charts based on the data from input analytics
-      },
       onStart() {
         var tempId = this.getId();
         this.orgDonations = new Map();
