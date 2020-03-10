@@ -18,7 +18,6 @@
 </template>
 
 <script>
-  import DudTempExample from '../analytics/DudTempExample'
   import DoughnutExample from '../analytics/DoughnutExample'
   import axios from "axios";
   import Vue from 'vue';
@@ -30,7 +29,6 @@
   export default {
     name: 'gameAnalytics',
     components: {
-      DudTempExample,
       DoughnutExample
     },
     created() {
@@ -52,7 +50,7 @@
 
     methods: {
 
-      dudsSuperUpdater() {
+      updateChart() {
 
         this.datacollection3 = {
         //fill with live data
@@ -67,9 +65,7 @@
 
         }
 
-      }, //dudsSuperUpdater
-
-
+      },
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
@@ -77,7 +73,7 @@
 
             this.getDonations(updateData.gameId).then((donations) => {
               this.analyzeDonations(donations);
-              this.dudsSuperUpdater();
+              this.updateChart();
             })
 
             // var analytics = this.analyzeDonations(donations)
@@ -145,7 +141,7 @@
         this.values = [];
         this.getDonations(tempId).then((donations) => {
           this.analyzeDonations(donations);
-          this.dudsSuperUpdater();
+          this.updateChart();
         })
       }
 
