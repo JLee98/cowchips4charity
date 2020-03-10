@@ -8,14 +8,14 @@
     -->
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
-    <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
-    <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+    <doughnut-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
 </template>
 
 <script>
   import DudTempExample from '../analytics/DudTempExample'
+  import DoughnutExample from '../analytics/DoughnutExample'
   import axios from "axios";
   import Vue from 'vue';
 
@@ -30,6 +30,7 @@
     name: 'gameAnalytics',
     components: {
       DudTempExample,
+      DoughnutExample
     },
     created() {
       this.inspectUpdate()
@@ -44,33 +45,46 @@
         orgDonations: null
       }
     },
+
     methods: {
+
       dudsSuperUpdater() {
         this.datacollection1 = {
           labels: ['Cake Present', 'Cake Required'],
           datasets: [
             {
               label: 'Cakes',
-              backgroundColor: '#f87979',
+              backgroundColor: '#fff000',
               data: [100, 300]
             }
           ]
-        }
+        }//datacollection1
+
+       
         this.datacollection2 = {
-          labels: ['Cake Present', 'Cake Required'],
+          labels: ['ISU', 'Iowa'],
           datasets: [
             {
-              label: 'Cakes',
-              backgroundColor: '#f87979',
-              data: [45, 350]
+            backgroundColor: ['#FF0000', '#fff000'],
+            data: [8,2]
             }
           ]
+        }//datacollection2
+
+        this.datacollection3 = {
+        //fill with live data
+
+
         }
-      },
+
+      }, //dudsSuperUpdater
+
+
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
             //TODO: accept update
+
             this.getDonations(updateData.gameId).then((donations) => {
               this.analyzeDonations(donations);
             })
@@ -80,6 +94,7 @@
           }
         })
       },
+
       getId() { // TODO: fix this absolute hack
         var url = window.location.pathname
         return url.replace("/games/analytics/", "")
@@ -93,6 +108,7 @@
             })
         })
       },
+
       analyzeDonations(donations) {
         this.totalMoney = 0;
         this.totalDonations = donations.length;
@@ -118,9 +134,11 @@
           }
         }
       },
+
       fillData(analytics) {
         //TODO: have this set all the charts based on the data from input analytics
       },
+
       onStart() {
         var tempId = this.getId();
         this.orgDonations = new Map();
@@ -128,7 +146,9 @@
           this.analyzeDonations(donations);
         })
       }
-    },
+
+    }, //methods
+
     beforeMount() {
       this.onStart();
     }

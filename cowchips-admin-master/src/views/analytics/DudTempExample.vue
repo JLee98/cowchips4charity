@@ -24,6 +24,8 @@ export default {
           }
         ]
       },
+
+
       {
         responsive: true,
         maintainAspectRatio: true,
@@ -39,6 +41,8 @@ export default {
             }
           }
         },
+
+
         scales: {
           yAxes: [{
             ticks: {
@@ -48,8 +52,11 @@ export default {
             }
           }]
         }
+
       },
-    )
+
+
+    ) //renderChart
   },
 }
 </script>
