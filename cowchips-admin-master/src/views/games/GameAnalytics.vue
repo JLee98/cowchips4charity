@@ -1,89 +1,82 @@
 <template>
   <div>
-    <p>GameAnalytics.vue yayy</p>
+    <span>Total Money: $</span>
     <span>{{ totalMoney }}</span>
+    </br>
+    <span>Max Donation: $</span>
+    <span>{{ maxDonation }}</span>
+    </br>
+    <span>Total People Donated: </span>
+    <span>{{ totalDonations }}</span>
 
     <!-- test url to inject:
     http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
     -->
-    <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
-    <button @click="getDonations()">getDonations</button>
-    <dud-temp-example :chart-data="datacollection1" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
-    <dud-temp-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+    <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
 </template>
 
 <script>
-  import DudTempExample from '../analytics/DudTempExample'
+  import DoughnutExample from '../analytics/DoughnutExample'
   import axios from "axios";
   import Vue from 'vue';
 
   import io from 'socket.io-client'
   var socket = io.connect('http://localhost:5555') //TODO: what port?
-  var totalMoney = 0;
-  var totalDonations = 0;
-  var maxDonation = 0;
-  var orgDonations = new Map();
+
 
   export default {
     name: 'gameAnalytics',
     components: {
-      DudTempExample,
+      DoughnutExample
     },
     created() {
       this.inspectUpdate()
     },
     data() {
       return {
-        datacollection1: null,
-        datacollection2: null,
+        datacollection3: null,
         totalMoney: 0,
-        totalDonation: 0,
+        totalDonations: 0,
         maxDonation: 0,
-        orgDonations: null
+        orgDonations: null,
+        keys: null,
+        values: null
       }
     },
+
     methods: {
-      dudsSuperUpdater() {
-        this.datacollection1 = {
-          labels: ['Cake Present', 'Cake Required'],
+
+      updateChart() {
+        this.datacollection3 = {
+          labels: this.keys,
           datasets: [
             {
-              label: 'Cakes',
-              backgroundColor: '#f87979',
-              data: [100, 300]
-            }
-          ]
-        }
-        this.datacollection2 = {
-          labels: ['Cake Present', 'Cake Required'],
-          datasets: [
-            {
-              label: 'Cakes',
-              backgroundColor: '#f87979',
-              data: [45, 350]
+              backgroundColor: ['#FF0000', '#fff000', '#000fff'],
+              data: this.values
             }
           ]
         }
       },
+
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
-            //TODO: accept update
+
             this.getDonations(updateData.gameId).then((donations) => {
               this.analyzeDonations(donations);
+              this.updateChart();
             })
-
-            // var analytics = this.analyzeDonations(donations)
-            //this.fillData(analytics)
           }
         })
       },
-      getId() { // TODO: fix this absolute hack
+
+      getId() { // TODO: Fix bad practice hack
         var url = window.location.pathname
         return url.replace("/games/analytics/", "")
       },
+
       getDonations(gameId) {
         return new Promise((resolve, reject) => {
           axios.get(`donation/game/${gameId}`)
@@ -93,9 +86,11 @@
             })
         })
       },
+
       analyzeDonations(donations) {
         this.totalMoney = 0;
         this.totalDonations = donations.length;
+        this.orgDonations = new Map();
         for(var i in donations) {
           var curDonation = donations[i];
           var orgID = curDonation.organizationID;
@@ -117,18 +112,31 @@
             this.maxDonation = curDonation.amount/100;
           }
         }
+        this.getKeys();
+        this.getValues();
       },
-      fillData(analytics) {
-        //TODO: have this set all the charts based on the data from input analytics
+
+      getKeys() {
+        this.keys = Array.from(this.orgDonations.keys());
       },
+
+      getValues() {
+        this.values = Array.from(this.orgDonations.values());
+      },
+
       onStart() {
         var tempId = this.getId();
         this.orgDonations = new Map();
+        this.keys = [];
+        this.values = [];
         this.getDonations(tempId).then((donations) => {
           this.analyzeDonations(donations);
+          this.updateChart();
         })
       }
-    },
+
+    }, //methods
+
     beforeMount() {
       this.onStart();
     }
