@@ -8,7 +8,7 @@
     -->
     <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
     <button @click="getDonations()">getDonations</button>
-    <doughnut-example :chart-data="datacollection2" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+    <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
 </template>
@@ -25,6 +25,10 @@
   var totalDonations = 0;
   var maxDonation = 0;
   var orgDonations = new Map();
+  var keys = [];
+  var values = [];
+
+  console.log(keys)
 
   export default {
     name: 'gameAnalytics',
@@ -39,10 +43,13 @@
       return {
         datacollection1: null,
         datacollection2: null,
+        datacollection3: null,
         totalMoney: 0,
         totalDonation: 0,
         maxDonation: 0,
-        orgDonations: null
+        orgDonations: null,
+        keys: null,
+        values: null
       }
     },
 
@@ -73,6 +80,13 @@
 
         this.datacollection3 = {
         //fill with live data
+          labels: this.keys,
+          datasets: [
+            {
+              backgroundColor: ['#FF0000', '#fff000', '#000fff'],
+              data: this.values
+            }
+          ]
 
 
         }
@@ -133,15 +147,24 @@
             this.maxDonation = curDonation.amount/100;
           }
         }
+        this.getKeys();
+        this.getValues();
+      },
+      getKeys() {
+        this.keys = Array.from(this.orgDonations.keys());
+      },
+      getValues() {
+        this.values = Array.from(this.orgDonations.values());
       },
 
       fillData(analytics) {
         //TODO: have this set all the charts based on the data from input analytics
       },
-
       onStart() {
         var tempId = this.getId();
         this.orgDonations = new Map();
+        this.keys = [];
+        this.values = [];
         this.getDonations(tempId).then((donations) => {
           this.analyzeDonations(donations);
         })
