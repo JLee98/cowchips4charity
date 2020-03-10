@@ -36,8 +36,6 @@
     },
     data() {
       return {
-        datacollection1: null,
-        datacollection2: null,
         datacollection3: null,
         totalMoney: 0,
         totalDonations: 0,
@@ -74,7 +72,7 @@
         })
       },
 
-      getId() {
+      getId() { // TODO: Fix bad practice hack
         var url = window.location.pathname
         return url.replace("/games/analytics/", "")
       },
