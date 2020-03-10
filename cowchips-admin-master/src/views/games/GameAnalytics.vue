@@ -1,13 +1,10 @@
 <template>
   <div>
-    <p>GameAnalytics.vue yayy</p>
     <span>{{ totalMoney }}</span>
 
     <!-- test url to inject:
     http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
     -->
-    <button @click="dudsSuperUpdater()">dudsSuperUpdater</button>
-    <button @click="getDonations()">getDonations</button>
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
@@ -56,27 +53,6 @@
     methods: {
 
       dudsSuperUpdater() {
-        this.datacollection1 = {
-          labels: ['Cake Present', 'Cake Required'],
-          datasets: [
-            {
-              label: 'Cakes',
-              backgroundColor: '#fff000',
-              data: [100, 300]
-            }
-          ]
-        }//datacollection1
-
-       
-        this.datacollection2 = {
-          labels: ['ISU', 'Iowa'],
-          datasets: [
-            {
-            backgroundColor: ['#FF0000', '#fff000'],
-            data: [8,2]
-            }
-          ]
-        }//datacollection2
 
         this.datacollection3 = {
         //fill with live data
@@ -101,6 +77,7 @@
 
             this.getDonations(updateData.gameId).then((donations) => {
               this.analyzeDonations(donations);
+              this.dudsSuperUpdater();
             })
 
             // var analytics = this.analyzeDonations(donations)
@@ -126,6 +103,7 @@
       analyzeDonations(donations) {
         this.totalMoney = 0;
         this.totalDonations = donations.length;
+        this.orgDonations = new Map();
         for(var i in donations) {
           var curDonation = donations[i];
           var orgID = curDonation.organizationID;
@@ -167,6 +145,7 @@
         this.values = [];
         this.getDonations(tempId).then((donations) => {
           this.analyzeDonations(donations);
+          this.dudsSuperUpdater();
         })
       }
 
