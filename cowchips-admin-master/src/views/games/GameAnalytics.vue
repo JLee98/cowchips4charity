@@ -1,6 +1,13 @@
 <template>
   <div>
+    <span>Total Money: $</span>
     <span>{{ totalMoney }}</span>
+    </br>
+    <span>Max Donation: $</span>
+    <span>{{ maxDonation }}</span>
+    </br>
+    <span>Total People Donated: </span>
+    <span>{{ totalDonations }}</span>
 
     <!-- test url to inject:
     http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
