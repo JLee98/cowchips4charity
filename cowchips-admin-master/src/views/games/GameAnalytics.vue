@@ -25,14 +25,7 @@
 
   import io from 'socket.io-client'
   var socket = io.connect('http://localhost:5555') //TODO: what port?
-  var totalMoney = 0;
-  var totalDonations = 0;
-  var maxDonation = 0;
-  var orgDonations = new Map();
-  var keys = [];
-  var values = [];
 
-  console.log(keys)
 
   export default {
     name: 'gameAnalytics',
