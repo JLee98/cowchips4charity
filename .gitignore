@@ -4,6 +4,7 @@ package-lock.json
 /dist
 /coverage
 /bin/
+/obj/
 /target/
 
 /tests/e2e/reports/
