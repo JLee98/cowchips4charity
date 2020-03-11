@@ -1,8 +1,10 @@
 .DS_Store
 node_modules
-package-lock.json
 /dist
 /coverage
+/bin/
+/obj/
+/target/
 
 /tests/e2e/reports/
 selenium-debug.log
@@ -25,3 +27,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+.vs
