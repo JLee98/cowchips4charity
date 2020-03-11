@@ -35,7 +35,7 @@
         <b-card no-body class="bg-warning">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <b-dropdown-item v-for="org in this.involvedOrgs" @click="">{{ org.name }}</b-dropdown-item> <!--TODO: make it go to OrgAnalyt-->
+              <b-dropdown-item v-for="org in this.involvedOrgs" @click="goToOrgAnalytics(org._id)">{{ org.name }}</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ involvedOrgsCount }}</h4>
             <p>Orgs in Live Games</p>
@@ -653,6 +653,10 @@ export default {
     goToGameAnalytics(id) {
       console.log('goToAnalytics for game:' + id)
       this.$router.push('/games/analytics/' + id)
+    },
+    goToOrgAnalytics(id) {
+      console.log('goToAnalytics for org:' + id)
+      this.$router.push('/organizations/analytics/' + id)
     },
     getInvolvedOrgs() {
       var involvedOrgsIds = []
