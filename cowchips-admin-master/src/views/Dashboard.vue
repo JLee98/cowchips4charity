@@ -35,16 +35,10 @@
         <b-card no-body class="bg-warning">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-for="org in this.involvedOrgs" @click="">{{ org.name }}</b-dropdown-item> <!--TODO: make it go to OrgAnalyt-->
             </b-dropdown>
-            <h4 class="mb-0">{{ monthTotal }}</h4>
-            <p>Month's Donation Total</p>
+            <h4 class="mb-0">{{ involvedOrgsCount }}</h4>
+            <p>Orgs in Live Games</p>
           </b-card-body>
           <card-line3-chart-example chartId="card-chart-03" class="chart-wrapper" style="height:70px;" height="70"/>
         </b-card>
@@ -562,7 +556,9 @@ export default {
       monthTotal: 0,
       weekTotal: 0,
       liveGameCount: 0,
-      liveGames: liveGames
+      liveGames: liveGames,
+      involvedOrgsCount: 0,
+      involvedOrgs: []
     }
   },
   methods: {
@@ -604,6 +600,7 @@ export default {
       })
       this.getGames().then((games) => {
         this.getLiveGames(games)
+        this.getInvolvedOrgs()
       })
     },
     analyzeDonations(donations) {
@@ -656,6 +653,32 @@ export default {
     goToGameAnalytics(id) {
       console.log('goToAnalytics for game:' + id)
       this.$router.push('/games/analytics/' + id)
+    },
+    getInvolvedOrgs() {
+      var involvedOrgsIds = []
+      for (var i = 0; i < this.liveGames.length; i++) {
+        involvedOrgsIds = involvedOrgsIds.concat(this.liveGames[i].organizations)
+      }
+
+      this.getOrgs().then((allOrgs) => {
+        const tmpOrgs = []
+
+        for (var i = 0; i < involvedOrgsIds.length; i++) {
+          var org = allOrgs.filter((org) => { return org._id == involvedOrgsIds[i] })[0]
+          tmpOrgs.push(org)
+        }
+        this.involvedOrgs = tmpOrgs //so this makes an Observer (or something), it's weird but a non-issue
+        this.involvedOrgsCount = tmpOrgs.length
+      })
+    },
+    getOrgs() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/organizations`)
+          .then(res => {
+            var orgs = res.data
+            return resolve(orgs)
+          })
+      })
     },
   },
   beforeMount() {
