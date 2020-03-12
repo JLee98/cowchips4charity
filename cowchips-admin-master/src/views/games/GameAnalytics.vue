@@ -1,5 +1,12 @@
 <template>
   <div>
+
+    <div class="date-filter-container">
+      <div>Filter by dates: &nbsp; </div>
+      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="End date"></date-picker>
+    </div>
+
     <span>Total Money: $</span>
     <span>{{ totalMoney }}</span>
     </br>
@@ -9,9 +16,6 @@
     <span>Total People Donated: </span>
     <span>{{ totalDonations }}</span>
 
-    <!-- test url to inject:
-    http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
-    -->
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
@@ -42,11 +46,27 @@
         maxDonation: 0,
         orgDonations: null,
         keys: null,
-        values: null
+        values: null,
+        datePickerOptions: {
+          format: 'YYYY-MM-DD hh:mm:ss',
+          useCurrent: false,
+          showClear: true,
+          showClose: true,
+        },
+        filterStartDate: null,
+        filterEndDate: null
       }
     },
 
     methods: {
+
+      performDonationUpdate() {
+        this.getDonations(this.getId()).then((donations) => {
+          donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
+          this.analyzeDonations(donations);
+          this.updateChart();
+        })
+      },
 
       updateChart() {
         this.datacollection3 = {
@@ -63,11 +83,7 @@
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
-
-            this.getDonations(updateData.gameId).then((donations) => {
-              this.analyzeDonations(donations);
-              this.updateChart();
-            })
+            this.performDonationUpdate()
           }
         })
       },
@@ -113,6 +129,11 @@
         }
         this.getKeys();
         this.getValues();
+
+        // force an update when this method is called with no donations
+        if (donations.length == 0) {
+          this.maxDonation = 0;
+        }
       },
 
       getKeys() {
@@ -124,15 +145,40 @@
       },
 
       onStart() {
-        var tempId = this.getId();
         this.orgDonations = new Map();
         this.keys = [];
         this.values = [];
-        this.getDonations(tempId).then((donations) => {
-          this.analyzeDonations(donations);
-          this.updateChart();
-        })
-      }
+        this.performDonationUpdate()
+      },
+
+      filterDonationsByDates(donations, startDateString, endDateString) {
+        var filteredByStart = []
+        var filtered = []
+
+        if (startDateString) {
+          var startDate = new Date(startDateString)
+          filteredByStart = donations.filter((donation) => {
+            var date = new Date(donation.date)
+            return (date > startDate)
+          })
+        }
+        else {
+          filteredByStart = donations
+        }
+
+        if (endDateString) {
+          var endDate = new Date(endDateString)
+          filtered = filteredByStart.filter((donation) => {
+            var date = new Date(donation.date)
+            return (date < endDate)
+          })
+        }
+        else {
+          filtered = filteredByStart
+        }
+
+        return filtered
+      },
 
     }, //methods
 
@@ -142,3 +188,18 @@
   }
 
 </script>
+
+<style scoped>
+  .date-filter-container {
+    position: relative;
+  }
+
+  .date-filter-container input {
+    display: inline-block;
+    width: 25%
+  }
+
+  .date-filter-container div {
+    display: inline-block;
+  }
+</style>
