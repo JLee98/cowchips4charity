@@ -7,8 +7,6 @@
       <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
 
-   
-
     <span>Total Money: $</span>
     <span>{{ totalMoney }}</span>
     </br>
@@ -19,8 +17,8 @@
     <span>{{ totalDonations }}</span>
 
     <!-- test url to inject:
-  http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
-  -->
+    http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
+    -->
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
@@ -208,5 +206,4 @@
   .date-filter-container div {
     display: inline-block;
   }
-
 </style>
