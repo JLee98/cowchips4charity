@@ -81,7 +81,7 @@
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
             this.getDonations(updateData.gameId).then((donations) => {
-              donations = this.filterDonationsByDates(donations, filterStartDate, filterEndDate)
+              donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
               this.analyzeDonations(donations);
               this.updateChart();
             })
@@ -152,11 +152,12 @@
         })
       },
 
-      filterDonationsByDates(donations, startDate, endDate) {
+      filterDonationsByDates(donations, startDateString, endDateString) {
         var filteredByStart = []
         var filtered = []
 
-        if (startDate) {
+        if (startDateString) {
+          var startDate = new Date(startDateString)
           filteredByStart = donations.filter((donation) => {
             var date = new Date(donation.date)
             return (date > startDate)
@@ -165,8 +166,9 @@
         else {
           filteredByStart = donations
         }
-        
-        if (endDate) {
+
+        if (endDateString) {
+          var endDate = new Date(endDateString)
           filtered = filteredByStart.filter((donation) => {
             var date = new Date(donation.date)
             return (date < endDate)
@@ -175,7 +177,7 @@
         else {
           filtered = filteredByStart
         }
-        
+
         return filtered
       },
 
