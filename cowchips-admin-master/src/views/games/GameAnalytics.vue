@@ -1,5 +1,13 @@
 <template>
   <div>
+
+    <div class="date-filter-container">
+      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" placeholder="Start date"></date-picker>
+      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" placeholder="End date"></date-picker>
+    </div>
+
+   
+
     <span>Total Money: $</span>
     <span>{{ totalMoney }}</span>
     </br>
@@ -10,8 +18,8 @@
     <span>{{ totalDonations }}</span>
 
     <!-- test url to inject:
-    http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
-    -->
+  http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
+  -->
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
@@ -42,7 +50,14 @@
         maxDonation: 0,
         orgDonations: null,
         keys: null,
-        values: null
+        values: null,
+        datePickerOptions: {
+          format: 'YYYY-MM-DD hh:mm:ss',
+          useCurrent: false,
+          showClear: true,
+          showClose: true,
+        },
+        filterStartDate: null
       }
     },
 
@@ -133,7 +148,15 @@
           this.analyzeDonations(donations);
           this.updateChart();
         })
-      }
+      },
+
+      filterDonationsByDates(donations, startDate, endDate) {
+        var filtered = donations.filter((donation) => {
+          var date = new Date(donation.date)
+          return (date > startDate) && (date < endDate)
+        })
+        return filtered
+      },
 
     }, //methods
 
@@ -143,3 +166,14 @@
   }
 
 </script>
+
+<style scoped>
+  .date-filter-container {
+    position: relative;
+  }
+
+  .date-filter-container input {
+    display: inline-block; width: 25%
+  }
+
+</style>
