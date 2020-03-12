@@ -16,9 +16,6 @@
     <span>Total People Donated: </span>
     <span>{{ totalDonations }}</span>
 
-    <!-- test url to inject:
-    http://localhost:8080/games/analytics/5c7c4a32c0cdf2591d1b4b59
-    -->
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
