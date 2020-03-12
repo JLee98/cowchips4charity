@@ -65,6 +65,14 @@
 
     methods: {
 
+      performDonationUpdate() {
+        this.getDonations(this.getId()).then((donations) => {
+          donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
+          this.analyzeDonations(donations);
+          this.updateChart();
+        })
+      },
+
       updateChart() {
         this.datacollection3 = {
           labels: this.keys,
@@ -80,11 +88,7 @@
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
-            this.getDonations(updateData.gameId).then((donations) => {
-              donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
-              this.analyzeDonations(donations);
-              this.updateChart();
-            })
+            this.performDonationUpdate()
           }
         })
       },
@@ -131,6 +135,11 @@
         }
         this.getKeys();
         this.getValues();
+
+        // force an update when this method is called with no donations
+        if (donations.length == 0) {
+          this.maxDonation = 0;
+        }
       },
 
       getKeys() {
@@ -142,14 +151,10 @@
       },
 
       onStart() {
-        var tempId = this.getId();
         this.orgDonations = new Map();
         this.keys = [];
         this.values = [];
-        this.getDonations(tempId).then((donations) => {
-          this.analyzeDonations(donations);
-          this.updateChart();
-        })
+        this.performDonationUpdate()
       },
 
       filterDonationsByDates(donations, startDateString, endDateString) {
