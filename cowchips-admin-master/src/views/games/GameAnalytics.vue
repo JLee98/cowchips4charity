@@ -2,6 +2,7 @@
   <div>
 
     <div class="date-filter-container">
+      <div>Filter by dates: &nbsp; </div>
       <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" placeholder="Start date"></date-picker>
       <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" placeholder="End date"></date-picker>
     </div>
@@ -57,7 +58,8 @@
           showClear: true,
           showClose: true,
         },
-        filterStartDate: null
+        filterStartDate: null,
+        filterEndDate: null
       }
     },
 
@@ -78,8 +80,8 @@
       inspectUpdate() {
         socket.on("updateAvailable", (updateData) => {
           if (updateData.gameId.toString() == this.getId().toString()) {
-
             this.getDonations(updateData.gameId).then((donations) => {
+              donations = this.filterDonationsByDates(donations, filterStartDate, filterEndDate)
               this.analyzeDonations(donations);
               this.updateChart();
             })
@@ -151,10 +153,29 @@
       },
 
       filterDonationsByDates(donations, startDate, endDate) {
-        var filtered = donations.filter((donation) => {
-          var date = new Date(donation.date)
-          return (date > startDate) && (date < endDate)
-        })
+        var filteredByStart = []
+        var filtered = []
+
+        if (startDate) {
+          filteredByStart = donations.filter((donation) => {
+            var date = new Date(donation.date)
+            return (date > startDate)
+          })
+        }
+        else {
+          filteredByStart = donations
+        }
+        
+        if (endDate) {
+          filtered = filteredByStart.filter((donation) => {
+            var date = new Date(donation.date)
+            return (date < endDate)
+          })
+        }
+        else {
+          filtered = filteredByStart
+        }
+        
         return filtered
       },
 
@@ -173,7 +194,12 @@
   }
 
   .date-filter-container input {
-    display: inline-block; width: 25%
+    display: inline-block;
+    width: 25%
+  }
+
+  .date-filter-container div {
+    display: inline-block;
   }
 
 </style>
