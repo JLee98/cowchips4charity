@@ -72,9 +72,8 @@
         })
       },
 
-      getId() { // TODO: Fix bad practice hack
-        var url = window.location.pathname
-        return url.replace("/games/analytics/", "")
+      getId() {
+        return this.$route.params.id
       },
 
       getDonations(gameId) {

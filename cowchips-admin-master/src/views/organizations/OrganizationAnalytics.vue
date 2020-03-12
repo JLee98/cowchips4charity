@@ -46,9 +46,8 @@ export default {
         }
       })
     },
-    getId() { // TODO: fix this absolute hack
-      var url = window.location.pathname
-      return url.replace("/organizations/analytics/", "")
+    getId() { 
+      return this.$route.params.id
     },
     getDonations(orgId) {
       return new Promise((resolve, reject) => {
