@@ -48,7 +48,7 @@
         keys: null,
         values: null,
         datePickerOptions: {
-          format: 'YYYY-MM-DD hh:mm:ss',
+          format: 'YYYY-MM-DD',
           useCurrent: false,
           showClear: true,
           showClose: true,

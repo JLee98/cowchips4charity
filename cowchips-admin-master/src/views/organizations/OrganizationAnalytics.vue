@@ -1,9 +1,13 @@
 <template>
   <div>
-    <p>OrganizationAnalytics.vue yay</p>
+
+    <div class="date-filter-container">
+      <div>Filter by dates: &nbsp; </div>
+      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="End date"></date-picker>
+    </div>
+
     <span> {{ totalMoney }} </span>
-    <!-- test url to inject: http://localhost:8080/organizations/analytics/5c7c4a32c0cdf2591d1b4b48
-      -->
 
   </div>
 </template>
@@ -29,20 +33,28 @@ export default {
       totalMoney: 0,
       totalDonations: 0,
       maxDonation: 0,
-      gameDonations: null
+      gameDonations: null,
+      datePickerOptions: {
+        format: 'YYYY-MM-DD',
+        useCurrent: false,
+        showClear: true,
+        showClose: true,
+      },
+      filterStartDate: null,
+      filterEndDate: null
     }
   },
   methods: {
+    performDonationUpdate() {
+      this.getDonations(this.getId()).then((donations) => {
+        donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
+        this.analyzeDonations(donations);
+      })
+    },
     inspectUpdate() {
       socket.on("updateAvailable", (updateData) => {
-
         if (updateData.orgId.toString() == this.getId().toString()) {
-          this.getDonations(updateData.orgId).then((donations) => {
-            this.analyzeDonations(donations);
-          })
-
-          // var analytics = this.analyzeDonations(donations)
-          //this.fillData(analytics)
+          this.performDonationUpdate()
         }
       })
     },
@@ -87,12 +99,37 @@ export default {
       //TODO: have this set all the charts based on the data from input analytics
     },
     onStart() {
-      var tempId = this.getId();
       this.gameDonations = new Map();
-      this.getDonations(tempId).then((donations) => {
-        this.analyzeDonations(donations);
-      })
-    }
+      this.performDonationUpdate()
+    },
+    filterDonationsByDates(donations, startDateString, endDateString) {
+      var filteredByStart = []
+      var filtered = []
+
+      if (startDateString) {
+        var startDate = new Date(startDateString)
+        filteredByStart = donations.filter((donation) => {
+          var date = new Date(donation.date)
+          return (date > startDate)
+        })
+      }
+      else {
+        filteredByStart = donations
+      }
+
+      if (endDateString) {
+        var endDate = new Date(endDateString)
+        filtered = filteredByStart.filter((donation) => {
+          var date = new Date(donation.date)
+          return (date < endDate)
+        })
+      }
+      else {
+        filtered = filteredByStart
+      }
+
+      return filtered
+    },
   },
   beforeMount() {
     this.onStart();
@@ -100,3 +137,19 @@ export default {
 }
 
 </script>
+
+
+<style scoped>
+  .date-filter-container {
+    position: relative;
+  }
+
+  .date-filter-container input {
+    display: inline-block;
+    width: 25%
+  }
+
+  .date-filter-container div {
+    display: inline-block;
+  }
+</style>
