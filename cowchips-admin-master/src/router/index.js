@@ -39,7 +39,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/users',
+      redirect: '/dashboard',
       name: 'Home',
       component: DefaultContainer,
       children: [
