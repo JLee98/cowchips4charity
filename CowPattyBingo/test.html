@@ -1,8 +1,35 @@
 <html>
 <head>
 </head>
-  <body>
-    <div id="runner"></div>
-    <img src="cowWalk.gif" width=”50” height=”50”></img>
+  <body onload="move()">
+    <img id="cow" src="assets/cowWalk.gif" style="width:200px;height:150px;"></img>
+    <script type = "text/javascript">
+    function move()
+    {
+      //We will replace this by some kinda trigger that tells the cow to start planting the Patty
+      //For now, it will trigger on onload and the cow stops moving at the same spot each time and switches to idle image
+            var image = document.getElementById("cow");
+            var currentPos = 0;
+            var cowPos = 0;
+            var id = setInterval(cowWalking, 10);
+            function cowWalking()
+            {
+                if (cowPos == 250)
+                {
+                  image.src = "assets/cow1.gif";
+                  clearInterval(id);
+                  console.log("stopped");
+                }
+                else
+                {
+                  console.log("running");
+                  cowPos++;
+                  image.style.left = cowPos +'px'
+                  console.log(image.style.left);
+                  image.style.top = cowPos + 'px'
+                }
+            }
+        }
+        </script>
   </body>
 </html>

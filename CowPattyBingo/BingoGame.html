@@ -13,12 +13,41 @@
 
 </head>
 
-<body onload="newCard()">
+<body onload="newCard(); move();">
   <div id="container">
     <div id="header">
       <img src="assets/boo_radley.png">
     </div>
   	<div id="content">
+      <img id="cow" src="assets/cowWalk.gif" style="width:200px;height:150px;position:absolute;left:250;top:250"></img>
+      <script type = "text/javascript">
+      function move()
+      {
+        //We will replace this by some kinda trigger that tells the cow to start planting the Patty
+        //For now, it will trigger on onload and the cow stops moving at the same spot each time and switches to idle image
+              var image = document.getElementById("cow");
+              var currentPos = 0;
+              var cowPos = 250;
+              var id = setInterval(cowWalking, 10);
+              function cowWalking()
+              {
+                  if (cowPos == 450)
+                  {
+                    image.src = "assets/cow1.gif";
+                    clearInterval(id);
+                    console.log("stopped");
+                  }
+                  else
+                  {
+                    console.log("running");
+                    cowPos++;
+                    image.style.left = cowPos +'px'
+                    console.log(image.style.left);
+                    image.style.top = cowPos + 'px'
+                  }
+              }
+          }
+          </script>
   		<table id="bingotable">
   			<tr>
   				<td id="square0"> &nbsp;</td>
