@@ -3,8 +3,8 @@
 
     <div class="date-filter-container">
       <div>Filter by dates: &nbsp; </div>
-      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" :on-change="performDonationUpdate()" placeholder="End date"></date-picker>
+      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
 
     <span>Total Money: $</span>
