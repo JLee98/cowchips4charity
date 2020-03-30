@@ -449,7 +449,7 @@ import Vue from 'vue';
 import io from 'socket.io-client'
 var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
 
-//JS doesn't truely have enums, this is a workaround
+//JS doesn't truly have enums, this is a workaround
 var timeframeEnum = {LIFETIME: 'lifetime', YEAR: 'year', MONTH: 'month', WEEK: 'week'}
 
 export default {
