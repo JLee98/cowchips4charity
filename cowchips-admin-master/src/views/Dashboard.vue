@@ -593,8 +593,8 @@ export default {
       })
       this.getGames().then((games) => {
         this.getLiveGames(games)
-        this.getMostRecentFinishedGame(games)
         this.getInvolvedOrgs()
+        this.updateWinnersCard(this.getMostRecentFinishedGame(this.getGamesWithWinningTile(games)))
       })
     },
     analyzeDonations(donations) {
@@ -649,7 +649,7 @@ export default {
       if (finishedGames.length == 0) {
         return null;
       }
-      console.log(finishedGames)
+
       var mostRecentGame = finishedGames[0]
       var mostRecentDate = Date.parse(mostRecentGame.endTime)
       for (var i = 0; i < finishedGames.length; i++) {
@@ -659,7 +659,6 @@ export default {
           mostRecentDate = end
         }
       }
-      console.log(mostRecentGame.name)
       return mostRecentGame
     },
     getFinishedGames(games) {
@@ -669,6 +668,19 @@ export default {
         return (end < today)
       })
       return filtered
+    },
+    getGamesWithWinningTile(games) {
+      var filtered = games.filter((game) => {
+        return game.winningTile != null
+      })
+      return filtered
+    },
+    updateWinnersCard(game) {
+      axios.get('/admin/games/' + game._id + '/winners')
+        .then(res => {
+          var winners = res.data
+          console.log(winners)
+        })
     },
     goToGameAnalytics(id) {
       console.log('goToAnalytics for game:' + id)
