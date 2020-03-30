@@ -17,10 +17,10 @@
         <b-card no-body class="bg-info">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <b-dropdown-item @click="changeDonationCard(lifetimeTotal, 'Lifetime Donation Total')">View Lifetime Total</b-dropdown-item>
-              <b-dropdown-item @click="changeDonationCard(yearTotal, 'Year Donation Total')">View Year Total</b-dropdown-item>
-              <b-dropdown-item @click="changeDonationCard(monthTotal, 'Month Donation Total')">View Month Total</b-dropdown-item>
-              <b-dropdown-item @click="changeDonationCard(weekTotal, 'Week Donation Total')">View Week Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.LIFETIME)">View Lifetime Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.YEAR)">View Year Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.MONTH)">View Month Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.WEEK)">View Week Total</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ displayDonationTotal }}</h4>
             <p>{{ displayDonationText }}</p>
@@ -449,6 +449,9 @@ import Vue from 'vue';
 import io from 'socket.io-client'
 var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
 
+//JS doesn't truly have enums, this is a workaround
+var timeframeEnum = {LIFETIME: 'lifetime', YEAR: 'year', MONTH: 'month', WEEK: 'week'}
+
 export default {
   name: 'dashboard',
   components: {
@@ -548,6 +551,8 @@ export default {
       liveGames: [],
       displayDonationTotal: 0,
       displayDonationText: "",
+      displayDonationTimeframe: timeframeEnum.LIFETIME,
+      timeframes: timeframeEnum,
       involvedOrgsCount: 0,
       involvedOrgs: []
     }
@@ -601,6 +606,7 @@ export default {
       this.yearTotal = this.calculateTotalForLastXDays(donations, 365)
       this.monthTotal = this.calculateTotalForLastXDays(donations, 30)
       this.weekTotal = this.calculateTotalForLastXDays(donations, 7)
+      this.updateDonationCard()
     },
     calculateTotal(donations) {
       var total = 0
@@ -677,9 +683,42 @@ export default {
           })
       })
     },
-    changeDonationCard(displayValue, displayText) {
-      this.displayDonationTotal = displayValue
-      this.displayDonationText = displayText
+    changeDonationCard(newTimeframe) {
+      this.displayDonationTimeframe = newTimeframe
+      switch (newTimeframe) {
+        case timeframeEnum.LIFETIME:
+          this.displayDonationTotal = this.lifetimeTotal
+          this.displayDonationText = 'Lifetime Donation Total'
+          break;
+        case timeframeEnum.YEAR:
+          this.displayDonationTotal = this.yearTotal
+          this.displayDonationText = 'Year Donation Total'
+          break;
+        case timeframeEnum.MONTH:
+          this.displayDonationTotal = this.monthTotal
+          this.displayDonationText = 'Month Donation Total'
+          break;
+        case timeframeEnum.WEEK:
+          this.displayDonationTotal = this.weekTotal
+          this.displayDonationText = 'Week Donation Total'
+          break;
+      }
+    },
+    updateDonationCard() {
+      switch (this.displayDonationTimeframe) {
+        case timeframeEnum.LIFETIME:
+          this.displayDonationTotal = this.lifetimeTotal
+          break;
+        case timeframeEnum.YEAR:
+          this.displayDonationTotal = this.yearTotal
+          break;
+        case timeframeEnum.MONTH:
+          this.displayDonationTotal = this.monthTotal
+          break;
+        case timeframeEnum.WEEK:
+          this.displayDonationTotal = this.weekTotal
+          break;
+      }
     }
   },
   beforeMount() {
