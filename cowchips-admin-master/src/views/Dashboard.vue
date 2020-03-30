@@ -544,6 +544,7 @@ export default {
       displayDonationText: "",
       involvedOrgsCount: 0,
       involvedOrgs: [],
+      mostRecentFinishedGame: null,
       winners: [],
       winnerCount: 0
     }
@@ -590,7 +591,8 @@ export default {
       this.getGames().then((games) => {
         this.getLiveGames(games)
         this.getInvolvedOrgs()
-        this.updateWinnersCard(this.getMostRecentFinishedGame(this.getGamesWithWinningTile(games)))
+        this.mostRecentFinishedGame = this.getMostRecentFinishedGame(this.getGamesWithWinningTile(games))
+        this.updateWinnersCard()
       })
     },
     analyzeDonations(donations) {
@@ -671,18 +673,20 @@ export default {
       })
       return filtered
     },
-    updateWinnersCard(game) {
+    updateWinnersCard() {
+      var game = this.mostRecentFinishedGame
       if (game == null) {
-        //TODO: no completed game behavior
         this.winnerCount = 0
+        this.winners = []
         return
       }
       axios.get('/admin/games/' + game._id + '/winners')
         .then(res => {
-          var winners = res.data
-          console.log(winners)
-          this.winnerCount = winners.length
-          this.winners = winners
+          var winningTiles = res.data
+          var winningUsers = Array.from(new Set(winningTiles.map(tile => tile.userID.name))) // create a set to remove duplicates
+
+          this.winnerCount = winningUsers.length
+          this.winners = winningUsers
         })
     },
     goToGameAnalytics(id) {
