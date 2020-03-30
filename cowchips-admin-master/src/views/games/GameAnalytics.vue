@@ -136,8 +136,27 @@
         }
       },
 
+      getOrganizationName(orgId) {
+        return new Promise((resolve, reject) => {
+          axios.get(`organization/${orgId}`)
+          .then(res => {
+            var orgName = res.data;
+            return resolve(orgName);
+          })
+        })
+      },
+
       getKeys() {
-        this.keys = Array.from(this.orgDonations.keys());
+        // this.keys = Array.from(this.orgDonations.keys());
+        var orgNames = [];
+        var temp = Array.from(this.orgDonations.keys());
+        for(var key in temp) {
+          this.getOrganizationName(temp[key]).then((orgObject) => {
+            console.log(orgObject);
+            orgNames.push(orgObject.name);
+          })
+        }
+        this.keys = orgNames;
       },
 
       getValues() {
