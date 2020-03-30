@@ -44,16 +44,10 @@
         <b-card no-body class="bg-danger">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-for="winner in this.winners">{{ winner }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">{{ weekTotal }}</h4>
-            <p>Week's Donation Total</p>
+            <h4 class="mb-0">{{ winnerCount }}</h4>
+            <p>Winners Last Game</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
@@ -549,7 +543,9 @@ export default {
       displayDonationTotal: 0,
       displayDonationText: "",
       involvedOrgsCount: 0,
-      involvedOrgs: []
+      involvedOrgs: [],
+      winners: [],
+      winnerCount: 0
     }
   },
   methods: {
@@ -676,10 +672,17 @@ export default {
       return filtered
     },
     updateWinnersCard(game) {
+      if (game == null) {
+        //TODO: no completed game behavior
+        this.winnerCount = 0
+        return
+      }
       axios.get('/admin/games/' + game._id + '/winners')
         .then(res => {
           var winners = res.data
           console.log(winners)
+          this.winnerCount = winners.length
+          this.winners = winners
         })
     },
     goToGameAnalytics(id) {
