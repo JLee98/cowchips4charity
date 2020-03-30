@@ -44,16 +44,12 @@
         <b-card no-body class="bg-danger">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item @click="goToGameAnalytics(mostRecentFinishedGame._id)">See Game Analytics</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item v-for="winner in this.winners">{{ winner }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">{{ weekTotal }}</h4>
-            <p>Week's Donation Total</p>
+            <h4 class="mb-0">{{ winnerCount }}</h4>
+            <p :title="mostRecentFinishedGame ? mostRecentFinishedGame.name : ''">Winners Last Game</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
@@ -554,7 +550,10 @@ export default {
       displayDonationTimeframe: timeframeEnum.LIFETIME,
       timeframes: timeframeEnum,
       involvedOrgsCount: 0,
-      involvedOrgs: []
+      involvedOrgs: [],
+      mostRecentFinishedGame: null,
+      winners: [],
+      winnerCount: 0
     }
   },
   methods: {
@@ -599,6 +598,8 @@ export default {
       this.getGames().then((games) => {
         this.getLiveGames(games)
         this.getInvolvedOrgs()
+        this.mostRecentFinishedGame = this.getMostRecentFinishedGame(this.getGamesWithWinningTile(games))
+        this.updateWinnersCard()
       })
     },
     analyzeDonations(donations) {
@@ -648,6 +649,53 @@ export default {
       })
       this.liveGameCount = filtered.length
       this.liveGames = filtered
+    },
+    getMostRecentFinishedGame(games) {
+      var finishedGames = this.getFinishedGames(games)
+      if (finishedGames.length == 0) {
+        return null;
+      }
+
+      var mostRecentGame = finishedGames[0]
+      var mostRecentDate = Date.parse(mostRecentGame.endTime)
+      for (var i = 0; i < finishedGames.length; i++) {
+        var end = Date.parse(finishedGames[i].endTime)
+        if (end > mostRecentDate) {
+          mostRecentGame = finishedGames[i]
+          mostRecentDate = end
+        }
+      }
+      return mostRecentGame
+    },
+    getFinishedGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var end = Date.parse(game.endTime)
+        return (end < today)
+      })
+      return filtered
+    },
+    getGamesWithWinningTile(games) {
+      var filtered = games.filter((game) => {
+        return game.winningTile != null
+      })
+      return filtered
+    },
+    updateWinnersCard() {
+      var game = this.mostRecentFinishedGame
+      if (game == null) {
+        this.winnerCount = 0
+        this.winners = []
+        return
+      }
+      axios.get('/admin/games/' + game._id + '/winners')
+        .then(res => {
+          var winningTiles = res.data
+          var winningUsers = Array.from(new Set(winningTiles.map(tile => tile.userID.name))) // create a set to remove duplicates
+
+          this.winnerCount = winningUsers.length
+          this.winners = winningUsers
+        })
     },
     goToGameAnalytics(id) {
       console.log('goToAnalytics for game:' + id)
