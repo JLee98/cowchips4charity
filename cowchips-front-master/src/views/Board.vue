@@ -3,7 +3,7 @@
   <html>
   <head>
   </head>
-    <body onload="newCard()">
+    <body>
       <div id="container">
         <div id="header">
           <img src="../assets/boo_radley.png">
@@ -156,5 +156,5 @@ h1{
 </style>
 
 <script>
-  
+
 </script>
