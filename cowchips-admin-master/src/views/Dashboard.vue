@@ -44,10 +44,11 @@
         <b-card no-body class="bg-danger">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
+              <b-dropdown-item @click="goToGameAnalytics(mostRecentFinishedGame._id)">See Game Analytics</b-dropdown-item>
               <b-dropdown-item v-for="winner in this.winners">{{ winner }}</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ winnerCount }}</h4>
-            <p>Winners Last Game</p>
+            <p :title="mostRecentFinishedGame.name">Winners Last Game</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
