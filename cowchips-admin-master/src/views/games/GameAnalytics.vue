@@ -147,12 +147,10 @@
       },
 
       getKeys() {
-        // this.keys = Array.from(this.orgDonations.keys());
         var orgNames = [];
-        var temp = Array.from(this.orgDonations.keys());
-        for(var key in temp) {
-          this.getOrganizationName(temp[key]).then((orgObject) => {
-            console.log(orgObject);
+        var mapToOrgArr = Array.from(this.orgDonations.keys());
+        for(var curIndex in mapToOrgArr) {
+          this.getOrganizationName(mapToOrgArr[curIndex]).then((orgObject) => {
             orgNames.push(orgObject.name);
           })
         }
