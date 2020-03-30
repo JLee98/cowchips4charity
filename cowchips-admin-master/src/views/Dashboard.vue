@@ -593,6 +593,7 @@ export default {
       })
       this.getGames().then((games) => {
         this.getLiveGames(games)
+        this.getMostRecentFinishedGame(games)
         this.getInvolvedOrgs()
       })
     },
@@ -642,6 +643,32 @@ export default {
       })
       this.liveGameCount = filtered.length
       this.liveGames = filtered
+    },
+    getMostRecentFinishedGame(games) {
+      var finishedGames = this.getFinishedGames(games)
+      if (finishedGames.length == 0) {
+        return null;
+      }
+      console.log(finishedGames)
+      var mostRecentGame = finishedGames[0]
+      var mostRecentDate = Date.parse(mostRecentGame.endTime)
+      for (var i = 0; i < finishedGames.length; i++) {
+        var end = Date.parse(finishedGames[i].endTime)
+        if (end > mostRecentDate) {
+          mostRecentGame = finishedGames[i]
+          mostRecentDate = end
+        }
+      }
+      console.log(mostRecentGame.name)
+      return mostRecentGame
+    },
+    getFinishedGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var end = Date.parse(game.endTime)
+        return (end < today)
+      })
+      return filtered
     },
     goToGameAnalytics(id) {
       console.log('goToAnalytics for game:' + id)
