@@ -14,8 +14,8 @@
     <div id="header">
       <img src="assets/boo_radley.png">
     </div>
-            <img id="cow" src="assets/cowWalk.gif" style="width:150px;height:100px;position:absolute;left:0;top:40"></img>
   	<div id="content">
+                  <img id="cow" src="assets/cowWalk.gif" style="width:150px;height:100px;position:absolute;left:0;top:40"></img>
   		<table id="bingotable">
   			<tr id="row1">
   				<td id="square0"> &nbsp;</td>
@@ -95,10 +95,7 @@
           var cowPosTop = imagePos.top;
           var cowPosLeft = imagePos.left;
           var cowWalkInterval = setInterval(cowWalking, 10);
-          var winningTile = $("#square5");
-          var keepMovingTop = false;
-          var keepMovingLeft = false;
-          var doneMoving = false;
+          var winningTile = $("#square11");
           function cowWalking()
           {
             //Check if winning tile is in row 1
@@ -110,7 +107,7 @@
                 console.log("hit0");
                 if(isOverlap("#cow", winningTile))
                 {
-                  console.log("hitTile");
+                   console.log("hitTile");
                     walkToTile();
                 }
               }
@@ -118,8 +115,26 @@
               if(winningTile.is("#square6") || winningTile.is("#square7") || winningTile.is("#square8")
               || winningTile.is("#square9") || winningTile.is("#square10") || winningTile.is("#square11"))
               {
-                keepMovingTop = true;
-                if(keepMovingTop == true && doneMoving == false)
+                var keepMovingLeft = true;
+                var keepMovingTop = false;
+                console.log(keepMovingLeft);
+                if(keepMovingLeft)
+                {
+                  cowPosLeft++;
+                  $("#cow").css('left', cowPosLeft);
+                  console.log("hit0");
+                  if(isOverlap("#cow","#square0"))
+                  {
+                    keepMovingTop = true;
+                    keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow", winningTile))
+                  {
+                     console.log("hitTile");
+                      walkToTile();
+                  }
+                }
+                if(keepMovingTop)
                 {
                   cowPosTop++;
                   $("#cow").css('top', cowPosTop);
@@ -130,13 +145,12 @@
                     keepMovingLeft = true;
                   }
                 }
-
-               if(keepMovingLeft == true && doneMoving == false)
+            /*   if(keepMovingLeft)
                  {
                    cowPosLeft++;
                    $("#cow").css('left', cowPosLeft);
                    console.log("hit2");
-                 }
+                 }*/
               }
               //Check if winning tile is in row 3
               if(winningTile.is("#square12") || winningTile.is("#square13") || winningTile.is("#square14")
