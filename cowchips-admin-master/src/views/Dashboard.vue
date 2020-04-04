@@ -698,11 +698,9 @@ export default {
         })
     },
     goToGameAnalytics(id) {
-      console.log('goToAnalytics for game:' + id)
       this.$router.push('/games/analytics/' + id)
     },
     goToOrgAnalytics(id) {
-      console.log('goToAnalytics for org:' + id)
       this.$router.push('/organizations/analytics/' + id)
     },
     getInvolvedOrgs() {
