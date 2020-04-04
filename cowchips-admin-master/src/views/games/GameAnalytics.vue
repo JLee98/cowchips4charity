@@ -22,7 +22,7 @@
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <div v-if="winnerChosen">
       <h1>Winners</h1>
-      <b-table striped hover :items="items" :fields="fields"></b-table>
+      <b-table striped hover :items="allWinners" :fields="fields"></b-table>
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@
         winnerCount: 0,
         winnerChosen: false,
         fields:['Name', 'Organization', 'Email'],
-        items: [{}],
+        allWinners: [{}],
         winners: 0,
         orgDonations: null,
         keys: null,
@@ -203,14 +203,14 @@
       },
 
       updateWinners() {
-        this.items = [];
+        this.allWinners = [];
         this.winnerChosen = true;
         for(let [k, v] of this.winners) {
           var curName = k;
           var curEmail = v.get("email");
           var curOrg = v.get("organization");
           var curObject = {"Name": curName, "Organization": curOrg, "Email": curEmail};
-          this.items.push(curObject)
+          this.allWinners.push(curObject)
 
         }
       },
