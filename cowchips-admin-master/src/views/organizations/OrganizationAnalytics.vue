@@ -2,9 +2,9 @@
   <div>
 
     <div class="date-filter-container">
-      <div class="cowHeadDark">Filter by dates: &nbsp; </div>
-      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+      <div class="cowHeadDark">Filter by dates:</div>&nbsp 
+      <date-picker class="cowTime" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker class="cowTime" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
 
     <span> {{ totalMoney }} </span>
