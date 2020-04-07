@@ -76,6 +76,7 @@
           donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
           this.analyzeDonations(donations);
           this.updateChart();
+          this.getGameWinners();
         })
       },
 
