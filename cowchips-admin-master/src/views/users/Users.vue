@@ -1,13 +1,11 @@
 <template>
-  <crud-table
-    url="/admin/users"
-    name="Users"
-    :fields="fields"
-    :updateTransform="updateTransform"
-    :create-transform="createTransform"
-    :load-edit-data-transform="loadEditDataTransform"
-    :export-format="exportFormat"
-  >
+  <crud-table url="/admin/users"
+              name="Users"
+              :fields="fields"
+              :updateTransform="updateTransform"
+              :create-transform="createTransform"
+              :load-edit-data-transform="loadEditDataTransform"
+              :export-format="exportFormat">
 
     <template slot="update-form" slot-scope="slotProps">
       <b-form-group label="Name">
@@ -41,10 +39,10 @@
         <b-form-input id="create-name" v-model="slotProps.createRecord.name"></b-form-input>
       </b-form-group>
       <b-form-group label="Email">
-        <b-form-input  id="create-email" v-model="slotProps.createRecord.email"></b-form-input>
+        <b-form-input id="create-email" v-model="slotProps.createRecord.email"></b-form-input>
       </b-form-group>
       <b-form-group label="Phone">
-        <b-form-input  id="create-phone" v-model="slotProps.createRecord.phone"></b-form-input>
+        <b-form-input id="create-phone" v-model="slotProps.createRecord.phone"></b-form-input>
       </b-form-group>
       <b-form-group label="Password">
         <b-form-input type="password" id="create-password" v-model="slotProps.createRecord.password"></b-form-input>
@@ -53,16 +51,16 @@
         <date-picker name="date" v-model="slotProps.createRecord.dob" :config="datePickerOptions"></date-picker>
       </b-form-group>
       <b-form-group label="Address">
-        <b-form-input  id="create-address" v-model="slotProps.createRecord.address"></b-form-input>
+        <b-form-input id="create-address" v-model="slotProps.createRecord.address"></b-form-input>
       </b-form-group>
       <b-form-group label="City">
-        <b-form-input  id="create-city" v-model="slotProps.createRecord.city"></b-form-input>
+        <b-form-input id="create-city" v-model="slotProps.createRecord.city"></b-form-input>
       </b-form-group>
       <b-form-group label="State">
-        <b-form-input  id="create-state" v-model="slotProps.createRecord.state"></b-form-input>
+        <b-form-input id="create-state" v-model="slotProps.createRecord.state"></b-form-input>
       </b-form-group>
       <b-form-group label="ZIP Code">
-        <b-form-input  id="create-zip" v-model="slotProps.createRecord.zip"></b-form-input>
+        <b-form-input id="create-zip" v-model="slotProps.createRecord.zip"></b-form-input>
       </b-form-group>
     </template>
   </crud-table>
@@ -107,15 +105,15 @@
           showClose: true,
         },
         exportFormat: {
-          'User ID' : '_id',
-          'Name' : 'name',
-          'Email' : 'email',
-          'Phone Number' : 'phone',
-          'DOB' : 'dob',
-          'Address' : 'location.address',
-          'City' : 'location.city',
-          'State' : 'location.state',
-          'Zip' : 'location.zip',
+          'User ID': '_id',
+          'Name': 'name',
+          'Email': 'email',
+          'Phone Number': 'phone',
+          'DOB': 'dob',
+          'Address': 'location.address',
+          'City': 'location.city',
+          'State': 'location.state',
+          'Zip': 'location.zip',
 
         }
       }
@@ -123,7 +121,7 @@
     methods: {
       updateTransform(record) {
         let transformedRecord = {}
-        if(record.password !== undefined) {
+        if (record.password !== undefined) {
           transformedRecord = {
             name: record.name,
             phone: record.phone,
@@ -137,7 +135,7 @@
 
           }
         }
-        if(record.address !== undefined && record.city !== undefined && record.state !== undefined && record.zip !== undefined) {
+        if (record.address !== undefined && record.city !== undefined && record.state !== undefined && record.zip !== undefined) {
           transformedRecord['location'] = {
             address: record.address,
             city: record.city,
@@ -154,7 +152,7 @@
           email: record.email,
           dob: record.dob,
           phone: record.phone,
-          location : {
+          location: {
             address: record.address,
             city: record.city,
             state: record.state,
@@ -165,7 +163,7 @@
       },
       loadEditDataTransform(data) {
         let newRecord = {}
-        if(data.location === undefined) {
+        if (data.location === undefined) {
           newRecord = {
             name: data.name,
             phone: data.phone,

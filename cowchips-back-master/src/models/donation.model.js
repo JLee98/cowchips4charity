@@ -26,7 +26,27 @@ export default class DonationModel
 
     return DonationModel.populate(donations);
   }
+  static findFilterDonations(filter, options = {})
+  {
+    if (options.projection === undefined)
+      options.projection = defaults.projection;
+    if (options.populate === undefined)
+      options.populate = defaults.populate;
+    let donations = Donation.find(filter);
 
+    if (options.page)
+      donations = donations
+        .skip(pageSize * (options.page - 1))
+        .limit(pageSize);
+
+    donations = donations.select(options.projection);
+
+    if (!options.populate)
+      return donations;
+
+    return DonationModel.populate(donations);
+
+  }
   static findDonations(filter = {}, options = {})
   {
     return DonationModel.fetchDonations(filter, options)

@@ -5,16 +5,10 @@
         <b-card no-body class="bg-primary">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-for="game in this.liveGames" @click="goToGameAnalytics(game._id)">{{ game.name }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ liveGameCount }}</h4>
+            <p>Current Live Games</p>
           </b-card-body>
           <card-line1-chart-example chartId="card-chart-01" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -22,17 +16,14 @@
       <b-col sm="6" lg="3">
         <b-card no-body class="bg-info">
           <b-card-body class="pb-0">
-            <b-dropdown class="float-right" variant="transparent p-0" right no-caret>
-              <template slot="button-content">
-                <i class="icon-location-pin"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+            <b-dropdown class="float-right" variant="transparent p-0" right>
+              <b-dropdown-item @click="changeDonationCard(timeframes.LIFETIME)">View Lifetime Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.YEAR)">View Year Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.MONTH)">View Month Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.WEEK)">View Week Total</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ displayDonationTotal }}</h4>
+            <p>{{ displayDonationText }}</p>
           </b-card-body>
           <card-line2-chart-example chartId="card-chart-02" class="chart-wrapper px-3" style="height:70px;" :height="70"/>
         </b-card>
@@ -41,16 +32,10 @@
         <b-card no-body class="bg-warning">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item v-for="org in this.involvedOrgs" @click="goToOrgAnalytics(org._id)">{{ org.name }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ involvedOrgsCount }}</h4>
+            <p>Orgs in Live Games</p>
           </b-card-body>
           <card-line3-chart-example chartId="card-chart-03" class="chart-wrapper" style="height:70px;" height="70"/>
         </b-card>
@@ -59,16 +44,12 @@
         <b-card no-body class="bg-danger">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item @click="goToGameAnalytics(mostRecentFinishedGame._id)">See Game Analytics</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item v-for="winner in this.winners">{{ winner }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">9.823</h4>
-            <p>Members online</p>
+            <h4 class="mb-0">{{ winnerCount }}</h4>
+            <p :title="mostRecentFinishedGame ? mostRecentFinishedGame.name : ''">Winners Last Game</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
@@ -409,7 +390,7 @@
             </b-col>
           </b-row>
           <br/>
-          <b-table class="mb-0 table-outline" responsive="sm" hover :items="tableItems" :fields="tableFields" head-variant="light">
+          <!-- <b-table class="mb-0 table-outline" responsive="sm" hover :items="tableItems" :fields="tableFields" head-variant="light">
             <div slot="avatar" class="avatar" slot-scope="item">
               <img :src="item.value.url" class="img-avatar" alt="">
               <span class="avatar-status" v-bind:class="{ 'bg-success': item.value.status == 'success',  'bg-warning': item.value.status == 'warning', 'bg-danger': item.value.status == 'danger', 'bg-secondary': item.value.status == '' }"></span>
@@ -441,7 +422,7 @@
               <div class="small text-muted">Last login</div>
               <strong>{{item.value}}</strong>
             </div>
-          </b-table>
+          </b-table> -->
         </b-card>
       </b-col>
     </b-row>
@@ -458,6 +439,15 @@ import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
 import CalloutChartExample from './dashboard/CalloutChartExample'
 import { Callout } from '@coreui/vue'
 
+import axios from "axios";
+import Vue from 'vue';
+
+import io from 'socket.io-client'
+var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
+
+//JS doesn't truly have enums, this is a workaround
+var timeframeEnum = {LIFETIME: 'lifetime', YEAR: 'year', MONTH: 'month', WEEK: 'week'}
+
 export default {
   name: 'dashboard',
   components: {
@@ -469,6 +459,9 @@ export default {
     MainChartExample,
     SocialBoxChartExample,
     CalloutChartExample
+  },
+  created() {
+    this.inspectUpdate()
   },
   data: function () {
     return {
@@ -545,7 +538,22 @@ export default {
         activity: {
           label: 'Activity'
         }
-      }
+      },
+      lifetimeTotal: 0,
+      yearTotal: 0,
+      monthTotal: 0,
+      weekTotal: 0,
+      liveGameCount: 0,
+      liveGames: [],
+      displayDonationTotal: 0,
+      displayDonationText: "",
+      displayDonationTimeframe: timeframeEnum.LIFETIME,
+      timeframes: timeframeEnum,
+      involvedOrgsCount: 0,
+      involvedOrgs: [],
+      mostRecentFinishedGame: null,
+      winners: [],
+      winnerCount: 0
     }
   },
   methods: {
@@ -564,7 +572,203 @@ export default {
     },
     flag (value) {
       return 'flag-icon flag-icon-' + value
+    },
+    inspectUpdate() {
+      socket.on("updateAvailable", (updateData) => {
+        this.getDonations().then((donations) => {
+            this.analyzeDonations(donations)
+          })
+      })
+    },
+    getDonations() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/donations`)
+          .then(res => {
+            var donations = res.data
+            return resolve(donations)
+          })
+      })
+    },
+    startHandler() {
+      this.getDonations().then((donations) => {
+        this.analyzeDonations(donations)
+        this.displayDonationTotal = this.lifetimeTotal
+        this.displayDonationText = "Lifetime Donation Total"
+      })
+      this.getGames().then((games) => {
+        this.getLiveGames(games)
+        this.getInvolvedOrgs()
+        this.mostRecentFinishedGame = this.getMostRecentFinishedGame(this.getGamesWithWinningTile(games))
+        this.updateWinnersCard()
+      })
+    },
+    analyzeDonations(donations) {
+      this.lifetimeTotal = this.calculateTotal(donations)
+      this.yearTotal = this.calculateTotalForLastXDays(donations, 365)
+      this.monthTotal = this.calculateTotalForLastXDays(donations, 30)
+      this.weekTotal = this.calculateTotalForLastXDays(donations, 7)
+      this.updateDonationCard()
+    },
+    calculateTotal(donations) {
+      var total = 0
+      for (var i = 0; i < donations.length; i++) {
+        total += donations[i].amount
+      }
+      return total / 100
+    },
+    filterDonationsByDates(donations, startDate, endDate) {
+      var filtered = donations.filter((donation) => {
+        var date = new Date(donation.date)
+        return (date > startDate) && (date < endDate)
+      })
+      return filtered
+    },
+    calculateTotalForLastXDays(donations, days) {
+      var now = new Date()
+      var weekAgo = new Date()
+      weekAgo.setDate(now.getDate() - days)
+
+      var filtered = this.filterDonationsByDates(donations, weekAgo, now)
+      return this.calculateTotal(filtered)
+    },
+    getGames() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/games`)
+          .then(res => {
+            var games = res.data
+            return resolve(games)
+          })
+      })
+    },
+    getLiveGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var start = Date.parse(game.startTime)
+        var end = Date.parse(game.endTime)
+        return (start <= today) && (end >= today)
+      })
+      this.liveGameCount = filtered.length
+      this.liveGames = filtered
+    },
+    getMostRecentFinishedGame(games) {
+      var finishedGames = this.getFinishedGames(games)
+      if (finishedGames.length == 0) {
+        return null;
+      }
+
+      var mostRecentGame = finishedGames[0]
+      var mostRecentDate = Date.parse(mostRecentGame.endTime)
+      for (var i = 0; i < finishedGames.length; i++) {
+        var end = Date.parse(finishedGames[i].endTime)
+        if (end > mostRecentDate) {
+          mostRecentGame = finishedGames[i]
+          mostRecentDate = end
+        }
+      }
+      return mostRecentGame
+    },
+    getFinishedGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var end = Date.parse(game.endTime)
+        return (end < today)
+      })
+      return filtered
+    },
+    getGamesWithWinningTile(games) {
+      var filtered = games.filter((game) => {
+        return game.winningTile != null
+      })
+      return filtered
+    },
+    updateWinnersCard() {
+      var game = this.mostRecentFinishedGame
+      if (game == null) {
+        this.winnerCount = 0
+        this.winners = []
+        return
+      }
+      axios.get('/admin/games/' + game._id + '/winners')
+        .then(res => {
+          var winningTiles = res.data
+          var winningUsers = Array.from(new Set(winningTiles.map(tile => tile.userID.name))) // create a set to remove duplicates
+
+          this.winnerCount = winningUsers.length
+          this.winners = winningUsers
+        })
+    },
+    goToGameAnalytics(id) {
+      this.$router.push('/games/analytics/' + id)
+    },
+    goToOrgAnalytics(id) {
+      this.$router.push('/organizations/analytics/' + id)
+    },
+    getInvolvedOrgs() {
+      var involvedOrgsIds = []
+      for (var i = 0; i < this.liveGames.length; i++) {
+        involvedOrgsIds = involvedOrgsIds.concat(this.liveGames[i].organizations)
+      }
+
+      this.getOrgs().then((allOrgs) => {
+        const tmpOrgs = []
+
+        for (var i = 0; i < involvedOrgsIds.length; i++) {
+          var org = allOrgs.filter((org) => { return org._id == involvedOrgsIds[i] })[0]
+          tmpOrgs.push(org)
+        }
+        this.involvedOrgs = tmpOrgs //so this makes an Observer (or something), it's weird but a non-issue
+        this.involvedOrgsCount = tmpOrgs.length
+      })
+    },
+    getOrgs() {
+      return new Promise((resolve, reject) => {
+        axios.get(`/admin/organizations`)
+          .then(res => {
+            var orgs = res.data
+            return resolve(orgs)
+          })
+      })
+    },
+    changeDonationCard(newTimeframe) {
+      this.displayDonationTimeframe = newTimeframe
+      switch (newTimeframe) {
+        case timeframeEnum.LIFETIME:
+          this.displayDonationTotal = this.lifetimeTotal
+          this.displayDonationText = 'Lifetime Donation Total'
+          break;
+        case timeframeEnum.YEAR:
+          this.displayDonationTotal = this.yearTotal
+          this.displayDonationText = 'Year Donation Total'
+          break;
+        case timeframeEnum.MONTH:
+          this.displayDonationTotal = this.monthTotal
+          this.displayDonationText = 'Month Donation Total'
+          break;
+        case timeframeEnum.WEEK:
+          this.displayDonationTotal = this.weekTotal
+          this.displayDonationText = 'Week Donation Total'
+          break;
+      }
+    },
+    updateDonationCard() {
+      switch (this.displayDonationTimeframe) {
+        case timeframeEnum.LIFETIME:
+          this.displayDonationTotal = this.lifetimeTotal
+          break;
+        case timeframeEnum.YEAR:
+          this.displayDonationTotal = this.yearTotal
+          break;
+        case timeframeEnum.MONTH:
+          this.displayDonationTotal = this.monthTotal
+          break;
+        case timeframeEnum.WEEK:
+          this.displayDonationTotal = this.weekTotal
+          break;
+      }
     }
+  },
+  beforeMount() {
+    this.startHandler();
   }
 }
 </script>
