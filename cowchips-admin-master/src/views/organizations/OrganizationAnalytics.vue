@@ -171,7 +171,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
+  font-size: 30px;
   border-radius: 1.5px;
 }
 
@@ -184,7 +184,7 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
+  font-size: 30px;
   border-radius: 1.5px;
 }
 
@@ -197,6 +197,6 @@ export default {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
+  font-size: 30px;
 }
 </style>
