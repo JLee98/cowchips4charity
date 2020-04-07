@@ -2,20 +2,20 @@
   <div>
 
     <div class="date-filter-container">
-      <div>Filter by dates: &nbsp; </div>
+      <div><font size="6">Filter by dates: &nbsp;</font></div>
       <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
       <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
-
-    <span>Total Money: $</span>
-    <span>{{ totalMoney }}</span>
+   
+    <span><font size="6">Total Money: $</font> </span>
+    <span><font size="6">{{ totalMoney }} </font> </span>
     </br>
-    <span>Max Donation: $</span>
-    <span>{{ maxDonation }}</span>
+    <span><font size="6">Max Donation: $</font></span>
+    <span><font size="6">{{ maxDonation }}</font></span>
     </br>
-    <span>Total People Donated: </span>
-    <span>{{ totalDonations }}</span>
-
+    <span><font size="6">Total People Donated:</font></span>
+    <span><font size="6">{{ totalDonations }}</font></span>
+     </br>
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
