@@ -17,10 +17,10 @@
         <b-card no-body class="bg-info">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <b-dropdown-item @click="changeDonationCard(lifetimeTotal, 'Lifetime Donation Total')">View Lifetime Total</b-dropdown-item>
-              <b-dropdown-item @click="changeDonationCard(yearTotal, 'Year Donation Total')">View Year Total</b-dropdown-item>
-              <b-dropdown-item @click="changeDonationCard(monthTotal, 'Month Donation Total')">View Month Total</b-dropdown-item>
-              <b-dropdown-item @click="changeDonationCard(weekTotal, 'Week Donation Total')">View Week Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.LIFETIME)">View Lifetime Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.YEAR)">View Year Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.MONTH)">View Month Total</b-dropdown-item>
+              <b-dropdown-item @click="changeDonationCard(timeframes.WEEK)">View Week Total</b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">{{ displayDonationTotal }}</h4>
             <p>{{ displayDonationText }}</p>
@@ -44,16 +44,12 @@
         <b-card no-body class="bg-danger">
           <b-card-body class="pb-0">
             <b-dropdown class="float-right" variant="transparent p-0" right>
-              <template slot="button-content">
-                <i class="icon-settings"></i>
-              </template>
-              <b-dropdown-item>Action</b-dropdown-item>
-              <b-dropdown-item>Another action</b-dropdown-item>
-              <b-dropdown-item>Something else here...</b-dropdown-item>
-              <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+              <b-dropdown-item @click="goToGameAnalytics(mostRecentFinishedGame._id)">See Game Analytics</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item v-for="winner in this.winners">{{ winner }}</b-dropdown-item>
             </b-dropdown>
-            <h4 class="mb-0">{{ weekTotal }}</h4>
-            <p>Week's Donation Total</p>
+            <h4 class="mb-0">{{ winnerCount }}</h4>
+            <p :title="mostRecentFinishedGame ? mostRecentFinishedGame.name : ''">Winners Last Game</p>
           </b-card-body>
           <card-bar-chart-example chartId="card-chart-04" class="chart-wrapper px-3" style="height:70px;" height="70"/>
         </b-card>
@@ -449,6 +445,9 @@ import Vue from 'vue';
 import io from 'socket.io-client'
 var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
 
+//JS doesn't truly have enums, this is a workaround
+var timeframeEnum = {LIFETIME: 'lifetime', YEAR: 'year', MONTH: 'month', WEEK: 'week'}
+
 export default {
   name: 'dashboard',
   components: {
@@ -548,8 +547,13 @@ export default {
       liveGames: [],
       displayDonationTotal: 0,
       displayDonationText: "",
+      displayDonationTimeframe: timeframeEnum.LIFETIME,
+      timeframes: timeframeEnum,
       involvedOrgsCount: 0,
-      involvedOrgs: []
+      involvedOrgs: [],
+      mostRecentFinishedGame: null,
+      winners: [],
+      winnerCount: 0
     }
   },
   methods: {
@@ -594,6 +598,8 @@ export default {
       this.getGames().then((games) => {
         this.getLiveGames(games)
         this.getInvolvedOrgs()
+        this.mostRecentFinishedGame = this.getMostRecentFinishedGame(this.getGamesWithWinningTile(games))
+        this.updateWinnersCard()
       })
     },
     analyzeDonations(donations) {
@@ -601,6 +607,7 @@ export default {
       this.yearTotal = this.calculateTotalForLastXDays(donations, 365)
       this.monthTotal = this.calculateTotalForLastXDays(donations, 30)
       this.weekTotal = this.calculateTotalForLastXDays(donations, 7)
+      this.updateDonationCard()
     },
     calculateTotal(donations) {
       var total = 0
@@ -643,12 +650,57 @@ export default {
       this.liveGameCount = filtered.length
       this.liveGames = filtered
     },
+    getMostRecentFinishedGame(games) {
+      var finishedGames = this.getFinishedGames(games)
+      if (finishedGames.length == 0) {
+        return null;
+      }
+
+      var mostRecentGame = finishedGames[0]
+      var mostRecentDate = Date.parse(mostRecentGame.endTime)
+      for (var i = 0; i < finishedGames.length; i++) {
+        var end = Date.parse(finishedGames[i].endTime)
+        if (end > mostRecentDate) {
+          mostRecentGame = finishedGames[i]
+          mostRecentDate = end
+        }
+      }
+      return mostRecentGame
+    },
+    getFinishedGames(games) {
+      var today = new Date()
+      var filtered = games.filter((game) => {
+        var end = Date.parse(game.endTime)
+        return (end < today)
+      })
+      return filtered
+    },
+    getGamesWithWinningTile(games) {
+      var filtered = games.filter((game) => {
+        return game.winningTile != null
+      })
+      return filtered
+    },
+    updateWinnersCard() {
+      var game = this.mostRecentFinishedGame
+      if (game == null) {
+        this.winnerCount = 0
+        this.winners = []
+        return
+      }
+      axios.get('/admin/games/' + game._id + '/winners')
+        .then(res => {
+          var winningTiles = res.data
+          var winningUsers = Array.from(new Set(winningTiles.map(tile => tile.userID.name))) // create a set to remove duplicates
+
+          this.winnerCount = winningUsers.length
+          this.winners = winningUsers
+        })
+    },
     goToGameAnalytics(id) {
-      console.log('goToAnalytics for game:' + id)
       this.$router.push('/games/analytics/' + id)
     },
     goToOrgAnalytics(id) {
-      console.log('goToAnalytics for org:' + id)
       this.$router.push('/organizations/analytics/' + id)
     },
     getInvolvedOrgs() {
@@ -677,9 +729,42 @@ export default {
           })
       })
     },
-    changeDonationCard(displayValue, displayText) {
-      this.displayDonationTotal = displayValue
-      this.displayDonationText = displayText
+    changeDonationCard(newTimeframe) {
+      this.displayDonationTimeframe = newTimeframe
+      switch (newTimeframe) {
+        case timeframeEnum.LIFETIME:
+          this.displayDonationTotal = this.lifetimeTotal
+          this.displayDonationText = 'Lifetime Donation Total'
+          break;
+        case timeframeEnum.YEAR:
+          this.displayDonationTotal = this.yearTotal
+          this.displayDonationText = 'Year Donation Total'
+          break;
+        case timeframeEnum.MONTH:
+          this.displayDonationTotal = this.monthTotal
+          this.displayDonationText = 'Month Donation Total'
+          break;
+        case timeframeEnum.WEEK:
+          this.displayDonationTotal = this.weekTotal
+          this.displayDonationText = 'Week Donation Total'
+          break;
+      }
+    },
+    updateDonationCard() {
+      switch (this.displayDonationTimeframe) {
+        case timeframeEnum.LIFETIME:
+          this.displayDonationTotal = this.lifetimeTotal
+          break;
+        case timeframeEnum.YEAR:
+          this.displayDonationTotal = this.yearTotal
+          break;
+        case timeframeEnum.MONTH:
+          this.displayDonationTotal = this.monthTotal
+          break;
+        case timeframeEnum.WEEK:
+          this.displayDonationTotal = this.weekTotal
+          break;
+      }
     }
   },
   beforeMount() {

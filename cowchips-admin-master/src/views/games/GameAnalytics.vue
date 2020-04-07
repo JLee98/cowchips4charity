@@ -48,8 +48,19 @@
 
   </br>
 
-    <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
+    <div class="date-filter-container">
+      <div>Filter by dates: &nbsp; </div>
+      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+    </div>
+  </br>
+
+    <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
+    <div v-if="winnerChosen">
+      <h1>Winners</h1>
+      <b-table striped hover :items="winnersInfo" :fields="fields"></b-table>
+    </div>
   </div>
 </template>
 
@@ -76,6 +87,11 @@
         totalMoney: 0,
         totalDonations: 0,
         maxDonation: 0,
+        winnerCount: 0,
+        winnerChosen: false,
+        fields:['Name', 'Organization', 'Email'],
+        winnersInfo: [{}],
+        winners: 0,
         orgDonations: null,
         keys: null,
         values: null,
@@ -97,6 +113,7 @@
           donations = this.filterDonationsByDates(donations, this.filterStartDate, this.filterEndDate)
           this.analyzeDonations(donations);
           this.updateChart();
+          this.getGameWinners();
         })
       },
 
@@ -169,8 +186,25 @@
         }
       },
 
+      getOrganizationName(orgId) {
+        return new Promise((resolve, reject) => {
+          axios.get(`organization/${orgId}`)
+          .then(res => {
+            var orgName = res.data;
+            return resolve(orgName);
+          })
+        })
+      },
+
       getKeys() {
-        this.keys = Array.from(this.orgDonations.keys());
+        var orgNames = [];
+        var mapToOrgArr = Array.from(this.orgDonations.keys());
+        for(var curIndex in mapToOrgArr) {
+          this.getOrganizationName(mapToOrgArr[curIndex]).then((orgObject) => {
+            orgNames.push(orgObject.name);
+          })
+        }
+        this.keys = orgNames;
       },
 
       getValues() {
@@ -182,6 +216,39 @@
         this.keys = [];
         this.values = [];
         this.performDonationUpdate()
+        this.getGameWinners();
+      },
+
+      getGameWinners() {
+        var curGameId = this.getId();
+        axios.get('/admin/games/' + curGameId + '/winners')
+          .then(res => {
+            var winningTiles = res.data
+            var winningUsers= new Map();
+            for(var i in winningTiles) {
+              var curWinner = winningTiles[i];
+              var userInfo = new Map();
+              if(!winningUsers.has(curWinner.userID.name)) {
+                userInfo.set("email", curWinner.userID.email);
+                userInfo.set("organization", curWinner.organizationID.name);
+                winningUsers.set(curWinner.userID.name, userInfo);
+              }
+            }
+            this.winners = winningUsers
+            this.updateWinners()
+          })
+      },
+
+      updateWinners() {
+        this.winnersInfo = [];
+        this.winnerChosen = true;
+        for(let [k, v] of this.winners) {
+          var curName = k;
+          var curEmail = v.get("email");
+          var curOrg = v.get("organization");
+          var curObject = {"Name": curName, "Organization": curOrg, "Email": curEmail};
+          this.winnersInfo.push(curObject)
+        }
       },
 
       filterDonationsByDates(donations, startDateString, endDateString) {
