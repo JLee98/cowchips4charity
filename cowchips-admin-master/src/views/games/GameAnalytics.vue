@@ -2,23 +2,52 @@
   <div>
 
     <div class="date-filter-container">
-      <div class="cowHeadDark">Filter by dates:</div>&nbsp
-      <date-picker class="cowTime" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker class="cowTime" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+      <div class="HeadDark">Filter by dates:</div>&nbsp
+      <date-picker class="datePick" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker class="datePick" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
-      </br>
-    <span class="cowHeadDark">Total Money Donated: </span>
-    <span class="cowHeadLight">${{ totalMoney }}</span>
-      </br>
-      </br>
-    <span class="cowHeadDark">Highest Donation: </span>
-    <span class="cowHeadLight">${{ maxDonation }}</span>
-      </br>
-      </br>
-    <span class="cowHeadDark">Total People Donated: </span>
-    <span class="cowHeadLight">{{ totalDonations }}</span>
-      </br>
-      </br>
+
+  </br>
+
+    <div>
+     <b-card-group deck>
+        <b-card
+          border-variant="primary"
+          header="Total Money Donated"
+          header-bg-variant="primary"
+          header-text-variant="white"
+          align="center"
+          style="max-width: 400px"
+         >
+        <b-card-text>${{ totalMoney }}</b-card-text>
+        </b-card>
+
+        <b-card
+         border-variant="warning"
+          header="Highest Donation"
+          header-bg-variant="warning"
+          header-text-variant="white"
+          align="center"
+          style="max-width: 400px"
+        >
+          <b-card-text>${{ maxDonation }}</b-card-text>
+        </b-card>
+
+        <b-card
+          border-variant="danger"
+          header="Total People Donated"
+          header-bg-variant="danger"
+          header-text-variant="white"
+          align="center"
+          style="max-width: 400px"
+        >
+          <b-card-text>{{ totalDonations }}</b-card-text>
+        </b-card>
+     </b-card-group>
+    </div>
+
+  </br>
+
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
@@ -207,11 +236,13 @@
     display: inline-block;
   }
 
-/*Light Gray Font & Light Blue background*/
-  .cowHeadLight {
-  background-color: #20A8D8; /* Light Blue on Admin Panel */
+
+
+/*Dark Gray Font & Light Blue background*/
+.HeadDark {
+   /* Light Blue on Admin Panel */
   border: none;
-  color: #E9ECEF;           /* Light Gray on Admin Panel */
+  color: #2F353A;             /* Dark Gray on Admin Panel */
   padding: 5px 10px;
   text-align: center;
   text-decoration: none;
@@ -220,21 +251,8 @@
   border-radius: 1.5px;
 }
 
-/*Dark Gray Font & Light Blue background*/
-.cowHeadDark {
-  background-color: #20A8D8; /* Light Blue on Admin Panel */
-  border: none;
-  color: #2F353A;             /* Dark Gray on Admin Panel */
-  padding: 5px 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  border-radius: 1.5px;
-}
-
 /*Dark Gray Font & Light Blue Border $ "No" background*/
-.cowTime {
+.datePick {
   background-color: #E9ECEF;  /* Light Gray on Admin Panel */
   color: #2F353A;             /* Dark Gray on Admin Panel */
   border: 2px solid #20A8D8;  /* Light Blue on Admin Panel */
