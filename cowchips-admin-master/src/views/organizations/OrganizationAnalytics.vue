@@ -2,9 +2,9 @@
   <div>
 
     <div class="date-filter-container">
-      <div class="HeadDark">Filter by dates:</div>&nbsp 
-      <date-picker class="datePick" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker class="datePick" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+      <div class="HeadingDark">Filter by dates:</div>&nbsp 
+      <date-picker class="datePicker" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker class="datePicker" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
    
     </br>
@@ -194,26 +194,26 @@ export default {
  
 
 /*Dark Gray Font & Light Blue background*/
-.HeadDark {
+.HeadingDark {
   border: none;
+  border-radius: 1.5px;
   color: #2F353A;             /* Dark Gray on Admin Panel */
+  display: inline-block;
+  font-size: 30px;
   padding: 5px 5px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  font-size: 30px;
-  border-radius: 1.5px;
 }
 
 /*Dark Gray Font & Light Blue Border $ "No" background*/
-.datePick {
+.datePicker {
   background-color: #E9ECEF;  /* Light Gray on Admin Panel */
-  color: #2F353A;             /* Dark Gray on Admin Panel */
   border: 2px solid #20A8D8;  /* Light Blue on Admin Panel */
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  display: inline-block;
+  font-size: 30px;
   padding: 5px 5px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  font-size: 30px;
 }
 </style>
