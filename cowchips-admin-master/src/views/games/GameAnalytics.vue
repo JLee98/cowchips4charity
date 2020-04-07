@@ -2,7 +2,7 @@
   <div>
 
     <div class="date-filter-container">
-      <div class="HeadingDark">Filter by dates:</div>&nbsp
+      <div class="headingDark">Filter by dates:</div>&nbsp
       <date-picker class="datePicker" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
       <date-picker class="datePicker" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
@@ -17,18 +17,18 @@
           header-bg-variant="primary"
           header-text-variant="white"
           align="center"
-          style="max-width: 400px"
+          style="max-width: 400px; font-size: 24px;"
          >
         <b-card-text>${{ totalMoney }}</b-card-text>
         </b-card>
 
         <b-card
-         border-variant="warning"
+          border-variant="warning"
           header="Highest Donation"
           header-bg-variant="warning"
           header-text-variant="white"
           align="center"
-          style="max-width: 400px"
+          style="max-width: 400px; font-size: 24px;"
         >
           <b-card-text>${{ maxDonation }}</b-card-text>
         </b-card>
@@ -39,7 +39,7 @@
           header-bg-variant="danger"
           header-text-variant="white"
           align="center"
-          style="max-width: 400px"
+          style="max-width: 400px; font-size: 24px;"
         >
           <b-card-text>{{ totalDonations }}</b-card-text>
         </b-card>
@@ -238,7 +238,7 @@
 
 
 
-.HeadingDark {
+.headingDark {
   border: none;
   border-radius: 1.5px;
   color: #2F353A;             /* Dark Gray on Admin Panel */
