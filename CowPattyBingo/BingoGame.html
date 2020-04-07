@@ -94,8 +94,33 @@
           var imagePos = cowImage.position();
           var cowPosTop = imagePos.top;
           var cowPosLeft = imagePos.left;
-          var cowWalkInterval = setInterval(cowWalking, 10);
           var winningTile = $("#square35");
+          var cowWalkInterval;
+          var cowLeaveInterval;
+          var startWalking;
+          var walkAimlessInterval = setInterval(walkAimlessly, 10);
+          function walkAimlessly()
+          {
+            startWalking = setTimeout(startLookingForTile, 5000);
+            if(cowPosTop >= 0)
+            {
+             $("#cow").css('top', cowPosTop);
+              console.log("walk around");
+            }
+            if(cowPosTop <= 400)
+            {
+              cowPosTop--;
+              $("#cow").css('top', cowPosTop);
+            }
+              clearInterval(walkAimlessInterval);
+          }
+          function startLookingForTile()
+          {
+            //Currently have it activate after 5 seconds for demonstration purposes. For the actual implementation set for 5 to 10 min
+              clearTimeout(startWalking);
+              cowWalkInterval = setInterval(cowWalking, 10);
+          }
+
           function cowWalking()
           {
             //Check if winning tile is in row 1
@@ -360,7 +385,7 @@
         clearInterval(cowWalkInterval);
         cowImage.src = "assets/cowWalk.gif";
         doneMoving = true;
-        var cowLeaveInterval = setInterval(cowLeaveGrid, 40);
+        cowLeaveInterval = setInterval(cowLeaveGrid, 40);
       }
       function cowLeaveGrid()
       {
@@ -399,7 +424,7 @@
         && squareLeft+squareWidth < cowLeft+cowWidth && squareTop+squareHeight > cowBottom && squareTop+squareHeight < cowBottom+cowHeight;
         return leftTop || leftBottom;
     }
-      </script>
+    </script>
 </body>
 
 </html>
