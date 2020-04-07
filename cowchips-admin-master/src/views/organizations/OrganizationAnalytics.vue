@@ -6,8 +6,17 @@
       <date-picker class="cowTime" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
       <date-picker class="cowTime" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
-
-    <span> {{ totalMoney }} </span>
+    </br>
+     <span class="cowHeadDark">Total Money Donated: </span>
+    <span class="cowHeadLight">${{ totalMoney }}</span>
+    </br>
+     </br>
+    <span class="cowHeadDark">Highest Donation: </span>
+    <span class="cowHeadLight">${{ maxDonation }}</span>
+      </br>
+      </br>
+    <span class="cowHeadDark">Total People Donated: </span>
+    <span class="cowHeadLight">{{ totalDonations }}</span>
 
   </div>
 </template>
