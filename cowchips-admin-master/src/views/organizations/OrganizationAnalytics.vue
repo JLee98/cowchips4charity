@@ -2,7 +2,7 @@
   <div>
 
     <div class="date-filter-container">
-      <div>Filter by dates: &nbsp; </div>
+      <div class="cowHeadDark">Filter by dates: &nbsp; </div>
       <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
       <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
@@ -152,4 +152,42 @@ export default {
   .date-filter-container div {
     display: inline-block;
   }
+
+  /*Light Gray Font & Light Blue background*/
+  .cowHeadLight {
+  background-color: #20A8D8; /* Light Blue on Admin Panel */
+  border: none;
+  color: #E9ECEF;           /* Light Gray on Admin Panel */
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 1.5px;
+}
+
+/*Dark Gray Font & Light Blue background*/
+.cowHeadDark {
+  background-color: #20A8D8; /* Light Blue on Admin Panel */
+  border: none;
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 1.5px;
+}
+
+/*Dark Gray Font & Light Blue Border $ "No" background*/
+.cowTime {
+  background-color: #E9ECEF;  /* Light Gray on Admin Panel */
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  border: 2px solid #20A8D8;  /* Light Blue on Admin Panel */
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
 </style>

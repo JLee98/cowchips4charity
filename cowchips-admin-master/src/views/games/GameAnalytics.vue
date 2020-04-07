@@ -207,6 +207,7 @@
     display: inline-block;
   }
 
+/*Light Gray Font & Light Blue background*/
   .cowHeadLight {
   background-color: #20A8D8; /* Light Blue on Admin Panel */
   border: none;
@@ -218,6 +219,8 @@
   font-size: 20px;
   border-radius: 1.5px;
 }
+
+/*Dark Gray Font & Light Blue background*/
 .cowHeadDark {
   background-color: #20A8D8; /* Light Blue on Admin Panel */
   border: none;
@@ -229,6 +232,8 @@
   font-size: 20px;
   border-radius: 1.5px;
 }
+
+/*Dark Gray Font & Light Blue Border $ "No" background*/
 .cowTime {
   background-color: #E9ECEF;  /* Light Gray on Admin Panel */
   color: #2F353A;             /* Dark Gray on Admin Panel */
