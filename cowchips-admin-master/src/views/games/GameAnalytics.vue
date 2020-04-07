@@ -49,13 +49,6 @@
   </br>
 
 
-    <div class="date-filter-container">
-      <div>Filter by dates: &nbsp; </div>
-      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
-    </div>
-  </br>
-
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
     <div v-if="winnerChosen">
       <h1>Winners</h1>
@@ -123,7 +116,7 @@
           datasets: [
             {
               /* Light Blue, Dark Gray, Light Gray: on Admin Pannel */
-              backgroundColor: ['#20A8D8', '#2F353A', '#E9ECEF'], 
+              backgroundColor: ['#20A8D8', '#2F353A', '#E9ECEF'],
               data: this.values
             }
           ]
