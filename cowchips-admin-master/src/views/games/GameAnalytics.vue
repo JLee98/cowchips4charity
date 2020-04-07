@@ -2,20 +2,23 @@
   <div>
 
     <div class="date-filter-container">
-      <div><font size="6">Filter by dates: &nbsp;</font></div>
-      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+      <div class="cowHeadDark">Filter by dates:</div>&nbsp
+      <date-picker class="cowTime" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker class="cowTime" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
     </div>
-   
-    <span><font size="6">Total Money: $</font> </span>
-    <span><font size="6">{{ totalMoney }} </font> </span>
-    </br>
-    <span><font size="6">Max Donation: $</font></span>
-    <span><font size="6">{{ maxDonation }}</font></span>
-    </br>
-    <span><font size="6">Total People Donated:</font></span>
-    <span><font size="6">{{ totalDonations }}</font></span>
-     </br>
+      </br>
+    <span class="cowHeadDark">Total Money Donated: </span>
+    <span class="cowHeadLight">${{ totalMoney }}</span>
+      </br>
+      </br>
+    <span class="cowHeadDark">Highest Donation: </span>
+    <span class="cowHeadLight">${{ maxDonation }}</span>
+      </br>
+      </br>
+    <span class="cowHeadDark">Total People Donated: </span>
+    <span class="cowHeadLight">{{ totalDonations }}</span>
+      </br>
+      </br>
     <doughnut-example :chart-data="datacollection3" chartId="card-chart-01" class="chart-wrapper px-3" style="height:200px;" :height="70" />
 
   </div>
@@ -73,7 +76,8 @@
           labels: this.keys,
           datasets: [
             {
-              backgroundColor: ['#FF0000', '#fff000', '#000fff'],
+              /* Light Blue, Dark Gray, Light Gray: on Admin Pannel */
+              backgroundColor: ['#20A8D8', '#2F353A', '#E9ECEF'], 
               data: this.values
             }
           ]
@@ -202,4 +206,37 @@
   .date-filter-container div {
     display: inline-block;
   }
+
+  .cowHeadLight {
+  background-color: #20A8D8; /* Light Blue on Admin Panel */
+  border: none;
+  color: #E9ECEF;           /* Light Gray on Admin Panel */
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 1.5px;
+}
+.cowHeadDark {
+  background-color: #20A8D8; /* Light Blue on Admin Panel */
+  border: none;
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 1.5px;
+}
+.cowTime {
+  background-color: #E9ECEF;  /* Light Gray on Admin Panel */
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  border: 2px solid #20A8D8;  /* Light Blue on Admin Panel */
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
 </style>
