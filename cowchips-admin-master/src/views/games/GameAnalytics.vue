@@ -63,7 +63,7 @@
   import Vue from 'vue';
 
   import io from 'socket.io-client'
-  var socket = io.connect('http://localhost:5555') //TODO: what port?
+  var socket = io.connect(process.env.VUE_APP_WEBSOCKET_URL)
 
 
   export default {
