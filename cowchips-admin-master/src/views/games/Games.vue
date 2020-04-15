@@ -69,15 +69,17 @@
     <div style="padding: 10px;">
       <!--So this shouldn't be here. It is a workaround for the broke actions in the CRUD table. Remove this when fixed.-->
       Actions section
-      <select class="element-selector" v-model="selectedGameId" style="margin-right: 5px;">
+      <select class="element-selector" v-model="selectedGameId" style="margin-right: 5px;" @change="updateButtonVisibility()">
         <option v-for="game in games" :value=game._id >{{ game.name }}</option>
       </select>
 
-      <i class="fa fa-th" @click="editGameBoard(selectedGameId)" title="Edit Game Board"></i>
-      <i class="fa fa-graduation-cap" @click="editOrganizations(selectedGameId)" title="Edit Organizations List"></i>
-      <i class="fa fa-diamond" @click="selectWinningTile(selectedGameId)" title="Select Winning Tile"></i>
-      <i class="fa fa-trophy" @click="winners(selectedGameId)" title="View Winners"></i>
-      <i class="fa fa-line-chart" @click="goToAnalytics(selectedGameId)" title="View Analytics"></i>
+      <div class="actions-button-container" style="display: inline-block;">
+        <i class="fa fa-th" @click="editGameBoard(selectedGameId)" title="Edit Game Board"></i>
+        <i class="fa fa-graduation-cap" @click="editOrganizations(selectedGameId)" title="Edit Organizations List"></i>
+        <i class="fa fa-diamond" @click="selectWinningTile(selectedGameId)" title="Select Winning Tile"></i>
+        <i class="fa fa-trophy" @click="winners(selectedGameId)" title="View Winners"></i>
+        <i class="fa fa-line-chart" @click="goToAnalytics(selectedGameId)" title="View Analytics"></i>
+      </div>
     </div>
 
   </div>
@@ -248,6 +250,19 @@
       },
       winners(id) {
         this.$router.push('/games/winners/' + id)
+      },
+      updateButtonVisibility() {
+        var hasWinner = this.games.filter(game => game._id == this.selectedGameId)[0].winningTile != null
+        var selectWinnerButton = document.querySelector('.actions-button-container .fa-diamond')
+        var seeWinnersButton = document.querySelector('.actions-button-container .fa-trophy')
+        if (hasWinner) {
+          selectWinnerButton.style.display = 'none'
+          seeWinnersButton.style.display = 'inline-block'
+        }
+        else {
+          selectWinnerButton.style.display = 'inline-block'
+          seeWinnersButton.style.display = 'none'
+        }
       },
       getGames() {
         return new Promise((resolve, reject) => {
