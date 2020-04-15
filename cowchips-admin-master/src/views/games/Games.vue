@@ -73,12 +73,16 @@
         <option v-for="game in games" :value=game._id >{{ game.name }}</option>
       </select>
 
+      <button @click="duddy()">duddy</button>
+
       <div class="actions-button-container" style="display: inline-block;">
         <i class="fa fa-th" @click="editGameBoard(selectedGameId)" title="Edit Game Board"></i>
         <i class="fa fa-graduation-cap" @click="editOrganizations(selectedGameId)" title="Edit Organizations List"></i>
         <i class="fa fa-diamond" @click="selectWinningTile(selectedGameId)" title="Select Winning Tile"></i>
         <i class="fa fa-trophy" @click="winners(selectedGameId)" title="View Winners"></i>
         <i class="fa fa-line-chart" @click="goToAnalytics(selectedGameId)" title="View Analytics"></i>
+        <!--<i class="fa fa-edit" @click="$options.components.CrudTable.methods.handleEditButtonClick(selectedGameId)"></i>-->
+        <!--<i class="fa fa-trash" @click="$options.components.CrudTable.methods.showDeleteModal(selectedGameId)"></i>-->
       </div>
     </div>
 
@@ -250,6 +254,9 @@
       },
       winners(id) {
         this.$router.push('/games/winners/' + id)
+      },
+      duddy() {
+        console.log(this.$options.components.CrudTable)
       },
       updateButtonVisibility() {
         var hasWinner = this.games.filter(game => game._id == this.selectedGameId)[0].winningTile != null
