@@ -6,6 +6,7 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 
 // Views
 const Dashboard = () => import('@/views/Dashboard')
+const SiteMap = () => import('@/views/SiteMap')
 
 // Views - Pages
 const Page404 = () => import('@/views/pages/Page404')
@@ -47,6 +48,11 @@ export default new Router({
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'sitemap',
+          name: 'Map',
+          component: SiteMap
         },
         {
           path: 'users',
