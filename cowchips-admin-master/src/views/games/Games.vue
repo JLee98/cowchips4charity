@@ -1,73 +1,86 @@
 <template>
-  <crud-table
-    url="/admin/games"
-    name="Games"
-    :fields="fields"
-    :validations="validations"
-    :create-transform="createTransform"
-    :export-format="exportFormat"
-  >
+  <div>
+    <crud-table url="/admin/games"
+                name="Games"
+                :fields="fields"
+                :validations="validations"
+                :create-transform="createTransform"
+                :export-format="exportFormat">
 
-    <template slot="update-form" slot-scope="slotProps">
-      <b-form-group label="Name">
-        <b-form-input id="update-name" v-model="slotProps.$v.updateRecord.name.$model" :state="!slotProps.$v.updateRecord.name.$error ? '' : false" ></b-form-input>
-        <b-form-invalid-feedback v-if="!slotProps.$v.updateRecord.name.required" >Name is required</b-form-invalid-feedback>
-      </b-form-group>
-      <b-form-group label="Start Time">
-        <date-picker name="date" v-model="slotProps.$v.updateRecord.startTime.$model" :config="datePickerOptions"></date-picker>
-      </b-form-group>
-      <b-form-group label="End Time">
-        <date-picker name="date" v-model="slotProps.$v.updateRecord.endTime.$model" :config="datePickerOptions"></date-picker>
-      </b-form-group>
-      <b-form-group label="Price">
-        <b-form-input id="update-price" type="number" v-model="slotProps.$v.updateRecord.price.$model" :state="!slotProps.$v.updateRecord.price.$error ? '' : false" ></b-form-input>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.required" >Price is required</b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.numeric" >Price must be a number</b-form-invalid-feedback>
-      </b-form-group>
-      <b-form-group label="Stream URL">
-        <b-form-input id="update-stream-url" type="url" v-model="slotProps.$v.updateRecord.streamUrl.$model" :state="!slotProps.$v.updateRecord.streamUrl.$error ? '' : false" ></b-form-input>
-        <b-form-invalid-feedback v-if="!slotProps.$v.updateRecord.streamUrl.required" >Stream URL is required</b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.streamUrl.url" >Stream URL must be a URL</b-form-invalid-feedback>
-      </b-form-group>
-    </template>
+      <template slot="update-form" slot-scope="slotProps">
+        <b-form-group label="Name">
+          <b-form-input id="update-name" v-model="slotProps.$v.updateRecord.name.$model" :state="!slotProps.$v.updateRecord.name.$error ? '' : false"></b-form-input>
+          <b-form-invalid-feedback v-if="!slotProps.$v.updateRecord.name.required">Name is required</b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group label="Start Time">
+          <date-picker name="date" v-model="slotProps.$v.updateRecord.startTime.$model" :config="datePickerOptions"></date-picker>
+        </b-form-group>
+        <b-form-group label="End Time">
+          <date-picker name="date" v-model="slotProps.$v.updateRecord.endTime.$model" :config="datePickerOptions"></date-picker>
+        </b-form-group>
+        <b-form-group label="Price">
+          <b-form-input id="update-price" type="number" v-model="slotProps.$v.updateRecord.price.$model" :state="!slotProps.$v.updateRecord.price.$error ? '' : false"></b-form-input>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.required">Price is required</b-form-invalid-feedback>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.numeric">Price must be a number</b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group label="Stream URL">
+          <b-form-input id="update-stream-url" type="url" v-model="slotProps.$v.updateRecord.streamUrl.$model" :state="!slotProps.$v.updateRecord.streamUrl.$error ? '' : false"></b-form-input>
+          <b-form-invalid-feedback v-if="!slotProps.$v.updateRecord.streamUrl.required">Stream URL is required</b-form-invalid-feedback>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.streamUrl.url">Stream URL must be a URL</b-form-invalid-feedback>
+        </b-form-group>
+      </template>
 
-    <template slot="create-form" slot-scope="slotProps">
-      <b-form-group label="Name">
-        <b-form-input id="create-name" v-model="slotProps.$v.createRecord.name.$model" :state="!slotProps.$v.createRecord.name.$error ? '' : false" ></b-form-input>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.name.required" >Name is required</b-form-invalid-feedback>
-      </b-form-group>
-      <b-form-group label="Start Time">
-        <date-picker name="date" v-model="slotProps.createRecord.startTime" :config="datePickerOptions"></date-picker>
-      </b-form-group>
-      <b-form-group label="End Time">
-        <date-picker name="date" v-model="slotProps.createRecord.endTime" :config="datePickerOptions"></date-picker>
-      </b-form-group>
-      <b-form-group label="Price">
-        <b-form-input id="create-price" type="number" v-model="slotProps.$v.createRecord.price.$model" :state="!slotProps.$v.createRecord.price.$error ? '' : false" ></b-form-input>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.required" >Price is required</b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.numeric" >Price must be a number</b-form-invalid-feedback>
-      </b-form-group>
-      <b-form-group label="Stream URL">
-        <b-form-input id="create-stream-url" type="url" v-model="slotProps.$v.createRecord.streamUrl.$model" :state="!slotProps.$v.createRecord.streamUrl.$error ? '' : false" ></b-form-input>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.streamUrl.required" >Stream URL is required</b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.streamUrl.url" >Stream URL must be a URL</b-form-invalid-feedback>
-      </b-form-group>
-    </template>
+      <template slot="create-form" slot-scope="slotProps">
+        <b-form-group label="Name">
+          <b-form-input id="create-name" v-model="slotProps.$v.createRecord.name.$model" :state="!slotProps.$v.createRecord.name.$error ? '' : false"></b-form-input>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.name.required">Name is required</b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group label="Start Time">
+          <date-picker name="date" v-model="slotProps.createRecord.startTime" :config="datePickerOptions"></date-picker>
+        </b-form-group>
+        <b-form-group label="End Time">
+          <date-picker name="date" v-model="slotProps.createRecord.endTime" :config="datePickerOptions"></date-picker>
+        </b-form-group>
+        <b-form-group label="Price">
+          <b-form-input id="create-price" type="number" v-model="slotProps.$v.createRecord.price.$model" :state="!slotProps.$v.createRecord.price.$error ? '' : false"></b-form-input>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.required">Price is required</b-form-invalid-feedback>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.price.numeric">Price must be a number</b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group label="Stream URL">
+          <b-form-input id="create-stream-url" type="url" v-model="slotProps.$v.createRecord.streamUrl.$model" :state="!slotProps.$v.createRecord.streamUrl.$error ? '' : false"></b-form-input>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.streamUrl.required">Stream URL is required</b-form-invalid-feedback>
+          <b-form-invalid-feedback v-if="!slotProps.$v.createRecord.streamUrl.url">Stream URL must be a URL</b-form-invalid-feedback>
+        </b-form-group>
+      </template>
 
-    <template slot="additional-actions" slot-scope="slotProps">
-      <i class="fa fa-th" @click="editGameBoard(slotProps.data.item._id)" title="Edit Game Board"></i>
-      <i class="fa fa-graduation-cap" @click="editOrganizations(slotProps.data.item._id)" title="Edit Organizations List"></i>
-      <i class="fa fa-diamond" v-if="slotProps.data.item.winningTile == null" @click="selectWinningTile(slotProps.data.item._id)" title="Select Winning Tile"></i>
-      <i class="fa fa-trophy" v-if="slotProps.data.item.winningTile != null" @click="winners(slotProps.data.item._id)" title="View Winners"></i>
-      <i class="fa fa-line-chart" @click="goToAnalytics(slotProps.data.item._id)" title="View Analytics"></i>
+      <template slot="additional-actions" slot-scope="slotProps">
+        <i class="fa fa-th" @click="editGameBoard(slotProps.data.item._id)" title="Edit Game Board"></i>
+        <i class="fa fa-graduation-cap" @click="editOrganizations(slotProps.data.item._id)" title="Edit Organizations List"></i>
+        <i class="fa fa-diamond" v-if="slotProps.data.item.winningTile == null" @click="selectWinningTile(slotProps.data.item._id)" title="Select Winning Tile"></i>
+        <i class="fa fa-trophy" v-if="slotProps.data.item.winningTile != null" @click="winners(slotProps.data.item._id)" title="View Winners"></i>
+        <i class="fa fa-line-chart" @click="goToAnalytics(slotProps.data.item._id)" title="View Analytics"></i>
 
-    </template>
-
+      </template>
 
 
-  </crud-table>
 
+    </crud-table>
 
+    <div style="padding: 10px;">
+      <!--So this shouldn't be here. It is a workaround for the broke actions in the CRUD table. Remove this when fixed.-->
+      Actions section
+      <select class="element-selector" v-model="selectedGameId" style="margin-right: 5px;">
+        <option v-for="game in games" :value=game._id >{{ game.name }}</option>
+      </select>
+
+      <i class="fa fa-th" @click="editGameBoard(selectedGameId)" title="Edit Game Board"></i>
+      <i class="fa fa-graduation-cap" @click="editOrganizations(selectedGameId)" title="Edit Organizations List"></i>
+      <i class="fa fa-diamond" @click="selectWinningTile(selectedGameId)" title="Select Winning Tile"></i>
+      <i class="fa fa-trophy" @click="winners(selectedGameId)" title="View Winners"></i>
+      <i class="fa fa-line-chart" @click="goToAnalytics(selectedGameId)" title="View Analytics"></i>
+    </div>
+
+  </div>
 
 </template>
 
@@ -75,6 +88,8 @@
   import CrudTable from '@/views/crud/CRUDTable'
   import moment from 'moment'
   import { required, url, numeric } from 'vuelidate/lib/validators'
+  import axios from "axios";
+
 
   export default {
     name: "Games",
@@ -183,7 +198,9 @@
           'End Time' : 'endTime',
           'Stream URL' : 'streamUrl',
           'Board' : 'board',
-        }
+        },
+        games: [],
+        selectedGameId: null
       }
     },
     methods: {
@@ -231,7 +248,24 @@
       },
       winners(id) {
         this.$router.push('/games/winners/' + id)
+      },
+      getGames() {
+        return new Promise((resolve, reject) => {
+          axios.get(`/admin/games`)
+            .then(res => {
+              var games = res.data
+              return resolve(games)
+            })
+        })
+      },
+      startHandler() {
+        this.getGames().then((games) => {
+          this.games = games
+        })
       }
+    },
+    beforeMount() {
+      this.startHandler()
     }
   }
 </script>
