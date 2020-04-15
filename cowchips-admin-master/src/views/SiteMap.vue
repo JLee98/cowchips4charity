@@ -4,8 +4,8 @@
 
     <div class="sitemap-section">
       <div class="sitemap-section-title">Users</div>
-      <select class="sitemap-section-element-selector">
-        <option v-for="user in this.users" :value=user._id>{{ user.name }}</option>
+      <select class="sitemap-section-element-selector" @change="setCurUser(users.filter(user => user._id == $event.target.value)[0])">
+        <option v-for="user in this.users" :value=user._id >{{ user.name }}</option>
       </select>
       <div class="sitemap-section-buttons-container">
         <button>tset</button>
@@ -100,7 +100,11 @@
         })
       },
       setCurUser(user) {
+        console.log(user)
         this.curUser = [{ "Name": user.name, "Email": user.email, "Phone": user.phone }]
+      },
+      doChange(event) {
+        this.setCurUser(this.users.filter(user => user._id == event.target.value)[0])
       }
     },
     beforeMount() {
