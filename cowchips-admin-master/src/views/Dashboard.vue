@@ -443,7 +443,7 @@ import axios from "axios";
 import Vue from 'vue';
 
 import io from 'socket.io-client'
-var socket = io.connect('http://localhost:5555') //TODO: un-hardcode port
+var socket = io.connect(process.env.VUE_APP_WEBSOCKET_URL) 
 
 //JS doesn't truly have enums, this is a workaround
 var timeframeEnum = {LIFETIME: 'lifetime', YEAR: 'year', MONTH: 'month', WEEK: 'week'}

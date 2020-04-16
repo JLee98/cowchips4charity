@@ -56,7 +56,7 @@ import axios from "axios";
 import Vue from 'vue';
 
 import io from 'socket.io-client'
-var socket = io.connect('http://localhost:5555') //TODO: what port?
+var socket = io.connect(process.env.VUE_APP_WEBSOCKET_URL) 
 var totalMoney = 0;
 var maxDonation = 0;
 var totalDonations = 0;
