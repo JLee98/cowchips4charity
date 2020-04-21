@@ -1,198 +1,134 @@
 <template>
   <div>
-  <html>
-  <head>
-  </head>
-    <body>
-      <div id="container">
-        <div id="header">
-          <img src="../assets/boo_radley.png">
-          </div>
-          <div id="content">
-          <table id="bingotable">
-            <tr>
-              <td id="square0">
-
-              </td>
-              <td id="square1"> &nbsp;</td>
-              <td id="square2"> &nbsp;</td>
-              <td id="square3"> &nbsp;</td>
-              <td id="square4"> &nbsp;</td>
-              <td id="square5"> &nbsp;</td>
-            </tr>
-            <tr>
-              <td id="square6"> &nbsp;</td>
-              <td id="square7"> &nbsp;</td>
-              <td id="square8"> &nbsp;</td>
-              <td id="square9"> &nbsp;</td>
-              <td id="square10"> &nbsp;</td>
-              <td id="square11"> &nbsp;</td>
-            </tr>
-            <tr>
-              <td id="square12"> &nbsp;</td>
-              <td id="square13"> &nbsp;</td>
-              <td id="square14"> &nbsp;</td>
-              <td id="square15"> &nbsp;</td>
-              <td id="square16"> &nbsp;</td>
-              <td id="square17"> &nbsp;</td>
-            </tr>
-            <tr>
-              <td id="square18"> &nbsp;</td>
-              <td id="square19"> &nbsp;</td>
-              <td id="square20"> &nbsp;</td>
-              <td id="square21"> &nbsp;</td>
-              <td id="square22"> &nbsp;</td>
-              <td id="square23"> &nbsp;</td>
-            </tr>
-            <tr>
-              <td id="square24"> &nbsp;</td>
-              <td id="square25"> &nbsp;</td>
-              <td id="square26"> &nbsp;</td>
-              <td id="square27"> &nbsp;</td>
-              <td id="square28"> &nbsp;</td>
-              <td id="square29"> &nbsp;</td>
-            </tr>
-            <tr>
-              <td id="square30"> &nbsp;</td>
-              <td id="square31"> &nbsp;</td>
-              <td id="square32"> &nbsp;</td>
-              <td id="square33"> &nbsp;</td>
-              <td id="square34"> &nbsp;</td>
-              <td id="square35"> &nbsp;</td>
-            </tr>
-          </table>
-        </div>
-
-      <div id="sb_content">
-        <table id="scoreboard">
-          <tr id="orgNames">
-            <td class="orgName" id="orgName1">Team 1</td>
-            <td class="orgName" id="orgName2">Team 2</td>
-          </tr>
-          <tr id="scores">
-            <td>
-              <h1 class="score" id="score1">71</h1>
-            </td>
-            <td>
-              <h1 class="score" id="score2">14</h1>
-            </td>
-          </tr>
-        </table>
+    <table class="whole">
+      <div class="header">
+        <img src="../assets/boo_radley.png">
       </div>
-
-    </div>
-
-  </body>
-
-  </html>
-
+      <tr :key="row" v-for="row in 6">
+        <td :key="col" v-for="col in 6">
+          <tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" @selected="handleSelected" class="game_tile"></tile>
+        </td>
+      </tr>
+      <table class="scoreboard">
+      <tr class="orgNames">
+        <td class="orgName" id="orgName1">Team 1</td>
+        <td class="orgName" id="orgName2">Team 2</td>
+      </tr>
+      <tr class="scores">
+        <td>
+          <h1 class="score" id="score1">71</h1>
+        </td>
+        <td>
+          <h1 class="score" id="score2">14</h1>
+        </td>
+      </tr>
+    </table>
+    </table>
   </div>
 </template>
 
 <script>
+  import path from 'path'
+  import axios from 'axios'
+  import Tile from '@/components/Tile'
+  import localStorageNames from '@/config/localStorageNames'
 
-import path from 'path'
-import axios from 'axios'
-import Tile from '@/components/Tile'
-import localStorageNames from '@/config/localStorageNames'
-
-export default {
-  name: "Board",
-  components: {
-    Tile
-  },
-  mounted() {
-    this.getGameBoard()
-  },
-  data() {
-    return {
-      board: [],
-      selected: [],
-      price: 0
-    }
-  },
-  methods: {
-    getGameBoard() {
-      let gameId = this.$localStorage.get(localStorageNames.gameId)
-      if(!gameId)
-        return
-
-      axios.get(path.join('/game', gameId))
-        .then(res => {
-          // console.log(res.data)
-          this.board = res.data.board
-          this.price = res.data.price
-        })
-        .catch(err => {
-          console.log(err)
-        })
+  export default {
+    name: "Game",
+    components: {
+      Tile
     },
-  },
-}
+    mounted() {
+      this.getGameBoard()
+    },
+    data() {
+      return {
+        board: [],
+        selected: [],
+        price: 0
+      }
+    },
+    methods: {
+      getGameBoard() {
+        let gameId = this.$localStorage.get(localStorageNames.gameId)
+        if(!gameId)
+          return
+
+        axios.get(path.join('/game', gameId))
+          .then(res => {
+            // console.log(res.data)
+            this.board = res.data.board
+            this.price = res.data.price
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+    }
+  }
 </script>
-
 <style scoped>
-body {
-  background-image: url(../assets/grass_background.jpg);
-  display: flex;
-  height: 90vh;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-}
 
-img {
-  width: 350px;
-}
+  .whole {
+    display: block;
+    height: 100vh;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 
-#bingotable {
-  margin: 0 auto;
+    width: 100%;
+    background-image: url("../assets/grass_background.jpg");
+  }
+
+  .table {
+    padding: 20px;
+  }
+
+  .header {
+    width: 400px;
+    align-content:center;
+  }
+
+  .scoreboard {
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+    width:300px;
+    height:100px;
+    border-collapse: collapse;
+    background: #333333;
+  }
+
+  .scoreboard td {
+    font-family: serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: white;
+    margin: 0 auto;
+    text-align: center;
+    border: 3px solid white;
+    width: 50%;
+  }
+
+  .game_tile {
+    text-align: center;
+    width: 5em;
+    padding: 5px;
+    border-radius: 15px;
+    font-size: 22px;
+    color: white;
+    background-color: #4e3b25;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    overflow-x: hidden;
+  }
+
+  .words {
   text-align: center;
-  width:400px;
-  height:400px;
-  border-collapse: collapse;
-  background: white;
-}
-
-#bingotable td {
-  font-family: serif;
-  font-weight: 600;
-  font-size: 25px;
+  padding-top: 10px;
+  font-size: 22px;
   color: green;
-  margin: 0 auto;
-  text-align: center;
-  border: 3px solid black;
-  width: 16.667%;
-}
-
-#scoreboard {
-  margin: auto;
-  margin-top: 20px;
-  text-align: center;
-  width:300px;
-  height:100px;
-  border-collapse: collapse;
-  background: #333333;
-}
-
-#scoreboard td {
-  font-family: serif;
-  font-weight: 600;
-  font-size: 20px;
-  color: white;
-  margin: 0 auto;
-  text-align: center;
-  border: 3px solid white;
-  width: 50%;
-}
-
-h1{
-  font-family: 'Play', sans-serif;
-  font-weight: 600;
-  margin: 0 auto;
-  text-align: center;
-  padding: 10px;
-  color: red;
-}
+  }
 
 </style>

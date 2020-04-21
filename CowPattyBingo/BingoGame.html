@@ -6,21 +6,18 @@
 <meta charset="utf-8" />
 
 <title>Cow Patty Bingo</title>
-
 <link rel="stylesheet" type="text/css" href="style.css" />
-
 <script type="text/javascript" src="gameJavascript.js"></script>
-
 </head>
-
-<body onload="newCard()">
+<body onload="newCard();">
   <div id="container">
     <div id="header">
       <img src="assets/boo_radley.png">
     </div>
   	<div id="content">
+                  <img id="cow" src="assets/cowWalk.gif" style="width:150px;height:100px;position:absolute;left:0;top:40"></img>
   		<table id="bingotable">
-  			<tr>
+  			<tr id="row1">
   				<td id="square0"> &nbsp;</td>
   				<td id="square1"> &nbsp;</td>
   				<td id="square2"> &nbsp;</td>
@@ -28,7 +25,7 @@
   				<td id="square4"> &nbsp;</td>
           <td id="square5"> &nbsp;</td>
   			</tr>
-        <tr>
+        <tr id="row2">
   				<td id="square6"> &nbsp;</td>
   				<td id="square7"> &nbsp;</td>
   				<td id="square8"> &nbsp;</td>
@@ -36,7 +33,7 @@
   				<td id="square10"> &nbsp;</td>
           <td id="square11"> &nbsp;</td>
   			</tr>
-        <tr>
+        <tr id="row3">
   				<td id="square12"> &nbsp;</td>
   				<td id="square13"> &nbsp;</td>
   				<td id="square14"> &nbsp;</td>
@@ -44,7 +41,7 @@
   				<td id="square16"> &nbsp;</td>
           <td id="square17"> &nbsp;</td>
   			</tr>
-        <tr>
+        <tr id="row4">
   				<td id="square18"> &nbsp;</td>
   				<td id="square19"> &nbsp;</td>
   				<td id="square20"> &nbsp;</td>
@@ -52,7 +49,7 @@
   				<td id="square22"> &nbsp;</td>
           <td id="square23"> &nbsp;</td>
   			</tr>
-        <tr>
+        <tr id="row5">
   				<td id="square24"> &nbsp;</td>
   				<td id="square25"> &nbsp;</td>
   				<td id="square26"> &nbsp;</td>
@@ -60,7 +57,7 @@
   				<td id="square28"> &nbsp;</td>
           <td id="square29"> &nbsp;</td>
   			</tr>
-        <tr>
+        <tr id="row6">
   				<td id="square30"> &nbsp;</td>
   				<td id="square31"> &nbsp;</td>
   				<td id="square32"> &nbsp;</td>
@@ -89,7 +86,345 @@
   	</div>
 
   </div>
+ <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script type = "text/javascript">
+    //We will replace this by some kinda trigger that tells the cow to start planting the Patty
+    //For now, it will trigger on onload and the cow stops moving at the same spot each time and switches to idle image
+          var cowImage = $("#cow");
+          var imagePos = cowImage.position();
+          var cowPosTop = imagePos.top;
+          var cowPosLeft = imagePos.left;
+          var winningTile = $("#square35");
+          var cowWalkInterval;
+          var cowLeaveInterval;
+          var startWalking;
+          var walkAimlessInterval = setInterval(walkAimlessly, 10);
+          function walkAimlessly()
+          {
+            startWalking = setTimeout(startLookingForTile, 5000);
+            if(cowPosTop >= 0)
+            {
+             $("#cow").css('top', cowPosTop);
+              console.log("walk around");
+            }
+            if(cowPosTop <= 400)
+            {
+              cowPosTop--;
+              $("#cow").css('top', cowPosTop);
+            }
+              clearInterval(walkAimlessInterval);
+          }
+          function startLookingForTile()
+          {
+            //Currently have it activate after 5 seconds for demonstration purposes. For the actual implementation set for 5 to 10 min
+              clearTimeout(startWalking);
+              cowWalkInterval = setInterval(cowWalking, 10);
+          }
 
+          function cowWalking()
+          {
+            //Check if winning tile is in row 1
+              if(winningTile.is("#square0") || winningTile.is("#square1") || winningTile.is("#square2")
+              || winningTile.is("#square3") || winningTile.is("#square4") || winningTile.is("#square5"))
+              {
+                cowPosLeft++;
+                $("#cow").css('left', cowPosLeft);
+                console.log("hit0");
+                if(isOverlap("#cow", winningTile))
+                {
+                   console.log("hitTile");
+                    dropPattyOnTile();
+                }
+              }
+              //Check if winning tile is in row 2
+              if(winningTile.is("#square6") || winningTile.is("#square7") || winningTile.is("#square8")
+              || winningTile.is("#square9") || winningTile.is("#square10") || winningTile.is("#square11"))
+              {
+                var keepMovingLeft = true;
+                var keepMovingTop = false;
+                if(keepMovingLeft)
+                {
+                  cowPosLeft++;
+                  $("#cow").css('left', cowPosLeft);
+                  console.log("hit0");
+                  if(isOverlap("#cow","#square0"))
+                  {
+                    keepMovingTop = true;
+                    keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow", winningTile))
+                  {
+                     console.log("hitTile");
+                      dropPattyOnTile();
+                  }
+                }
+                if(keepMovingTop)
+                {
+                  cowPosTop++;
+                  $("#cow").css('top', cowPosTop);
+                  console.log("hit1");
+                  if(isOverlap("#cow","#square6") && !winningTile.is("#square6"))
+                  {
+                    keepMovingTop = false;
+                    keepMovingLeft = true;
+                  }
+                }
+              }
+              //Check if winning tile is in row 3
+              if(winningTile.is("#square12") || winningTile.is("#square13") || winningTile.is("#square14")
+              || winningTile.is("#square15") || winningTile.is("#square16") || winningTile.is("#square17"))
+              {
+                var keepMovingLeft = true;
+                var keepMovingTop = false;
+                if(keepMovingLeft)
+                {
+                  cowPosLeft++;
+                  $("#cow").css('left', cowPosLeft);
+                  console.log("hit0");
+                  if(isOverlap("#cow","#square0"))
+                  {
+                    console.log("hit square 0");
+                    keepMovingTop = true;
+                    keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow", winningTile))
+                  {
+                     console.log("hitTile");
+                      dropPattyOnTile();
+                  }
+                }
+                if(keepMovingTop)
+                {
+                  if(!isOverlap("#cow","#square12"))
+                  {
+                    cowPosTop++;
+                    $("#cow").css('top', cowPosTop);
+                    console.log("hit1");
+                  }
+                  if(isOverlap("#cow","#square12") && !winningTile.is("#square12"))
+                  {
+                    console.log("hit square 12");
+                    keepMovingTop = false;
+                    keepMovingLeft = true;
+                  }
+                  if(isOverlap("#cow","#square12") && winningTile.is("#square12"))
+                  {
+                      dropPattyOnTile();
+                  }
+                }
+            }
+            //Check if winning tile is in row 4
+              if(winningTile.is("#square18") || winningTile.is("#square19") || winningTile.is("#square20")
+              || winningTile.is("#square21") || winningTile.is("#square22") || winningTile.is("#square23"))
+              {
+                var keepMovingLeft = true;
+                var keepMovingTop = false;
+                if(keepMovingLeft)
+                {
+                  cowPosLeft++;
+                  $("#cow").css('left', cowPosLeft);
+                  console.log("hit0");
+                  if(isOverlap("#cow","#square6"))
+                  {
+                    console.log("hit square 6");
+                    keepMovingTop = true;
+                    keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow", winningTile))
+                  {
+                     console.log("hitTile");
+                      dropPattyOnTile();
+                  }
+                }
+                if(keepMovingTop)
+                {
+                  if(!isOverlap("#cow","#square18"))
+                  {
+                    cowPosTop++;
+                    $("#cow").css('top', cowPosTop);
+                    console.log("hit1");
+                  }
+                  if(isOverlap("#cow","#square19") && !winningTile.is("#square19"))
+                  {
+                    console.log("hit square 18");
+                    keepMovingTop = false;
+                    keepMovingLeft = true;
+                  }
+                  if(isOverlap("#cow","#square19") && winningTile.is("#square19"))
+                  {
+                      dropPattyOnTile();
+                  }
+                }
+              }
+              //Check if winning tile is in row 5
+              if(winningTile.is("#square24") || winningTile.is("#square25") || winningTile.is("#square26")
+              || winningTile.is("#square27") || winningTile.is("#square28") || winningTile.is("#square29"))
+              {
+                var keepMovingLeft = true;
+                var keepMovingTop = false;
+                if(keepMovingLeft)
+                {
+                  cowPosLeft++;
+                  $("#cow").css('left', cowPosLeft);
+                  console.log("hit0");
+                  if(isOverlap("#cow","#square6"))
+                  {
+                    cowPosTop++;
+                    $("#cow").css('top', cowPosTop);
+                      console.log("hit6");
+                  }
+                  if(isOverlap("#cow","#square12"))
+                  {
+                    console.log("hit square 12");
+                    cowPosTop++;
+                      $("#cow").css('top', cowPosTop);
+                  }
+                  if(isOverlap("#cow","#square18"))
+                  {
+                      cowPosTop++;
+                      $("#cow").css('top', cowPosTop);
+                      console.log("hit square 18");
+                      keepMovingTop = true;
+                      keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow", winningTile))
+                  {
+                     console.log("hitTile");
+                      dropPattyOnTile();
+                  }
+                }
+                if(keepMovingTop)
+                {
+                  if(!isOverlap("#cow","#square24"))
+                  {
+                    cowPosTop++;
+                    $("#cow").css('top', cowPosTop);
+                    console.log("hit1");
+                  }
+                  if(isOverlap("#cow","#square24") && !winningTile.is("#square24"))
+                  {
+                    console.log("hit square 24");
+                    keepMovingTop = false;
+                    keepMovingLeft = true;
+                  }
+                  if(isOverlap("#cow","#square24") && winningTile.is("#square24"))
+                  {
+                      dropPattyOnTile();
+                  }
+                }
+              }
+              //Check if winning tile is  in  row 6
+              if(winningTile.is("#square30") || winningTile.is("#square31") || winningTile.is("#square32")
+              || winningTile.is("#square33") || winningTile.is("#square34") || winningTile.is("#square35"))
+              {
+                var keepMovingLeft = true;
+                var keepMovingTop = false;
+                if(keepMovingLeft)
+                {
+                  cowPosLeft++;
+                  $("#cow").css('left', cowPosLeft);
+                  console.log("hit0");
+                  if(isOverlap("#cow","#square6"))
+                  {
+                    cowPosTop++;
+                    $("#cow").css('top', cowPosTop);
+                      console.log("hit6");
+                  }
+                  if(isOverlap("#cow","#square12"))
+                  {
+                    console.log("hit square 12");
+                    cowPosTop++;
+                      $("#cow").css('top', cowPosTop);
+                  }
+                  if(isOverlap("#cow","#square18"))
+                  {
+                      cowPosTop++;
+                      $("#cow").css('top', cowPosTop);
+                      console.log("hit square 18");
+                      keepMovingTop = true;
+                      keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow","#square24"))
+                  {
+                      cowPosTop++;
+                      $("#cow").css('top', cowPosTop);
+                      console.log("hit square 24");
+                      keepMovingTop = true;
+                      keepMovingLeft = false;
+                  }
+                  if(isOverlap("#cow", winningTile))
+                  {
+                     console.log("hitTile");
+                      dropPattyOnTile();
+                  }
+                }
+                if(keepMovingTop)
+                {
+                  if(!isOverlap("#cow","#square30"))
+                  {
+                    cowPosTop++;
+                    $("#cow").css('top', cowPosTop);
+                    console.log("hit1");
+                  }
+                  if(isOverlap("#cow","#square30") && !winningTile.is("#square30"))
+                  {
+                    console.log("hit square 30");
+                    keepMovingTop = false;
+                    keepMovingLeft = true;
+                  }
+                  if(isOverlap("#cow","#square30") && winningTile.is("#square30"))
+                  {
+                      dropPattyOnTile();
+                  }
+                }
+             }
+      }
+      function dropPattyOnTile()
+      {
+        cowImage.src = "assets/cow1.gif";
+        clearInterval(cowWalkInterval);
+        cowImage.src = "assets/cowWalk.gif";
+        doneMoving = true;
+        cowLeaveInterval = setInterval(cowLeaveGrid, 40);
+      }
+      function cowLeaveGrid()
+      {
+        if(cowPosTop > 800 && cowPosLeft > 800)
+           {
+             cowImage.src = "assets/cow1.gif";
+             clearInterval(cowLeaveInterval);
+
+           }
+           else
+           {
+             cowPosTop++;
+             $("#cow").css('top', cowPosTop);
+            setTimeout(function(){winningTile.css('background-color', 'brown'); }, 1000);
+             cowPosLeft++;
+             $("#cow").css('left', cowPosLeft);
+           }
+      }
+      function isOverlap(idOne,idTwo)
+      {
+        var cow=$(idOne),
+            square=$(idTwo),
+            offsetCow = cow.offset(),
+            offsetSquare = square.offset(),
+            cowBottom= offsetCow.top,
+            squareTop=offsetSquare.top,
+            cowLeft=offsetCow.left,
+            squareLeft=offsetSquare.left,
+            cowWidth = cow.width(),
+            squareWidth = square.width(),
+            cowHeight = cow.height(),
+            squareHeight = square.height();
+       var leftTop = squareLeft > cowLeft && squareLeft < cowLeft+cowWidth && squareTop > cowBottom && squareTop < cowBottom+cowHeight,
+        rightTop = squareLeft+squareWidth > cowLeft && squareLeft+squareWidth < cowLeft+cowWidth && squareTop > cowBottom && squareTop < cowBottom+cowHeight,
+        leftBottom = squareLeft > cowLeft && squareLeft < cowLeft+cowWidth && squareTop+squareHeight > cowBottom && squareTop+squareHeight < cowBottom+cowHeight,rightBottom = squareLeft+squareWidth > cowLeft
+        && squareLeft+squareWidth < cowLeft+cowWidth && squareTop+squareHeight > cowBottom && squareTop+squareHeight < cowBottom+cowHeight;
+        return leftTop || leftBottom;
+    }
+    </script>
 </body>
 
 </html>
