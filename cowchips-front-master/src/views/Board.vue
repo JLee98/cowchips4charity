@@ -11,7 +11,9 @@
           <div id="content">
           <table id="bingotable">
             <tr>
-              <td id="square0"> &nbsp;</td>
+              <td id="square0">
+
+              </td>
               <td id="square1"> &nbsp;</td>
               <td id="square2"> &nbsp;</td>
               <td id="square3"> &nbsp;</td>
@@ -87,7 +89,47 @@
   </div>
 </template>
 
+<script>
 
+import path from 'path'
+import axios from 'axios'
+import Tile from '@/components/Tile'
+import localStorageNames from '@/config/localStorageNames'
+
+export default {
+  name: "Board",
+  components: {
+    Tile
+  },
+  mounted() {
+    this.getGameBoard()
+  },
+  data() {
+    return {
+      board: [],
+      selected: [],
+      price: 0
+    }
+  },
+  methods: {
+    getGameBoard() {
+      let gameId = this.$localStorage.get(localStorageNames.gameId)
+      if(!gameId)
+        return
+
+      axios.get(path.join('/game', gameId))
+        .then(res => {
+          // console.log(res.data)
+          this.board = res.data.board
+          this.price = res.data.price
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+  },
+}
+</script>
 
 <style scoped>
 body {
@@ -154,7 +196,3 @@ h1{
 }
 
 </style>
-
-<script>
-
-</script>
