@@ -4,9 +4,10 @@
       <div class="header">
         <img src="../assets/boo_radley.png">
       </div>
+      <img id="cow" src="../assets/cowWalk.gif" style="width:150px;height:100px;position:absolute;left:0;top:40"></img>
       <table class="grid">
         <tr :key="row" v-for="row in 6">
-          <td :key="col" v-for="col in 6">
+          <td :key="col" v-for="col in 6" v-bind:id="(row*(col+12))">
             <tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" @selected="handleSelected" class="game_tile"></tile>
           </td>
         </tr>
