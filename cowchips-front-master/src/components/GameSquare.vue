@@ -1,5 +1,5 @@
 <template>
-  <td :style="btnColor()" @click="handleClick">{{this.number}}</td>
+  <td :style="btnColor()"</td>
 </template>
 
 <script>
@@ -14,7 +14,7 @@
         this.$emit('selected', this.number)
       },
       btnColor() {
-        return this.selected.includes(this.number) ? 'background-color: white; color: #5C2C17;' : ''
+        return 'background-color: white; color: black;' : ''
       }
     },
   }
@@ -25,5 +25,6 @@
     width: 16%;
     border-style: solid;
     border-width: 2px;
+    border-radius: 50%;
   }
 </style>

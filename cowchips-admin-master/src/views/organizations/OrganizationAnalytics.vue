@@ -2,12 +2,51 @@
   <div>
 
     <div class="date-filter-container">
-      <div>Filter by dates: &nbsp; </div>
-      <date-picker name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
-      <date-picker name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+      <div class="headingDark">Filter by dates:</div>&nbsp 
+      <date-picker class="datePicker" name="startDate" v-model="filterStartDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="Start date"></date-picker>
+      <date-picker class="datePicker" name="endDate" v-model="filterEndDate" :config="datePickerOptions" v-on:input="performDonationUpdate()" placeholder="End date"></date-picker>
+    </div>
+   
+    </br>
+
+    <div>
+     <b-card-group deck>
+        <b-card
+          border-variant="primary"
+          header="Total Money Donated"
+          header-bg-variant="primary"
+          header-text-variant="white"
+          align="center"
+          style="max-width: 400px; font-size: 24px;"
+
+         >
+        <b-card-text>${{ totalMoney }}</b-card-text>
+        </b-card>
+
+        <b-card
+          border-variant="warning"
+          header="Highest Donation"
+          header-bg-variant="warning"
+          header-text-variant="white"
+          align="center"
+          style="max-width: 400px; font-size: 24px;"
+        >
+          <b-card-text>${{ maxDonation }}</b-card-text>
+        </b-card>
+
+        <b-card
+          border-variant="danger"
+          header="Total People Donated"
+          header-bg-variant="danger"
+          header-text-variant="white"
+          align="center"
+          style="max-width: 400px; font-size: 24px;"
+        >
+          <b-card-text>{{ totalDonations }}</b-card-text>
+        </b-card>
+     </b-card-group>
     </div>
 
-    <span> {{ totalMoney }} </span>
 
   </div>
 </template>
@@ -17,7 +56,7 @@ import axios from "axios";
 import Vue from 'vue';
 
 import io from 'socket.io-client'
-var socket = io.connect('http://localhost:5555') //TODO: what port?
+var socket = io.connect(process.env.VUE_APP_WEBSOCKET_URL) 
 var totalMoney = 0;
 var maxDonation = 0;
 var totalDonations = 0;
@@ -152,4 +191,30 @@ export default {
   .date-filter-container div {
     display: inline-block;
   }
+
+ 
+
+/*Dark Gray Font & Light Blue background*/
+.headingDark {
+  border: none;
+  border-radius: 1.5px;
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  display: inline-block;
+  font-size: 30px;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/*Dark Gray Font & Light Blue Border $ "No" background*/
+.datePicker {
+  background-color: #E9ECEF;  /* Light Gray on Admin Panel */
+  border: 2px solid #20A8D8;  /* Light Blue on Admin Panel */
+  color: #2F353A;             /* Dark Gray on Admin Panel */
+  display: inline-block;
+  font-size: 30px;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+}
 </style>
