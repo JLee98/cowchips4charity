@@ -104,7 +104,7 @@
       },
       goToAnalytics(id) {
         console.log('goToAnalytics for game:' + id)
-        this.$router.push('/organiations/analytics/' + id)
+        this.$router.push('/organizations/analytics/' + id)
       },
 
     },
