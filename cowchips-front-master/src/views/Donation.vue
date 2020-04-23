@@ -27,7 +27,7 @@
       </fieldset>
       <button class="checkout" @click="purchase">Pay ${{total}}</button>
       <button class="checkout" @click="purchase">
-      <a href="http://localhost:8081/BingoGame.html">Play!</a>
+        <a id="playButton" href="http://localhost:8081/BingoGame.html">Play!</a>
       </button>
     </div>
   </div>
@@ -219,6 +219,11 @@
     width: 80%;
     -ms-flex-align: center;
     align-items: center;
+  }
+
+  #playButton {
+    color: white;
+    text-decoration: none;
   }
 
 </style>

@@ -3,6 +3,8 @@
 <head>
 <link href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js%22%3E"></script>
 <meta charset="utf-8" />
 
 <title>Cow Patty Bingo</title>
@@ -18,61 +20,58 @@
       <img id="cow" src="assets/cowWalk.gif" style="width:150px;height:100px;position:absolute;left:0;top:40"></img>
   		<table id="bingotable">
   			<tr id="row1">
-  				<td id="square0"> &nbsp;</td>
-  				<td id="square1"> &nbsp;</td>
-  				<td id="square2"> &nbsp;</td>
-  				<td id="square3"> &nbsp;</td>
-  				<td id="square4"> &nbsp;</td>
-          <td id="square5"> &nbsp;</td>
+  				<td id="square0">6</td>
+  				<td id="square1">14</td>
+  				<td id="square2">24</td>
+  				<td id="square3">36</td>
+  				<td id="square4">15</td>
+          <td id="square5">22</td>
   			</tr>
         <tr id="row2">
-  				<td id="square6"> &nbsp;</td>
-  				<td id="square7"> &nbsp;</td>
-  				<td id="square8"> &nbsp;</td>
-  				<td id="square9"> &nbsp;</td>
-  				<td id="square10"> &nbsp;</td>
-          <td id="square11"> &nbsp;</td>
+  				<td id="square6">27</td>
+  				<td id="square7">2</td>
+  				<td id="square8">35</td>
+  				<td id="square9">7</td>
+  				<td id="square10">34</td>
+          <td id="square11">5</td>
   			</tr>
         <tr id="row3">
-  				<td id="square12"> &nbsp;</td>
-  				<td id="square13"> &nbsp;</td>
-  				<td id="square14"> &nbsp;</td>
-  				<td id="square15"> &nbsp;</td>
-  				<td id="square16"> &nbsp;</td>
-          <td id="square17"> &nbsp;</td>
+  				<td id="square12">4</td>
+  				<td id="square13">9</td>
+  				<td id="square14">28</td>
+  				<td id="square15">3</td>
+  				<td id="square16">31</td>
+          <td id="square17">23</td>
   			</tr>
         <tr id="row4">
-  				<td id="square18"> &nbsp;</td>
-  				<td id="square19"> &nbsp;</td>
-  				<td id="square20"> &nbsp;</td>
-  				<td id="square21"> &nbsp;</td>
-  				<td id="square22"> &nbsp;</td>
-          <td id="square23"> &nbsp;</td>
+  				<td id="square18">26</td>
+  				<td id="square19">16</td>
+  				<td id="square20">10</td>
+  				<td id="square21">20</td>
+  				<td id="square22">8</td>
+          <td id="square23">30</td>
   			</tr>
         <tr id="row5">
-  				<td id="square24"> &nbsp;</td>
-  				<td id="square25"> &nbsp;</td>
-  				<td id="square26"> &nbsp;</td>
-  				<td id="square27"> &nbsp;</td>
-  				<td id="square28"> &nbsp;</td>
-          <td id="square29"> &nbsp;</td>
+  				<td id="square24">21</td>
+  				<td id="square25">17</td>
+  				<td id="square26">32</td>
+  				<td id="square27">16</td>
+  				<td id="square28">29</td>
+          <td id="square29">25</td>
   			</tr>
         <tr id="row6">
-  				<td id="square30"> &nbsp;</td>
-  				<td id="square31"> &nbsp;</td>
-  				<td id="square32"> &nbsp;</td>
-  				<td id="square33"> &nbsp;</td>
-  				<td id="square34"> &nbsp;</td>
-          <td id="square35"> &nbsp;</td>
+  				<td id="square30">19</td>
+  				<td id="square31">1</td>
+  				<td id="square32">18</td>
+  				<td id="square33">11</td>
+  				<td id="square34">33</td>
+          <td id="square35">12</td>
   			</tr>
   		</table>
   	</div>
 
   </div>
- <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type = "text/javascript">
-    //We will replace this by some kinda trigger that tells the cow to start planting the Patty
-    //For now, it will trigger on onload and the cow stops moving at the same spot each time and switches to idle image
           var cowImage = $("#cow");
           var imagePos = cowImage.position();
           var ogPosTop =  imagePos.top;
@@ -95,17 +94,31 @@
           var goLeft = false;
           var goRight = false;
           var counter = 0;
-          function walkAimlessly()
+          var gameId = "";
+          $(document).ready(function()
+          {         // /config/localStorageNames.gameId'?
+              $.get("http://localhost:3030/admin/games/", function(gameId)
+              {
+                var currentGameId = gameId[0].count;
+                gameId += currentGameId;
+              });
+              //"ObjectId(5cad0d1224e4fb95d455865b)"
+              $.get("http://localhost:3030/admin/games/" + gameId, function(winningTile)
+              {
+                alert("winningTile: " + winningTile);
+                winningTile = this.winningTile;
+              });
+          });
+        //  var cowWalkingInterval = setInterval(cowWalking, 10);
+         function walkAimlessly()
           {
             counter++;
-            console.log(counter);
             //Walks around in a circle
             if(goDown)
             {
               cowPosTop++;
               $("#cow").css('top', cowPosTop);
-              console.log("Going down: " + cowPosTop);
-              if(cowPosTop > 700)
+              if(cowPosTop > 600)
               {
                 goDown = false;
                 goUp = false;
@@ -131,8 +144,7 @@
             {
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
-              console.log("Going right: " + cowPosLeft);
-              if(cowPosLeft > 900)
+              if(cowPosLeft >= 1300)
               {
                 goDown = false;
                 goUp = true;
@@ -144,7 +156,6 @@
             {
               cowPosTop--;
               $("#cow").css('top', cowPosTop);
-              console.log("Going up: " + cowPosTop);
               if(cowPosTop < 250)
               {
                 goDown = false;
@@ -158,10 +169,8 @@
                 $("#cow"). attr("src", "assets/cowFlipped.gif");
                 cowPosLeft--;
                 $("#cow").css('left', cowPosLeft);
-                console.log("Going left: " + cowPosLeft);
                 if(cowPosLeft < endPosLeft)
                 {
-                  console.log("Going back down: " + cowPosTop);
                   $("#cow"). attr("src", "assets/cowWalk.gif");
                   goDown = true;
                   goUp = false;
@@ -179,10 +188,8 @@
           {
             cowPosLeft++;
             $("#cow").css('left', cowPosLeft);
-            console.log("hit0");
             if(isOverlap("#cow", winningTile))
             {
-               console.log("hitTile");
                 dropPattyOnTile();
             }
           }
@@ -196,7 +203,6 @@
             {
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
-              console.log("hit0");
               if(isOverlap("#cow","#square0"))
               {
                 keepMovingTop = true;
@@ -204,7 +210,6 @@
               }
               if(isOverlap("#cow", winningTile))
               {
-                 console.log("hitTile");
                   dropPattyOnTile();
               }
             }
@@ -212,7 +217,6 @@
             {
               cowPosTop++;
               $("#cow").css('top', cowPosTop);
-              console.log("hit1");
               if(isOverlap("#cow","#square6") && !winningTile.is("#square6"))
               {
                 keepMovingTop = false;
@@ -230,16 +234,13 @@
             {
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
-              console.log("hit0");
               if(isOverlap("#cow","#square0"))
               {
-                console.log("hit square 0");
                 keepMovingTop = true;
                 keepMovingLeft = false;
               }
               if(isOverlap("#cow", winningTile))
               {
-                 console.log("hitTile");
                   dropPattyOnTile();
               }
             }
@@ -249,11 +250,9 @@
               {
                 cowPosTop++;
                 $("#cow").css('top', cowPosTop);
-                console.log("hit1");
               }
               if(isOverlap("#cow","#square12") && !winningTile.is("#square12"))
               {
-                console.log("hit square 12");
                 keepMovingTop = false;
                 keepMovingLeft = true;
               }
@@ -273,16 +272,13 @@
             {
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
-              console.log("hit0");
               if(isOverlap("#cow","#square6"))
               {
-                console.log("hit square 6");
                 keepMovingTop = true;
                 keepMovingLeft = false;
               }
               if(isOverlap("#cow", winningTile))
               {
-                 console.log("hitTile");
                   dropPattyOnTile();
               }
             }
@@ -292,11 +288,9 @@
               {
                 cowPosTop++;
                 $("#cow").css('top', cowPosTop);
-                console.log("hit1");
               }
               if(isOverlap("#cow","#square19") && !winningTile.is("#square19"))
               {
-                console.log("hit square 18");
                 keepMovingTop = false;
                 keepMovingLeft = true;
               }
@@ -316,16 +310,13 @@
             {
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
-              console.log("hit0");
               if(isOverlap("#cow","#square6"))
               {
                 cowPosTop++;
                 $("#cow").css('top', cowPosTop);
-                  console.log("hit6");
               }
               if(isOverlap("#cow","#square12"))
               {
-                console.log("hit square 12");
                 cowPosTop++;
                   $("#cow").css('top', cowPosTop);
               }
@@ -333,13 +324,11 @@
               {
                   cowPosTop++;
                   $("#cow").css('top', cowPosTop);
-                  console.log("hit square 18");
                   keepMovingTop = true;
                   keepMovingLeft = false;
               }
               if(isOverlap("#cow", winningTile))
               {
-                 console.log("hitTile");
                   dropPattyOnTile();
               }
             }
@@ -349,11 +338,9 @@
               {
                 cowPosTop++;
                 $("#cow").css('top', cowPosTop);
-                console.log("hit1");
               }
               if(isOverlap("#cow","#square24") && !winningTile.is("#square24"))
               {
-                console.log("hit square 24");
                 keepMovingTop = false;
                 keepMovingLeft = true;
               }
@@ -373,16 +360,13 @@
             {
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
-              console.log("hit0");
               if(isOverlap("#cow","#square6"))
               {
                 cowPosTop++;
                 $("#cow").css('top', cowPosTop);
-                  console.log("hit6");
               }
               if(isOverlap("#cow","#square12"))
               {
-                console.log("hit square 12");
                 cowPosTop++;
                   $("#cow").css('top', cowPosTop);
               }
@@ -390,7 +374,6 @@
               {
                   cowPosTop++;
                   $("#cow").css('top', cowPosTop);
-                  console.log("hit square 18");
                   keepMovingTop = true;
                   keepMovingLeft = false;
               }
@@ -398,13 +381,11 @@
               {
                   cowPosTop++;
                   $("#cow").css('top', cowPosTop);
-                  console.log("hit square 24");
                   keepMovingTop = true;
                   keepMovingLeft = false;
               }
               if(isOverlap("#cow", winningTile))
               {
-                 console.log("hitTile");
                   dropPattyOnTile();
               }
             }
@@ -414,11 +395,9 @@
               {
                 cowPosTop++;
                 $("#cow").css('top', cowPosTop);
-                console.log("hit1");
               }
               if(isOverlap("#cow","#square30") && !winningTile.is("#square30"))
               {
-                console.log("hit square 30");
                 keepMovingTop = false;
                 keepMovingLeft = true;
               }
@@ -429,7 +408,7 @@
             }
          }
       }
-      
+
       function dropPattyOnTile()
       {
         $("#cow"). attr("src", "assets/cow1.gif");
