@@ -2,7 +2,7 @@ var gameId = "";
 var boardArray;
 $(document).ready(function()
 {         // /config/localStorageNames.gameId'?
-		$.get("http://localhost:3030/admin/games/", function(gameId)
+		$.get("http://localhost:27017/admin/games/", function(gameId)
 		{
 
 			var currentGameId = gameId[0].count;
@@ -10,7 +10,7 @@ $(document).ready(function()
 			alert("gameId: " + gameId);
 		});
 		//"ObjectId(5cad0d1224e4fb95d455865b)"
-		$.get("http://localhost:3030/admin/games/" + gameId, function(board)
+		$.get("http://localhost:27017/admin/games/" + gameId, function(board)
 		{
 				boardArray = board;
 		});

@@ -60,3 +60,23 @@ h1{
   padding: 10px;
   color: red;
 }
+
+#button {
+  display: block;
+  height: 40px;
+  margin: 0 auto;
+  margin-top: 10%;
+  background-color: #4e3b25;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+  inset 0 1px 0 #4B7634;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#finished {
+  color: white;
+  text-decoration: none;
+}
