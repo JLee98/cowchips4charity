@@ -68,23 +68,6 @@
   		</table>
   	</div>
 
-    <div id="sb_content">
-  		<table id="scoreboard">
-  			<tr id="orgNames">
-  				<td class="orgName" id="orgName1">Team 1</td>
-  				<td class="orgName" id="orgName2">Team 2</td>
-  			</tr>
-        <tr id="scores">
-  				<td>
-            <h1 class="score" id="score1">71</h1>
-          </td>
-  				<td>
-            <h1 class="score" id="score2">14</h1>
-          </td>
-  			</tr>
-  		</table>
-  	</div>
-
   </div>
  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script type = "text/javascript">
@@ -94,9 +77,16 @@
           var imagePos = cowImage.position();
           var ogPosTop =  imagePos.top;
           var ogPosLeft = imagePos.left;
+          var endPosTop = 400;
+          var endPosLeft = 300;
           var cowPosTop = imagePos.top;
           var cowPosLeft = imagePos.left;
-          var winningTile = $("#square35");
+
+          var btmRightSqr = $("#square35");
+          var btmRightSqrPos = btmRightSqr.position();
+          var rightEdge = btmRightSqrPos.left;
+
+          var winningTile = $("#square24");
           var cowWalkInterval;
           var cowLeaveInterval;
           var walkAimlessInterval = setInterval(walkAimlessly, 10);
@@ -115,12 +105,26 @@
               cowPosTop++;
               $("#cow").css('top', cowPosTop);
               console.log("Going down: " + cowPosTop);
-              if(cowPosTop > 600)
+              if(cowPosTop > 700)
               {
                 goDown = false;
                 goUp = false;
                 goLeft = false;
                 goRight = true;
+              }
+              if((cowPosTop >= endPosTop) && (counter > 1000))
+              {
+                goDown = false;
+                goUp = false;
+                goLeft = false;
+                goRight = false;
+                $("#cow"). attr("src", "assets/cowWalk.gif");
+                cowPosLeft = endPosLeft;
+                cowPosTop = endPosTop;
+                $("#cow").css('left', cowPosLeft);
+                $("#cow").css('top', cowPosTop);
+                cowWalkingInterval = setInterval(cowWalking, 10);
+                clearInterval(walkAimlessInterval);
               }
             }
             if(goRight)
@@ -128,7 +132,7 @@
               cowPosLeft++;
               $("#cow").css('left', cowPosLeft);
               console.log("Going right: " + cowPosLeft);
-              if(cowPosLeft >= 1300)
+              if(cowPosLeft > 900)
               {
                 goDown = false;
                 goUp = true;
@@ -141,7 +145,7 @@
               cowPosTop--;
               $("#cow").css('top', cowPosTop);
               console.log("Going up: " + cowPosTop);
-              if(cowPosTop <= 0)
+              if(cowPosTop < 250)
               {
                 goDown = false;
                 goUp = false;
@@ -155,7 +159,7 @@
                 cowPosLeft--;
                 $("#cow").css('left', cowPosLeft);
                 console.log("Going left: " + cowPosLeft);
-                if(cowPosLeft < 10)
+                if(cowPosLeft < endPosLeft)
                 {
                   console.log("Going back down: " + cowPosTop);
                   $("#cow"). attr("src", "assets/cowWalk.gif");
@@ -164,20 +168,7 @@
                   goLeft = false;
                   goRight = false;
                 }
-                if(counter > 10000)
-                {
-                  goDown = false;
-                  goUp = false;
-                  goLeft = false;
-                  goRight = false;
-                  $("#cow"). attr("src", "assets/cowWalk.gif");
-                  cowPosLeft = ogPosLeft;
-                  cowPosTop = ogPosTop;
-                  $("#cow").css('left', cowPosLeft);
-                  $("#cow").css('top', cowPosTop);
-                  cowWalkingInterval = setInterval(cowWalking, 10);
-                  clearInterval(walkAimlessInterval);
-                }
+
             }
          }
       function cowWalking()
@@ -438,29 +429,15 @@
             }
          }
       }
+      
       function dropPattyOnTile()
       {
         $("#cow"). attr("src", "assets/cow1.gif");
         clearInterval(cowWalkInterval);
         $("#cow"). attr("src", "assets/cowWalk.gif");
-        cowLeaveInterval = setInterval(cowLeaveGrid, 4000);
+        setTimeout(function(){winningTile.css('background-color', '#4d2600'); }, 1000);
       }
-      function cowLeaveGrid()
-      {
-        if(cowPosTop > 800 && cowPosLeft > 1000)
-           {
-             cowImage.src = "assets/cow1.gif";
-             clearInterval(cowLeaveInterval);
-           }
-           else
-           {
-             cowPosTop++;
-             $("#cow").css('top', cowPosTop);
-            setTimeout(function(){winningTile.css('background-color', 'brown'); }, 1000);
-             cowPosLeft++;
-             $("#cow").css('left', cowPosLeft);
-           }
-      }
+
       function isOverlap(idOne,idTwo)
       {
         var cow=$(idOne),

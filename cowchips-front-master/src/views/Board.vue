@@ -4,11 +4,20 @@
       <div class="header">
         <img src="../assets/boo_radley.png">
       </div>
-      <img id="cow" src="../assets/cowWalk.gif" style="width:150px;height:100px;position:absolute;left:0;top:40"></img>
+
+      <div id="cow">
+        <button @click="show = !show">
+          Toggle
+        </button>
+        <transition name="cowWalk">
+          <img v-if="show" src="../assets/cowWalk.gif" style="width:150px;height:100px; position:absolute"></img>
+        </transition>
+      </div>
+
       <table class="grid">
         <tr :key="row" v-for="row in 6">
           <td :key="col" v-for="col in 6" v-bind:id="(row*(col+12))">
-            <tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" @selected="handleSelected" class="game_tile"></tile>
+            <tile :number=board[(row-1)+(col-1)+(row-1)*5] :selected="selected" class="game_tile"></tile>
           </td>
         </tr>
       </table>
@@ -17,26 +26,38 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import path from 'path'
   import axios from 'axios'
   import Tile from '@/components/Tile'
   import localStorageNames from '@/config/localStorageNames'
+
+
+  new Vue ({
+    el: '#cow',
+    data: {
+        show: true
+    },
+  })
 
   export default {
     name: "Game",
     components: {
       Tile
     },
+
     mounted() {
       this.getGameBoard()
     },
+
     data() {
       return {
+        show: true,
         board: [],
         selected: [],
-        price: 0
       }
     },
+
     methods: {
       getGameBoard() {
         let gameId = this.$localStorage.get(localStorageNames.gameId)
@@ -47,7 +68,6 @@
           .then(res => {
             // console.log(res.data)
             this.board = res.data.board
-            this.price = res.data.price
           })
           .catch(err => {
             console.log(err)
@@ -56,7 +76,23 @@
     }
   }
 </script>
+
+
 <style scoped>
+
+  .cowWalk-enter-active {
+    transition: all .3s ease;
+  }
+
+  .cowWalk-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+
+  .cowWalk-fade-enter, .cowWalk-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+
 
   .whole {
     display: block;

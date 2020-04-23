@@ -19,7 +19,7 @@
         <game @next="upStep" :key="step"></game>
       </stepper-item>
 
-      <stepper-item step="3" @back="downStep" @next="upStep">
+      <stepper-item step="3" @back="downStep" disallowNext>
         <donation @next="upStep" :key="step"></donation>
       </stepper-item>
 
