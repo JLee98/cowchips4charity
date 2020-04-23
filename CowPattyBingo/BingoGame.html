@@ -458,7 +458,7 @@
         $("#cow"). attr("src", "assets/cow1.gif");
         clearInterval(cowWalkInterval);
         $("#cow"). attr("src", "assets/cowWalk.gif");
-        cowLeaveInterval = setInterval(cowLeaveGrid, 4000);
+        cowLeaveInterval = setInterval(cowLeaveGrid, 1000);
       }
       function cowLeaveGrid()
       {
@@ -471,7 +471,7 @@
            {
              cowPosTop++;
              $("#cow").css('top', cowPosTop);
-            setTimeout(function(){winningTile.css('background-color', 'brown'); }, 10);
+             winningTile.css('background-color', 'brown');
              cowPosLeft++;
              $("#cow").css('left', cowPosLeft);
            }
