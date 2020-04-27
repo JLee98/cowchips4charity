@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const configuration = {
-  origin: [/localhost/, /cowchips4charity/],
+  origin: [/localhost/, /cowchips4charity/, /dev-cowchips-admin/],
   credentials: true,
   allowedHeaders: ['numpages', 'Authorization', 'Content-Type'],
   exposedHeaders: ['numpages', 'Authorization', 'Content-Type'],
