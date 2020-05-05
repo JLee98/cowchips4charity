@@ -26,7 +26,7 @@
         <div ref="card"></div>
       </fieldset>
       <button class="checkout" @click="purchase">Pay ${{total}}</button>
-      <button class="checkout" @click="purchase">
+      <button class="checkout">
         <a id="playButton" href="http://localhost:8081/BingoGame.html">Play!</a>
       </button>
     </div>
@@ -152,10 +152,10 @@
 
   .checkout {
     display: block;
-    width: calc(100% - 80%);
+    width: 10%;
     height: 40px;
     margin: 0 auto;
-    margin-top: 10%;
+    margin-top: 5%;
     background-color: #4e3b25;
     box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 #4B7634;

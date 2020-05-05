@@ -32,14 +32,6 @@
   import Tile from '@/components/Tile'
   import localStorageNames from '@/config/localStorageNames'
 
-
-  new Vue ({
-    el: '#cow',
-    data: {
-        show: true
-    },
-  })
-
   export default {
     name: "Game",
     components: {

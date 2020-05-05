@@ -20,7 +20,7 @@
       </stepper-item>
 
       <stepper-item step="3" @back="downStep" disallowNext>
-        <donation @next="upStep" :key="step"></donation>
+        <donation  :key="step"></donation>
       </stepper-item>
 
       <stepper-item step="4" @back="downStep" disallowNext>
